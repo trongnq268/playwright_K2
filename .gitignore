@@ -1,0 +1,14 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+/helpers/
+/tests/homework-buoi-6
+/tests/homework-buoi-2-3-4-5
+/locators/signup.locators.ts
+/locators/login.locators.ts
+/tests/locators-practices

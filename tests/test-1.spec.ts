@@ -48,5 +48,17 @@ test('testcase 2', async ({ page }) => {
   await page.getByText('playwright.config.ts').nth(1).click();
 });
 
+test('Homework buổi 4', async () => {
+
+    let i: number;
+    let result: number;
+
+    for (let i = 1; i <= 10; i++) {
+        result = i * 5;
+        console.log(`5 * ${i} = ${result}`);
+    }
+
+});
+
 
 

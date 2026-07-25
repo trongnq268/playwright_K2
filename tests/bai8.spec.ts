@@ -3,25 +3,6 @@ import { Locator } from '../locators/bai8.locators.ts';
 import { Data_account } from '../locators/bai8.data.ts';
 //import { wait } from '../locators/wait';
 
-// test.beforeEach(async ({ page }) => {
-// ham chạy trước tất cả các test case
-
-//     const loginUI = Login_page(page);
-//     const account = Data_account[0];
-//     await page.goto('http://automationexercise.com');   
-//     await loginUI.sign_up.click();
-//     await expect(loginUI.text_login).toBeVisible();
-//     await loginUI.Email_text_box.pressSequentially(account.email);
-//     await loginUI.Password_text_box.pressSequentially(account.password);
-//     await loginUI.login_button.click();
-//     // anh check giup em vo, em de nhu nay thi bi loi
-//     // await expect(loginUI.verify).toBeVisible();
-//     await expect(loginUI.check).toBeVisible();
-//     //await wait(1000);
-//     await page.waitForTimeout(3000);
-// });
-
-//import { wait } from '../locators/wait';
 
 test('testcase_1', async ({ page }) => {
 
@@ -138,5 +119,8 @@ test('testcase_4', async ({ page }) => {
 
     await page.close();
 });
+
+
+
 
 

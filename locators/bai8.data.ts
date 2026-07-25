@@ -13,7 +13,7 @@ export const Data_account: form_data[] =  [
       
     },
     // test case 2 - user da dang ky (account duoi da duoc dang ky truoc do)
-    // su dung b data nay cho test casse 3
+    // su dung bo data nay cho test casse 3
     {  
         email: 'nguyenducan03@gmail.com',
         password: 'b2345678',

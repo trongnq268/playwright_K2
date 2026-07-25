@@ -1,0 +1,68 @@
+import { Page } from '@playwright/test';
+
+
+interface form_data {
+  email:string,
+  password:string
+}
+
+export const Data_account: form_data[] =  [
+  
+    {
+      email: 'nguyenducan03.tm@gmail.com',
+      password: 'hy6NtJTSyWD@4fY'
+    },
+    {
+      email: 'nguyenducan.tm@gmail.com',
+      password: 'hy6NtJTSyWD@4f'
+    }
+  
+  ];
+
+export const Locator = (page: Page) => ({
+  sign_up_button: page.getByRole('link', { name: 'Signup / Login' }),
+  verify_new_user:page.getByRole('heading', { name: 'New User Signup!', level: 2 }),
+  text_box_name:page.locator('[data-qa="signup-name"]'),
+  text_box_email:page.locator('[data-qa="signup-email"]'),
+  button_signup:page.locator('[data-qa="signup-button"]'),
+  enter_information_text:page.getByText('Enter Account Information', { exact: true }),
+  raidio_title:page.getByLabel('Mr.'),
+  text_box_password:page.getByRole('textbox', { name: 'Password *' }),
+  droplist_day:page.locator('#days'),
+  droplist_month:page.locator('[data-qa="months"]'),
+  droplist_year:page.locator('[data-qa="years"]'),
+  radio_sign_up_newsletter:page.getByRole('checkbox', { name: 'Sign up for our newsletter!', checked: false }),
+  radio_receive_special_offers:page.getByRole('checkbox', { name: 'Receive special offers from our partners!', checked: false }),
+  textbox_first_name:page.locator('[data-qa="first_name"]'),
+  textbox_last_name:page.locator('[data-qa="last_name"]'),
+  textbox_address:page.locator('[data-qa="address"]'),
+  droplist_contry:page.locator('[data-qa="country"]'),
+  textbox_state:page.locator('[data-qa="state"]'),
+  textbox_city:page.locator('[data-qa="state"]'),
+  textbox_zipcode:page.locator('[data-qa="state"]'),
+  textbox_mobile_number:page.locator('[data-qa="state"]'),
+  button_create_account:page.locator('[data-qa="state"]'),
+  verify_account_created:page.getByText('Account Created!', { exact: true }),
+  button_continue:page.getByRole('link', { name: 'Continue' }),
+  button_logout:page.getByRole('link', { name: 'Logout' }),
+  text_account_deleted:page.getByText('Account Deleted!', { exact: true }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});  

@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
     await Locator_page.text_box_email_sign_in.pressSequentially(account.password);
     await Locator_page.button_login.click();
 
-    await expect(Locator_page.verify_Email_Address_already_exist).toBeVisible();
+    await expect(Locator_page.verify_button_logout).toBeVisible();
     await page.waitForTimeout(3000);
     //await page.close();
 });
@@ -27,5 +27,6 @@ test.beforeEach(async ({ page }) => {
 test('testcase', async ({ page }) => {
 
     await page.waitForTimeout(3000);
+    await page.close();
     
 });

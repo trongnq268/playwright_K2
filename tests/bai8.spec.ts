@@ -64,6 +64,7 @@ test('testcase_1', async ({ page }) => {
     await Locator_page.button_delete_account.click();
     await expect(Locator_page.verify_account_deleted).toBeVisible();
     await Locator_page.button_continue_delete_account.click();
+    await page.waitForTimeout(3000);
     await page.close();
 
     
@@ -85,6 +86,7 @@ test('testcase_2', async ({ page }) => {
     await Locator_page.button_signup.click();
 
     await expect(Locator_page.verify_Email_Address_already_exist).toBeVisible();
+    await page.waitForTimeout(3000);
     await page.close();
 
     
@@ -105,6 +107,8 @@ test('testcase_3', async ({ page }) => {
 
     await expect(Locator_page.verify_button_logout).toBeVisible();
 
+    await page.waitForTimeout(3000);
+
     // await Locator_page.button_continue_delete_account.click();
 
     await page.close();
@@ -123,6 +127,7 @@ test('testcase_4', async ({ page }) => {
     await Locator_page.button_login.click();
 
     await expect(Locator_page.wrong_password).toBeVisible();
+    await page.waitForTimeout(3000);
 
     // await Locator_page.button_continue_delete_account.click();
 

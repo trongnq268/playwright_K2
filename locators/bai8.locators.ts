@@ -22,8 +22,8 @@ export const Data_account: form_data[] =  [
 export const Locator = (page: Page) => ({
   sign_up_button: page.getByRole('link', { name: 'Signup / Login' }),
   verify_new_user:page.getByRole('heading', { name: 'New User Signup!', level: 2 }),
-  text_box_name:page.locator('[data-qa="signup-name"]'),
-  text_box_email:page.locator('[data-qa="signup-email"]'),
+  text_box_name_sign_up:page.locator('[data-qa="signup-name"]'),
+  text_box_email_sign_up:page.locator('[data-qa="signup-email"]'),
   button_signup:page.locator('[data-qa="signup-button"]'),
   enter_information_text:page.getByText('Enter Account Information', { exact: true }),
   raidio_title:page.getByLabel('Mr.'),
@@ -48,6 +48,18 @@ export const Locator = (page: Page) => ({
   button_delete_account:page.getByRole('link', { name: 'Delete Account' }),
   verify_account_deleted:page.getByText('Account Deleted!', { exact: true }),
   button_continue_delete_account:page.getByRole('link', { name: 'Continue' }),
+
+  verify_Email_Address_already_exist:page.getByText('Email Address already exist!', { exact: true }),
+
+  text_box_name_sign_in:page.locator('[data-qa="login-email"]'),
+  text_box_email_sign_in:page.locator('[data-qa="login-password"]'),
+  button_login:page.getByRole('button', { name: 'Login' }),
+
+  wrong_password:page.getByText('Your email or password is incorrect!', { exact: true }),
+
+
+
+
 
 
 

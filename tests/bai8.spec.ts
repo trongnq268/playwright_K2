@@ -35,8 +35,8 @@ test('testcase_1', async ({ page }) => {
 // truy cap va xac minh duong dan   
     await Locator_page.sign_up_button.click();
     await expect(Locator_page.verify_new_user).toBeVisible();
-    await Locator_page.text_box_name.pressSequentially('Nguyen Duc An');
-    await Locator_page.text_box_email.pressSequentially(account.email);
+    await Locator_page.text_box_name_sign_up.pressSequentially('Nguyen Duc An');
+    await Locator_page.text_box_email_sign_up.pressSequentially(account.email);
     await Locator_page.button_signup.click();
 
 //dang ki
@@ -64,15 +64,69 @@ test('testcase_1', async ({ page }) => {
     await Locator_page.button_delete_account.click();
     await expect(Locator_page.verify_account_deleted).toBeVisible();
     await Locator_page.button_continue_delete_account.click();
+    await page.close();
 
     
 });
 
 
 test('testcase_2', async ({ page }) => {
+    const Locator_page = Locator(page);
+    const account = Data_account[1];
 
+    await page.goto('https://automationexercise.com./');
+    await expect(page).toHaveURL('https://automationexercise.com./');
+// truy cap va xac minh duong dan
 
+    await Locator_page.sign_up_button.click();
+    await expect(Locator_page.verify_new_user).toBeVisible();
+    await Locator_page.text_box_name_sign_up.pressSequentially('nguyen duc an');
+    await Locator_page.text_box_email_sign_up.pressSequentially(account.email);
+    await Locator_page.button_signup.click();
 
+    await expect(Locator_page.verify_Email_Address_already_exist).toBeVisible();
+    await page.close();
 
     
 });
+
+test('testcase_3', async ({ page }) => {
+    const Locator_page = Locator(page);
+    const account = Data_account[1];
+
+    await page.goto('https://automationexercise.com./');
+    await expect(page).toHaveURL('https://automationexercise.com./');
+// truy cap va xac minh duong dan
+
+    await Locator_page.sign_up_button.click();
+    await Locator_page.text_box_name_sign_in.pressSequentially(account.email);
+    await Locator_page.text_box_email_sign_in.pressSequentially(account.password);
+    await Locator_page.button_login.click();
+
+    await expect(Locator_page.verify_button_logout).toBeVisible();
+
+    // await Locator_page.button_continue_delete_account.click();
+
+    await page.close();
+});
+test('testcase_4', async ({ page }) => {
+    const Locator_page = Locator(page);
+    const account = Data_account[2];
+
+    await page.goto('https://automationexercise.com./');
+    await expect(page).toHaveURL('https://automationexercise.com./');
+// truy cap va xac minh duong dan
+
+    await Locator_page.sign_up_button.click();
+    await Locator_page.text_box_name_sign_in.pressSequentially(account.email);
+    await Locator_page.text_box_email_sign_in.pressSequentially(account.password);
+    await Locator_page.button_login.click();
+
+    await expect(Locator_page.wrong_password).toBeVisible();
+
+    // await Locator_page.button_continue_delete_account.click();
+
+    await page.close();
+});
+
+

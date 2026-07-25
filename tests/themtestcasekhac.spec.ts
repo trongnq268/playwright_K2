@@ -15,10 +15,9 @@ test.beforeEach(async ({ page }) => {
 // dang nhap thanh cong
 
     await Locator_page.sign_up_button.click();
-    await expect(Locator_page.verify_new_user).toBeVisible();
-    await Locator_page.text_box_name_sign_up.pressSequentially('nguyen duc an');
-    await Locator_page.text_box_email_sign_up.pressSequentially(account.email);
-    await Locator_page.button_signup.click();
+    await Locator_page.text_box_name_sign_in.pressSequentially(account.email);
+    await Locator_page.text_box_email_sign_in.pressSequentially(account.password);
+    await Locator_page.button_login.click();
 
     await expect(Locator_page.verify_Email_Address_already_exist).toBeVisible();
     await page.waitForTimeout(3000);

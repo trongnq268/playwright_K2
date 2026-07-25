@@ -1,0 +1,78 @@
+import { expect, test } from '@playwright/test';
+import { Locator } from '../locators/bai8.locators.ts';
+import { Data_account } from '../locators/bai8.data.ts';
+//import { wait } from '../locators/wait';
+
+// test.beforeEach(async ({ page }) => {
+// ham chạy trước tất cả các test case
+
+//     const loginUI = Login_page(page);
+//     const account = Data_account[0];
+//     await page.goto('http://automationexercise.com');   
+//     await loginUI.sign_up.click();
+//     await expect(loginUI.text_login).toBeVisible();
+//     await loginUI.Email_text_box.pressSequentially(account.email);
+//     await loginUI.Password_text_box.pressSequentially(account.password);
+//     await loginUI.login_button.click();
+//     // anh check giup em vo, em de nhu nay thi bi loi
+//     // await expect(loginUI.verify).toBeVisible();
+//     await expect(loginUI.check).toBeVisible();
+//     //await wait(1000);
+//     await page.waitForTimeout(3000);
+// });
+
+//import { wait } from '../locators/wait';
+
+test('testcase_1', async ({ page }) => {
+
+
+    const Locator_page = Locator(page);
+    const account = Data_account[0];
+
+
+    await page.goto('https://automationexercise.com./');
+    await expect(page).toHaveURL('https://automationexercise.com./');
+// truy cap va xac minh duong dan   
+    await Locator_page.sign_up_button.click();
+    await expect(Locator_page.verify_new_user).toBeVisible();
+    await Locator_page.text_box_name.pressSequentially('Nguyen Duc An');
+    await Locator_page.text_box_email.pressSequentially(account.email);
+    await Locator_page.button_signup.click();
+
+//dang ki
+    await expect(Locator_page.enter_information_text).toBeVisible();
+    await Locator_page.raidio_title.click();
+    await Locator_page.text_box_password.pressSequentially(account.password);
+    await Locator_page.droplist_day.selectOption('1');
+    await Locator_page.droplist_month.selectOption('1');
+    await Locator_page.droplist_year.selectOption('2000');
+    await Locator_page.radio_sign_up_newsletter.click();
+    await Locator_page.radio_receive_special_offers.click();
+
+    await Locator_page.textbox_first_name.pressSequentially('Nguyen');
+    await Locator_page.textbox_last_name.pressSequentially('Duc An');
+    await Locator_page.textbox_address.pressSequentially('Ha Noi');
+    await Locator_page.droplist_contry.selectOption('Singapore');
+    await Locator_page.textbox_state.pressSequentially('Ha Noi');
+    await Locator_page.textbox_city.pressSequentially('Ha Noi');
+    await Locator_page.textbox_zipcode.pressSequentially('100000');
+    await Locator_page.textbox_mobile_number.pressSequentially('0987654321');
+    await Locator_page.button_create_account.click();
+    await expect(Locator_page.verify_account_created).toBeVisible();
+    await Locator_page.button_continue.click();
+    await expect(Locator_page.verify_button_logout).toBeVisible();
+    await Locator_page.button_delete_account.click();
+    await expect(Locator_page.verify_account_deleted).toBeVisible();
+    await Locator_page.button_continue_delete_account.click();
+
+    
+});
+
+
+test('testcase_2', async ({ page }) => {
+
+
+
+
+    
+});

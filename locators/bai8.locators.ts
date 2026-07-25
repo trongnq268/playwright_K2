@@ -37,15 +37,21 @@ export const Locator = (page: Page) => ({
   textbox_last_name:page.locator('[data-qa="last_name"]'),
   textbox_address:page.locator('[data-qa="address"]'),
   droplist_contry:page.locator('[data-qa="country"]'),
-  textbox_state:page.locator('[data-qa="state"]'),
-  textbox_city:page.locator('[data-qa="state"]'),
-  textbox_zipcode:page.locator('[data-qa="state"]'),
-  textbox_mobile_number:page.locator('[data-qa="state"]'),
-  button_create_account:page.locator('[data-qa="state"]'),
+  textbox_state:page.getByRole('textbox', { name: 'State *' }),
+  textbox_city:page.getByRole('textbox', { name: 'City *' }),
+  textbox_zipcode:page.locator('[data-qa="zipcode"]'),
+  textbox_mobile_number:page.getByRole('textbox', { name: 'Mobile Number *' }),
+  button_create_account:page.getByRole('button', { name: 'Create Account' }),
   verify_account_created:page.getByText('Account Created!', { exact: true }),
   button_continue:page.getByRole('link', { name: 'Continue' }),
-  button_logout:page.getByRole('link', { name: 'Logout' }),
-  text_account_deleted:page.getByText('Account Deleted!', { exact: true }),
+  verify_button_logout:page.getByRole('link', { name: 'Logout' }),
+  button_delete_account:page.getByRole('link', { name: 'Delete Account' }),
+  verify_account_deleted:page.getByText('Account Deleted!', { exact: true }),
+  button_continue_delete_account:page.getByRole('link', { name: 'Continue' }),
+
+
+
+
 
 
 

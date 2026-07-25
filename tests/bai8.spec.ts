@@ -49,6 +49,8 @@ test('testcase_1', async ({ page }) => {
     await Locator_page.radio_sign_up_newsletter.click();
     await Locator_page.radio_receive_special_offers.click();
 
+
+    //dien thong tin ca nhan
     await Locator_page.textbox_first_name.pressSequentially('Nguyen');
     await Locator_page.textbox_last_name.pressSequentially('Duc An');
     await Locator_page.textbox_address.pressSequentially('Ha Noi');
@@ -61,6 +63,9 @@ test('testcase_1', async ({ page }) => {
     await expect(Locator_page.verify_account_created).toBeVisible();
     await Locator_page.button_continue.click();
     await expect(Locator_page.verify_button_logout).toBeVisible();
+
+
+    // xoa tai khoan
     await Locator_page.button_delete_account.click();
     await expect(Locator_page.verify_account_deleted).toBeVisible();
     await Locator_page.button_continue_delete_account.click();
@@ -96,8 +101,8 @@ test('testcase_3', async ({ page }) => {
     const Locator_page = Locator(page);
     const account = Data_account[1];
 
-    await page.goto('https://automationexercise.com./');
-    await expect(page).toHaveURL('https://automationexercise.com./');
+    await page.goto('https://automationexercise.com/');
+    await expect(page).toHaveURL('https://automationexercise.com/');
 // truy cap va xac minh duong dan
 
     await Locator_page.sign_up_button.click();

@@ -19,33 +19,22 @@ export const authLocators = (page: Page) => ({
     page.getByText(`Logged in as ${username}`),
 });
 
-export const getLoginLocators = (page: Page) => {
-  const loginBtn = page.getByRole("button", { name: "Login" });
-  const loginForm = page.locator("form").filter({ has: loginBtn });
-
-  return {
+export const getLoginLocators = (page: Page) => ({
     loginHeading: page.getByRole("heading", { name: "Login to your account" }),
-    emailInput: loginForm.getByPlaceholder("Email Address"),
-    passwordInput: loginForm.getByPlaceholder("Password"),
-    loginBtn: loginBtn,
+    emailInput: page.locator('[data-qa="login-email"]'),
+    passwordInput: page.locator('[data-qa="login-password"]'),
+    loginBtn: page.getByRole("button", { name: "Login" }),
     invalidLoginMsg: page.getByText("Your email or password is incorrect!"),
-  };
-};
+});
 
-export const getPreSignupLocators = (page: Page) => {
+export const getPreSignupLocators = (page: Page) => ({
   //New user signup form
-  const signupHeading = page.getByRole("heading", { name: "New User Signup!" });
-  const preSignupForm = page
-    .locator(".signup-form")
-    .filter({ has: signupHeading });
-  return {
-    signupHeading: signupHeading,
-    nameInput: preSignupForm.getByPlaceholder("Name"),
-    emailInput: preSignupForm.getByPlaceholder("Email Address"),
+    signupHeading: page.getByRole("heading", { name: "New User Signup!" }),
+    nameInput: page.locator('[data-qa="signup-name"]'),
+    emailInput: page.locator('[data-qa="signup-email"]'),
     signUpBtn: page.getByRole("button", { name: "Signup" }),
     invalidEmailMsg: page.getByText("Email Address already exist!"),
-  };
-};
+});
 
 export const getSignupLocators = (page: Page) => ({
   //Account Information Form

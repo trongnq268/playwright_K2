@@ -6,7 +6,13 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
-/helpers/
+/helpers/courseHelper.ts
+/helpers/employeeHelper.ts
+/helpers/flightBookingHelper.ts
+/helpers/orderHelper.ts
+/helpers/paymentHelper.ts
+/helpers/testcaseHelper.ts
+/helpers/productHelper.ts
 /tests/homework-buoi-6
 /tests/homework-buoi-2-3-4-5
 /locators/signup.locators.ts

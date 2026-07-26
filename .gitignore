@@ -7,4 +7,4 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 examPayment.spec.ts
-homework
+homework/

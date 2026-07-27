@@ -8,3 +8,4 @@ node_modules/
 /playwright/.auth/
 examPayment.spec.ts
 homework/
+*.md

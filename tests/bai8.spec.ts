@@ -18,12 +18,14 @@ test('testcase_1', async ({ page }) => {
     await expect(Locator_page.verify_new_user).toBeVisible();
     await Locator_page.text_box_name_sign_up.pressSequentially('Nguyen Duc An');
     await Locator_page.text_box_email_sign_up.pressSequentially(account.email);
+    console.log(account.email);
     await Locator_page.button_signup.click();
 
 //dang ki
     await expect(Locator_page.enter_information_text).toBeVisible();
     await Locator_page.raidio_title.click();
     await Locator_page.text_box_password.pressSequentially(account.password);
+    console.log(account.password)
     await Locator_page.droplist_day.selectOption('1');
     await Locator_page.droplist_month.selectOption('1');
     await Locator_page.droplist_year.selectOption('2000');

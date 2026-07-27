@@ -41,30 +41,4 @@ export const Locator = (page: Page) => ({
 
   wrong_password:page.getByText('Your email or password is incorrect!', { exact: true }),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });  

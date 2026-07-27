@@ -1,23 +1,7 @@
 import { Page } from '@playwright/test';
 
 
-interface form_data {
-  email:string,
-  password:string
-}
 
-export const Data_account: form_data[] =  [
-  
-    {
-      email: 'nguyenducan03.tm@gmail.com',
-      password: 'hy6NtJTSyWD@4fY'
-    },
-    {
-      email: 'nguyenducan.tm@gmail.com',
-      password: 'hy6NtJTSyWD@4f'
-    }
-  
-  ];
 
 export const Locator = (page: Page) => ({
   sign_up_button: page.getByRole('link', { name: 'Signup / Login' }),

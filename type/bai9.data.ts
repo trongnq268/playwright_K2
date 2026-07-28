@@ -13,3 +13,5 @@ export const Data_account: form_data[] =  [
     },
    
 ];
+// config so luong
+export const quanlity : number  = 4;

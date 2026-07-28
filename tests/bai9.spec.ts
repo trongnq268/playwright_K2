@@ -70,13 +70,18 @@ test('testcase2', async ({ page }) => {
     await Locator_page.button_add_to_cart.click();
     await Locator_page.text_view_cart.click();
 
-    // em chưa code được đoạn check này
+    
     //await expect(Locator_page.check_so_luong).toBeVisible();
 
-    await Locator_page.button_clear_gio_hang.click();
+    // đoạn này em để trong file locator thì nó không chạy
+    await expect(page.getByText(`${number}`, { exact: true })).toBeVisible();// check số lượng
+
+    // thêm thao tác xoá sản phẩm để không bị lỗi ở những lần chạy sau
+    await Locator_page.button_clear_gio_hang.click()
 
     
-    
+    await page.waitForTimeout(3000);
+    await page.close();
     
     
 });

@@ -27,7 +27,7 @@ export const Locator = (page: Page) => ({
     button_add_to_cart: page.getByText('Add to cart', { exact: true }), //button add to cart khi chinh so luong san pham
 
 
-    check_so_luong:page.getByText(`'${number}'`, { exact: true }),// check hiển thị, đoạn này em chưa hiểu
+    check_so_luong:page.getByText(`'${number}'`, { exact: true }), // dùng như này thì không được
 
 // check box hien thi so luong san pham trong gio hang
     button_clear_gio_hang:page.locator(`//tr[.//a[text()='Blue Top']]//td[6]/a`),

@@ -15,3 +15,5 @@ export const Data_account: form_data[] =  [
 ];
 // config so luong
 export const quanlity : number  = 4;
+export const product_ID : number  = 1;
+export const number : number  = 0;

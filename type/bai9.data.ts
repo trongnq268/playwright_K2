@@ -24,12 +24,19 @@ export const quanlity : number  = 4;
 export const product_ID : number  = 1;
 export const number : number  = 0;
 export const Card =  [
-  // data đã được tạo trước đó
+  // thong tin the
     {  
         name_of_card: 'Nguyen Duc An',
         card_number: '1234567890123456',
         cvc: '123',
         expiration_month: '12',
         expiration_year: '2030',
+    }
+  ]
+  export const thong_tin =  [
+  // data đã được tạo trước đó
+    {  
+        country: 'Singapore',
+        phone:'0987654321'
     }
   ]

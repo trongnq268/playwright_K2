@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 
 
 
-export const Locator = (page: Page) => ({
+export const Locator_bai8= (page: Page) => ({
   sign_up_button: page.getByRole('link', { name: 'Signup / Login' }),
   verify_new_user:page.getByRole('heading', { name: 'New User Signup!', level: 2 }),
   text_box_name_sign_up:page.locator('[data-qa="signup-name"]'),

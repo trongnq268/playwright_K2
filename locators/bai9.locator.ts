@@ -39,6 +39,36 @@ export const Locator = (page: Page) => ({
 
     button_proceed_to_checkout:page.locator('.btn.btn-default.check_out'),
     text_login_in_pop_up:page.locator(`u:has-text("Register / Login")`),
+    button_cart:page.getByRole('link', { name: 'Cart' }), // button gio hang
+
+    text_box_comment:page.locator('[name="message"]'),
+    button_place_order:page.getByRole('link', { name: 'Place Order' }),
+
+    //card info
+    text_box_name_card:page.locator('[data-qa="name-on-card"]'),
+    text_box_number_card:page.locator('[data-qa="card-number"]'),
+    text_box_cvc:page.locator('[data-qa="cvc"]'),
+    text_box_expiration_month:page.locator('[data-qa="expiry-month"]'),
+    text_box_expiration_year:page.locator('[data-qa="expiry-year"]'),
+    button_pay_and_comfirm:page.locator('[data-qa="pay-button"]'),
+
+    verify_order_confirm:page.getByText('Congratulations! Your order has been confirmed!', { exact: true }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

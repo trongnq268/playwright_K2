@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { Locator } from '../locators/bai9.locator.ts';
-import { Data_account,quanlity, product_ID,number } from '../type/bai9.data.ts';
+import { Data_account,quanlity, product_ID,number,Card } from '../type/bai9.data.ts';
+import { Locator_bai8 } from '../locators/bai8.locators.ts';
 
 // test.beforeEach(async ({ page }, testInfo) => {
 // //ham chạy trước tất cả các test case
@@ -119,13 +120,17 @@ test('testcase4', async ({ page }) => {
 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
-    
+    const Locator_bai8_page = Locator_bai8(page);
+    const account = Data_account[1];
+    const card = Card[0];
+
     await page.goto('https://automationexercise.com/');
     await expect(Locator_page.verify_home_page).toBeVisible();
 
     await Locator_page.button_product.click();
    
-    await Locator_page.button_view_product.nth(number).click();
+    await page.hover(`[data-product-id="${product_ID}"]`);
+    await page.locator(`a[href="/product_details/${product_ID}"]`).click();
     await Locator_page.button_add_to_cart.click();
     await Locator_page.text_view_cart.click();
     await expect(Locator_page.button_proceed_to_checkout).toBeVisible();
@@ -135,7 +140,68 @@ test('testcase4', async ({ page }) => {
 
 
 
+    //su dung test case tao tai khoang cua bai 8
 
+    await expect(Locator_bai8_page.verify_new_user).toBeVisible();
+    await Locator_bai8_page.text_box_name_sign_up.pressSequentially('Nguyen Duc An');
+    await Locator_bai8_page.text_box_email_sign_up.pressSequentially(account.email);
+    await Locator_bai8_page.button_signup.click();
+
+
+    await expect(Locator_bai8_page.enter_information_text).toBeVisible();
+    await Locator_bai8_page.raidio_title.click();
+    await Locator_bai8_page.text_box_password.pressSequentially(account.password);
+    console.log(account.password)
+    await Locator_bai8_page.droplist_day.selectOption('1');
+    await Locator_bai8_page.droplist_month.selectOption('1');
+    await Locator_bai8_page.droplist_year.selectOption('2000');
+    await Locator_bai8_page.radio_sign_up_newsletter.click();
+    await Locator_bai8_page.radio_receive_special_offers.click();
+
+
+    //dien thong tin ca nhan
+    await Locator_bai8_page.textbox_first_name.pressSequentially('Nguyen');
+    await Locator_bai8_page.textbox_last_name.pressSequentially('Duc An');
+    await Locator_bai8_page.textbox_address.pressSequentially('Ha Noi');
+    await Locator_bai8_page.droplist_contry.selectOption('Singapore');
+    await Locator_bai8_page.textbox_state.pressSequentially('Ha Noi');
+    await Locator_bai8_page.textbox_city.pressSequentially('Ha Noi');
+    await Locator_bai8_page.textbox_zipcode.pressSequentially('100000');
+    await Locator_bai8_page.textbox_mobile_number.pressSequentially('0987654321');
+    await Locator_bai8_page.button_create_account.click();
+    await expect(Locator_bai8_page.verify_account_created).toBeVisible();
+    await Locator_bai8_page.button_continue.click();
+    await expect(Locator_bai8_page.verify_button_logout).toBeVisible();
+
+
+    await Locator_page.button_cart.click();
+    await Locator_page.button_proceed_to_checkout.click();
+
+    //xac nhan va nhap thong tin 
+    await expect(page.locator(`#product-${product_ID}`)).toBeVisible();
+
+
+    // đúng ra phải khai báo dữ liệu, tạm thời em để như này cho nhanh
+    await expect(page.getByText('Singapore', { exact: true })).toHaveText('Singapore');
+    await expect(page.getByText('0987654321', { exact: true })).toHaveText('0987654321');
+
+    await Locator_page.text_box_comment.pressSequentially('best product ever!');
+    await Locator_page.button_place_order.click();
+    
+
+    //nhap thong tin the
+    await Locator_page.text_box_name_card.pressSequentially(card.name_of_card);
+    await Locator_page.text_box_number_card.pressSequentially(card.card_number);
+    await Locator_page.text_box_cvc.pressSequentially(card.cvc);
+    await Locator_page.text_box_expiration_month.pressSequentially(card.expiration_month);
+    await Locator_page.text_box_expiration_year.pressSequentially(card.expiration_year);
+    await Locator_page.button_pay_and_comfirm.click();
+
+    await expect (Locator_page.verify_order_confirm).toBeVisible();
+
+    await Locator_bai8_page.button_delete_account.click();
+    await expect(Locator_bai8_page.verify_account_deleted).toBeVisible();
+    await Locator_bai8_page.button_continue_delete_account.click();
     await page.waitForTimeout(3000);
     await page.close();
     

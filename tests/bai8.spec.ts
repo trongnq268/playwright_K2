@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { Locator } from '../locators/bai8.locators.ts';
+import { Locator_bai8 } from '../locators/bai8.locators.ts';
 import { Data_account } from '../locators/bai8.data.ts';
 //import { wait } from '../locators/wait';
 
@@ -7,7 +7,7 @@ import { Data_account } from '../locators/bai8.data.ts';
 test('testcase_1', async ({ page }) => {
 
 
-    const Locator_page = Locator(page);
+    const Locator_page = Locator_bai8(page);
     const account = Data_account[0];
 
 
@@ -60,7 +60,7 @@ test('testcase_1', async ({ page }) => {
 
 
 test('testcase_2', async ({ page }) => {
-    const Locator_page = Locator(page);
+    const Locator_page = Locator_bai8(page);
     const account = Data_account[1];
 
     await page.goto('https://automationexercise.com./');
@@ -81,7 +81,7 @@ test('testcase_2', async ({ page }) => {
 });
 
 test('testcase_3', async ({ page }) => {
-    const Locator_page = Locator(page);
+    const Locator_page = Locator_bai8(page);
     const account = Data_account[1];
 
     await page.goto('https://automationexercise.com/');
@@ -102,7 +102,7 @@ test('testcase_3', async ({ page }) => {
     await page.close();
 });
 test('testcase_4', async ({ page }) => {
-    const Locator_page = Locator(page);
+    const Locator_page = Locator_bai8(page);
     const account = Data_account[2];
 
     await page.goto('https://automationexercise.com./');

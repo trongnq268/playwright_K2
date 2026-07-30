@@ -1,9 +1,9 @@
 import { Page } from "@playwright/test";
 
 export const getProductUI = (page: Page) => ({
-    addedModal: getAddedProductModal(page), 
-    productList: getProductLocators(page), 
-    productDetail: getViewProductDetailLocators(page)
+    addedModalUI: getAddedProductModal(page), 
+    productListUI: getProductLocators(page), 
+    productDetailUI: getViewProductDetailLocators(page)
 })
 
 export const getAddedProductModal = (page: Page) => {
@@ -35,8 +35,8 @@ export const getProductLocators = (page: Page) => {
 };
 
 export const getViewProductDetailLocators = (page: Page) => ({
-  productName: page.locator(".product-information h2"),
-  productPrice: page.locator(".product-information span"),
+  productNameText: page.locator(".product-information h2"),
+  productPriceText: page.locator(".product-information span"),
   quantityInput: page.locator("#quantity"),
   addCartBtn: page.getByRole("button", {name: "Add to cart"})
 })

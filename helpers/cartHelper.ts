@@ -2,7 +2,7 @@ import { expect, Page } from "@playwright/test";
 import { getCartLocators } from "../locators/cart.locators";
 import { getProductUI } from "../locators/product.locators";
 import {
-  CartItem,
+  ICartItem,
   IProductSummary,
   IOrderSummary,
   ICreditCard,
@@ -27,8 +27,8 @@ export const getProductInfo = async (
 
   for (const index of productIndices) {
     productList[index] = {
-      productName: await productUI.productList.productName(index).innerText(),
-      unitPrice: await productUI.productList.productPrice(index).innerText(),
+      productName: await productUI.productListUI.productName(index).innerText(),
+      unitPrice: await productUI.productListUI.productPrice(index).innerText(),
     };
   }
   return productList;
@@ -45,17 +45,17 @@ export const addFirstNProductsToCart = async (
   for (let index = 0; index < productIndices.length; index++) {
     let lastProduct = productIndices.length - 1;
 
-    targetProduct = producUI.productList.productCard(index);
-    targetBtn = producUI.productList.addCartHoverBtn(index);
+    targetProduct = producUI.productListUI.productCard(index);
+    targetBtn = producUI.productListUI.addCartHoverBtn(index);
     await targetProduct.hover();
     await expect(targetBtn).toBeVisible();
     await targetBtn.click();
 
     if (index === lastProduct) {
-      await producUI.addedModal.viewCartLink.click();
+      await producUI.addedModalUI.viewCartLink.click();
     } else {
-      await producUI.addedModal.continueBtn.click();
-      await expect(producUI.addedModal.productAddedModal).toBeHidden();
+      await producUI.addedModalUI.continueBtn.click();
+      await expect(producUI.addedModalUI.productAddedModal).toBeHidden();
     }
   }
 };
@@ -66,10 +66,10 @@ export const addProductToCartWithQuantity = async (
   quantity: number,
 ) => {
   const productUI = getProductUI(page);
-  await productUI.productList.viewProductLink(productIndex).click();
-  await productUI.productDetail.quantityInput.fill(`${quantity}`);
-  await productUI.productDetail.addCartBtn.click();
-  await productUI.addedModal.viewCartLink.click();
+  await productUI.productListUI.viewProductLink(productIndex).click();
+  await productUI.productDetailUI.quantityInput.fill(`${quantity}`);
+  await productUI.productDetailUI.addCartBtn.click();
+  await productUI.addedModalUI.viewCartLink.click();
 };
 
 export const countCartItems = async (page: Page) => {
@@ -82,7 +82,7 @@ export const countCartItems = async (page: Page) => {
 export const getCartItemDetails = async (page: Page) => {
   const cartUI = getCartLocators(page);
   const itemsCount = await countCartItems(page);
-  let cartItemList: CartItem[] = [];
+  let cartItemList: ICartItem[] = [];
 
   for (let item = 0; item < itemsCount; item++) {
     cartItemList[item] = {
@@ -113,7 +113,7 @@ export const convertPriceText = async (
 ): Promise<number> => {
   const productUI = getProductUI(page);
   let price: number;
-  let priceText = await productUI.productList
+  let priceText = await productUI.productListUI
     .productPrice(productIndex)
     .innerText();
   let priceString = priceText.replace("Rs. ", "").trim();

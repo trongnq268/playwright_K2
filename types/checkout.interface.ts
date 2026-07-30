@@ -1,5 +1,5 @@
 
-export interface CartItem {
+export interface ICartItem {
   itemName: string;
   itemUnitPrice: string;
   itemQuantity: string;

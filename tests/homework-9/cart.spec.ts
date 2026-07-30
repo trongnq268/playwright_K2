@@ -103,7 +103,7 @@ test.describe("Cart checkout flow", () => {
 
   test("TC04: Place order and register while checkout", async ({ page }) => {
     addFirstNProductsToCart(page, productIndices);
-    await expect(productUI.addedModal.productAddedModal).toBeHidden();
+    await expect(productUI.addedModalUI.productAddedModal).toBeHidden();
 
     // await expect(cartUI.viewCart.checkoutBtn).toBeVisible();
     await cartUI.viewCartUI.checkoutBtn.click();

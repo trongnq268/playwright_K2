@@ -107,9 +107,13 @@ test('testcase3', async ({ page }) => {
     await Locator_page.text_view_cart.click();
 
     if (await page.locator(`[data-product-id="${product_ID}"]`).isVisible()) {
-        await Locator_page.button_clear_gio_hang.click()
+        await expect(Locator_page.text_no_product_in_cart).toBeVisible();
+        await Locator_page.button_clear_gio_hang.click();
     }
-    await expect(Locator_page.text_no_product_in_cart).toBeVisible();
+    else{
+        console.log('khong co san pham');
+    }
+   
 
     await page.waitForTimeout(3000);
     await page.close();

@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
-import { getUI } from "../locators/auth.locators";
-import * as data from "../data/userData";
+import { getUI } from "../../locators/auth.locators";
+import * as data from "../../data/userData";
 import {
-  checkPreSignup,
+  fillPreSignup,
   deleteAcc,
   loginUser,
   registerUser,
-} from "../helpers/authHelper";
-import { IUserLogin } from "../types/user.interface";
+} from "../../helpers/authHelper";
+import { IUserLogin } from "../../types/user.interface";
 
 test.describe("Login and register user tests", () => {
   let ui: ReturnType<typeof getUI>;
@@ -28,7 +28,7 @@ test.describe("Login and register user tests", () => {
   test("TC1: Register new user", async ({ page }) => {
     //step 5, 6, 7
     await expect(ui.preSignupUI.signupHeading).toBeVisible();
-    await checkPreSignup(
+    await fillPreSignup(
       page,
       data.REGISTER_DATA.name,
       data.REGISTER_DATA.email,
@@ -55,7 +55,7 @@ test.describe("Login and register user tests", () => {
 
   test("TC2: Register with existing email", async ({ page }) => {
     await expect(ui.preSignupUI.signupHeading).toBeVisible();
-    await checkPreSignup(
+    await fillPreSignup(
       page,
       data.EXISTING_EMAIL_DATA.name,
       data.EXISTING_EMAIL_DATA.email,
@@ -64,7 +64,7 @@ test.describe("Login and register user tests", () => {
   });
 
   test("TC3: Login with correct email and password", async ({ page }) => {
-    await checkPreSignup(
+    await fillPreSignup(
       page,
       data.REGISTER_DATA.name,
       data.REGISTER_DATA.email,

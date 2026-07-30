@@ -14,7 +14,12 @@ export interface IProductSummary {
 }
 
 export interface IDeliveryAddress {
-
+  fullName: string, 
+  company ?: string,
+  addressLine1: string, //street road
+  addressLine2: string, //state, city and zipcode
+  country: string,
+  phone: string
 }
 
 export interface IOrderSummary {

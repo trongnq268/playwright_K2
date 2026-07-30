@@ -12,15 +12,21 @@ import {
   addProductToCartWithQuantity,
   countCartItems,
   deleteItemfromCart,
+  formatUserInfoToCheckoutAddress,
   getCartItemDetails,
   getCheckoutSummary,
+  getDeliveryAddress,
   getProductInfo,
   submitCreditCard,
   submitOrderCmt,
 } from "../../helpers/cartHelper";
 import { getCartUI } from "../../locators/cart.locators";
 import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
-import { ORDER_MSG, VALID_CREDIT_CARD} from "../../data/checkoutData";
+import {
+  ORDER_MSG,
+  VALID_CREDIT_CARD,
+  PRODUCTS_TO_ADD,
+} from "../../data/checkoutData";
 
 test.describe("Cart checkout flow", () => {
   let ui: ReturnType<typeof getUI>;
@@ -29,6 +35,10 @@ test.describe("Cart checkout flow", () => {
   let checkoutUI: ReturnType<typeof getCheckoutUI>;
 
   const productIndices: number[] = [0, 1];
+  const registerDetails = {
+    userInfo: REGISTER_DATA,
+    userAddress: ADDRESS_DATA,
+  };
 
   test.beforeEach("Open and verify homepage", async ({ page }) => {
     ui = getUI(page);
@@ -81,7 +91,9 @@ test.describe("Cart checkout flow", () => {
     const productIndex: number = 0;
     const productQty: number = 4;
     await addProductToCartWithQuantity(page, productIndex, productQty);
-    const actualCartItemQty = await cartUI.viewCartUI.itemQty(productIndex).innerText();
+    const actualCartItemQty = await cartUI.viewCartUI
+      .itemQty(productIndex)
+      .innerText();
     expect(productQty).toEqual(Number(actualCartItemQty));
   });
 
@@ -105,33 +117,49 @@ test.describe("Cart checkout flow", () => {
     addFirstNProductsToCart(page, productIndices);
     await expect(productUI.addedModalUI.productAddedModal).toBeHidden();
 
-    // await expect(cartUI.viewCart.checkoutBtn).toBeVisible();
     await cartUI.viewCartUI.checkoutBtn.click();
     await expect(cartUI.checkoutModalUI.modal).toBeVisible();
-
     await cartUI.checkoutModalUI.loginLink.click();
-    await fillPreSignup(page, REGISTER_DATA.name, REGISTER_DATA.email);
-    await registerUser(page, REGISTER_DATA, ADDRESS_DATA);
-    await ui.afterSignupUI.continueBtn.click();
 
+    await fillPreSignup(
+      page,
+      registerDetails.userInfo.name,
+      registerDetails.userInfo.email,
+    );
+    await registerUser(
+      page,
+      registerDetails.userInfo,
+      registerDetails.userAddress,
+    );
+    await ui.afterSignupUI.continueBtn.click();
     await expect(ui.auth.loggedInUserText(REGISTER_DATA.name)).toBeVisible();
     await ui.auth.cartLink.click();
 
     await cartUI.viewCartUI.checkoutBtn.click();
-    const orderSummary = await getCheckoutSummary(page);
-    console.log(orderSummary);
+    const orderReview = await getCheckoutSummary(page);
+    const addressReview = await getDeliveryAddress(page);
+    const expectedProducts = PRODUCTS_TO_ADD;
+    const expectedDeliveryAddress = formatUserInfoToCheckoutAddress(
+      registerDetails.userInfo,
+      registerDetails.userAddress,
+    );
+    
+    expect(orderReview.products).toEqual(expectedProducts);
+    expect(orderReview.totalAmt).toEqual("Rs. 900");
+    expect(addressReview).toEqual(expectedDeliveryAddress);
+
     //submit comment
     await submitOrderCmt(page, ORDER_MSG);
-    //submit credit card 
+    //submit credit card
     await submitCreditCard(page, VALID_CREDIT_CARD);
     //verify succes order message
-    await expect(checkoutUI.successOrderUI.successHeading).toBeVisible(); 
+    await expect(checkoutUI.successOrderUI.successHeading).toBeVisible();
     await expect(checkoutUI.successOrderUI.successMsgText).toBeVisible();
     await checkoutUI.successOrderUI.continueBtn.click();
     //delete account
-    await ui.auth.deleteAccLink.click(); 
+    await ui.auth.deleteAccLink.click();
     await expect(ui.deleteAccUI.deleteHeading).toBeVisible();
-    await ui.deleteAccUI.continueBtn.click()
+    await ui.deleteAccUI.continueBtn.click();
   });
 
   test("TC05: Verify checkout address", async () => {});

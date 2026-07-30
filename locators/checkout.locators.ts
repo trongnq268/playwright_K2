@@ -3,25 +3,21 @@ import { Page } from "@playwright/test";
 export const getCheckoutUI = (page: Page) => ({
   deliveryAddressUI: getDeliveryAddressLocators(page),
   reviewOrderUI: getReviewOrderLocators(page),
-  commentFormUI: getOrderCmtLocators(page), 
-  paymentFormUI: getPaymentFormLocators(page), 
-  successOrderUI: getSuccessOrderLocators(page)
+  commentFormUI: getOrderCmtLocators(page),
+  paymentFormUI: getPaymentFormLocators(page),
+  successOrderUI: getSuccessOrderLocators(page),
 });
 
 export const getDeliveryAddressLocators = (page: Page) => {
-  const adress = page.locator(
-    "#address_delivery .address_address1.address_address2",
-  );
+  const address = page.locator("#address_delivery");
   return {
-    deliveryAdressHeading: page.getByText("Your delivery address"),
-    fullName: page.locator(
-      "#address_delivery .address_firstname.address_lastname",
-    ),
-    company: (index: number) => adress.nth(index),
-    street: (index: number) => adress.nth(index),
-    state: (index: number) => adress.nth(index),
-    country: (index: number) => adress.nth(index),
-    phone: (index: number) => adress.nth(index),
+    deliveryAddressHeading: page.getByText("Your delivery address"),
+    fullName: address.locator("li.address_firstname"),
+    company: address.locator("li.address_address1:not(:empty)").nth(0),
+    addressLine1: address.locator("li.address_address1:not(:empty)").nth(1),
+    addressLine2: address.locator("li.address_city"),
+    country: address.locator("li.address_country_name"),
+    phone: address.locator("li.address_phone"),
   };
 };
 
@@ -30,7 +26,7 @@ export const getReviewOrderLocators = (page: Page) => {
   const productRow = page.locator('#cart_info .table tbody tr[id^="product-"]');
 
   return {
-    cartTblHeader: page.locator('#cart_info .table thead'),
+    cartTblHeader: page.locator("#cart_info .table thead"),
     allCartRow: allCartRow,
     productRow: productRow,
     productName: (productPosition: number) =>
@@ -47,22 +43,24 @@ export const getReviewOrderLocators = (page: Page) => {
   };
 };
 
-  export const getOrderCmtLocators = (page: Page) => ({
-    msgTextbox: page.locator('#ordermsg textarea[name="message"]'), 
-    placeOrderBtn: page.getByRole("link", {name: 'Place Order'})
-  })
+export const getOrderCmtLocators = (page: Page) => ({
+  msgTextbox: page.locator('#ordermsg textarea[name="message"]'),
+  placeOrderBtn: page.getByRole("link", { name: "Place Order" }),
+});
 
-  export const getPaymentFormLocators = (page: Page) => ({
-    cardNameInput: page.locator('#payment-form input[name="name_on_card"]'), 
-    cardNumberInput: page.locator('#payment-form input[name="card_number"]'), 
-    cvvInput: page.locator('#payment-form input[name="cvc"]'), 
-    expMonthInput: page.locator('#payment-form input[name="expiry_month"]'), 
-    expYearInput: page.locator('#payment-form input[name="expiry_year"]'), 
-    confirmBtn: page.getByRole('button', {name: 'Pay and Confirm Order'})
-  })
+export const getPaymentFormLocators = (page: Page) => ({
+  cardNameInput: page.locator('#payment-form input[name="name_on_card"]'),
+  cardNumberInput: page.locator('#payment-form input[name="card_number"]'),
+  cvvInput: page.locator('#payment-form input[name="cvc"]'),
+  expMonthInput: page.locator('#payment-form input[name="expiry_month"]'),
+  expYearInput: page.locator('#payment-form input[name="expiry_year"]'),
+  confirmBtn: page.getByRole("button", { name: "Pay and Confirm Order" }),
+});
 
-  export const getSuccessOrderLocators = (page: Page) =>({
-    successHeading: page.getByText('Order Placed!'),
-    successMsgText: page.getByText('Congratulations! Your order has been confirmed!'), 
-    continueBtn: page.getByRole('link', {name: "Continue"}), 
-  })
+export const getSuccessOrderLocators = (page: Page) => ({
+  successHeading: page.getByText("Order Placed!"),
+  successMsgText: page.getByText(
+    "Congratulations! Your order has been confirmed!",
+  ),
+  continueBtn: page.getByRole("link", { name: "Continue" }),
+});

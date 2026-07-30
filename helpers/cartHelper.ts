@@ -6,12 +6,15 @@ import {
   IProductSummary,
   IOrderSummary,
   ICreditCard,
+  IDeliveryAddress,
 } from "../types/checkout.interface";
 import {
   getCheckoutUI,
   getOrderCmtLocators,
   getPaymentFormLocators,
 } from "../locators/checkout.locators";
+import { IAddress, IUserRegister } from "../types/user.interface";
+import { getUI } from "../locators/auth.locators";
 
 export interface product {
   productName: string;
@@ -153,6 +156,22 @@ export const getCheckoutSummary = async (
   return orderSummary;
 };
 
+export const getDeliveryAddress = async (page: Page): Promise<IDeliveryAddress> => {
+  const checkoutUI = getCheckoutUI(page); 
+  let deliveryAddress: IDeliveryAddress;
+  
+  deliveryAddress = {
+    fullName: await checkoutUI.deliveryAddressUI.fullName.innerText(),
+    company: await checkoutUI.deliveryAddressUI.company.innerText(), 
+    addressLine1: await checkoutUI.deliveryAddressUI.addressLine1.innerText(),
+    addressLine2: await checkoutUI.deliveryAddressUI.addressLine2.innerText(),
+    country: await checkoutUI.deliveryAddressUI.country.innerText(),
+    phone: await checkoutUI.deliveryAddressUI.phone.innerText(),
+  }
+
+  return deliveryAddress
+}
+
 export const submitOrderCmt = async (page: Page, msg: string) => {
   const orderCmtFormUI = getOrderCmtLocators(page);
   await orderCmtFormUI.msgTextbox.fill(msg);
@@ -169,3 +188,21 @@ export const submitCreditCard = async (page: Page, card: ICreditCard) => {
   await paymentFormUI.confirmBtn.click();
 };
 
+export const formatUserInfoToCheckoutAddress = (
+  userInfo: IUserRegister,
+  userAddress: IAddress,
+): IDeliveryAddress => {
+
+  let formattedDeliveryAddress: IDeliveryAddress;
+  
+  formattedDeliveryAddress = {
+    fullName: `Mr. ${userInfo.firstName} ${userInfo.lastName}`,
+    company: `${userAddress.company}`,
+    addressLine1: `${userAddress.address1}`,
+    addressLine2: `${userAddress.city} ${userAddress.state} ${userAddress.zipcode}`,
+    country: `${userAddress.country}`,
+    phone: `${userAddress.phone}`,
+  };
+
+  return formattedDeliveryAddress;
+};

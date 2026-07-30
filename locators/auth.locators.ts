@@ -15,7 +15,10 @@ export const authLocators = (page: Page) => ({
   signupLink: page.getByRole("link", { name: "Signup / Login" }),
   deleteAccLink: page.getByRole("link", { name: "Delete Account" }),
   logoutLink: page.getByRole("link", { name: "Logout" }),
-  loggedInUserText: (username: string) =>
+  productsLink: page.getByRole("link", { name: "Products" }),
+  // cartLink: page.getByRole('link', {name: /Cart/i }), 
+  cartLink: page.locator('a[href="/view_cart"]').first(), 
+  loggedInUserText: (username: string) =>                
     page.getByText(`Logged in as ${username}`),
 });
 

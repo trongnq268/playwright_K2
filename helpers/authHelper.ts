@@ -1,5 +1,5 @@
 import { IAddress, IUserLogin, IUserRegister } from "../types/user.interface";
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import {
   getPreSignupLocators,
   getSignupLocators,
@@ -8,6 +8,10 @@ import {
   getDeleteAccLocators,
 } from "../locators/auth.locators";
 
+export const baseNavigation = async (page: Page) => {
+  await page.goto("https://automationexercise.com/");
+};
+
 export const loginUser = async (page: Page, loginDetails: IUserLogin) => {
   const loginUI = getLoginLocators(page);
   await loginUI.emailInput.fill(loginDetails.email);
@@ -15,7 +19,7 @@ export const loginUser = async (page: Page, loginDetails: IUserLogin) => {
   await loginUI.loginBtn.click();
 };
 
-export const checkPreSignup = async (
+export const fillPreSignup = async (
   page: Page,
   name: string,
   email: string,

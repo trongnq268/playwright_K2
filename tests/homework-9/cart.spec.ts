@@ -90,37 +90,41 @@ test.describe("Cart checkout flow", () => {
   test("TC02: Verify product quantity in cart", async ({ page }) => {
     const productIndex: number = 0;
     const productQty: number = 4;
+    //add multi products to cart
     await addProductToCartWithQuantity(page, productIndex, productQty);
     const actualCartItemQty = await cartUI.viewCartUI
       .itemQty(productIndex)
       .innerText();
+    //verify product quantity
     expect(productQty).toEqual(Number(actualCartItemQty));
   });
 
   test("TC03: Delete produtcs from cart", async ({ page }) => {
     const productIndices: number[] = [0, 1, 2];
+
+    //get product name, price before adding to cart
     const products = await getProductInfo(page, productIndices);
     const productName = products[0].productName;
-
     const expectedCount = productIndices.length - 1;
-
+    //add products to cart
     await addFirstNProductsToCart(page, productIndices);
     await expect(page).toHaveURL("https://automationexercise.com/view_cart");
     await expect(cartUI.viewCartUI.checkoutBtn).toBeVisible();
-
+    //delete products from cart then count cart items
     await deleteItemfromCart(page, productName);
     const cartCountAfterDeleted = await countCartItems(page);
     expect(cartCountAfterDeleted).toBe(expectedCount);
   });
 
   test("TC04: Place order and register while checkout", async ({ page }) => {
+    //add products to cart
     addFirstNProductsToCart(page, productIndices);
     await expect(productUI.addedModalUI.productAddedModal).toBeHidden();
-
+    //click proceed to checkout button
     await cartUI.viewCartUI.checkoutBtn.click();
     await expect(cartUI.checkoutModalUI.modal).toBeVisible();
     await cartUI.checkoutModalUI.loginLink.click();
-
+    //register new user
     await fillPreSignup(
       page,
       registerDetails.userInfo.name,
@@ -134,7 +138,7 @@ test.describe("Cart checkout flow", () => {
     await ui.afterSignupUI.continueBtn.click();
     await expect(ui.auth.loggedInUserText(REGISTER_DATA.name)).toBeVisible();
     await ui.auth.cartLink.click();
-
+    //click proceed to checkout
     await cartUI.viewCartUI.checkoutBtn.click();
     const orderReview = await getCheckoutSummary(page);
     const addressReview = await getDeliveryAddress(page);
@@ -143,7 +147,7 @@ test.describe("Cart checkout flow", () => {
       registerDetails.userInfo,
       registerDetails.userAddress,
     );
-    
+    //verify products summary and delivery address
     expect(orderReview.products).toEqual(expectedProducts);
     expect(orderReview.totalAmt).toEqual("Rs. 900");
     expect(addressReview).toEqual(expectedDeliveryAddress);

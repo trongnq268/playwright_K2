@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }, testInfo) => {
     
     
 }); 
-test('testcase-1', async ({ page }) => {
+test('testcase_1', async ({ page }) => {
     const locator = Locator_page(page);
     const account = Data_account[0];
     const card = Card[0];
@@ -77,7 +77,7 @@ test('testcase_2', async ({ page }) => {
     await locator.icon_seach.click();
 
     //click chon san pham
-    await page.getByText('Add to cart', { exact: true }).nth(0).click();
+    await locator.add_to_cart_button.nth(0).click();
     
 
     await locator.text_view_cart.click();
@@ -95,6 +95,96 @@ test('testcase_2', async ({ page }) => {
     }
 
     await expect(locator.verify_cart_empty).toBeVisible();
+    await page.waitForTimeout(3000);
+    await page.close();
+});
+test('testcase_3', async ({ page }) => {
+    const locator = Locator_page(page);
+
+    await locator.button_product.click();
+    
+    await expect(locator.text_category).toBeVisible();
+
+   
+    // danh muc women
+    await locator.option_women_of_category.click();
+
+    // chon ngau nhien mot danh muc thuoc women
+    const dress = locator.option_dress_of_women;
+    const tops = locator.option_top_of_women;
+    const saree = locator.option_saree_of_women;
+
+    const Option_women = [dress,tops,saree];
+    const randomOptions_women = Option_women[Math.floor(Math.random() * Option_women.length)];
+    await randomOptions_women.click();
+
+    // chon ngau nhien mot san pham trong danh muc
+   
+    const count = await locator.add_to_cart_button.count();
+    const randomIndex = Math.floor(Math.random() * count);
+    await locator.add_to_cart_button.nth(randomIndex).click();
+
+    
+    await locator.button_continue_shoping.click();
+
+
+    //danh muc men
+    await locator.option_men_of_category.click();
+   
+
+    //chon ngau nhien mot danh muc men
+    const Tshirt = locator.option_Tshirts_of_men;
+    const Jeans = locator.option_Jeans_of_men;
+
+    const Option_men = [Tshirt,Jeans];
+    const randomOptions_men = Option_men[Math.floor(Math.random() * Option_men.length)];
+    await randomOptions_men.click();
+
+
+
+
+
+    await page.waitForTimeout(3000);
+    await page.close();
+});
+test('testcase_4', async ({ page }) => {
+    const locator = Locator_page(page);
+    const account = Data_account[0];
+  
+    await locator.button_product.click();
+    
+    // const san_pham  = productByName(page, 'Blue Top');
+    // await san_pham.hover();
+    await locator.text_box_seach.pressSequentially(`${ten_san_pham}`);
+    await locator.icon_seach.click();
+
+    //click chon san pham
+    await page.getByText('Add to cart', { exact: true }).nth(0).click();
+    await locator.button_continue_shoping.click();
+
+    // dang nhap
+
+    await locator.button_signup_login.click();
+    await locator.text_box_email.pressSequentially(account.email);
+    await locator.text_box_password.pressSequentially(account.password);
+    await locator.button_login.click();
+    await expect(locator.verify_login).toBeVisible();
+
+    // kiem tra la gio hang sau khi dang nhap
+    await locator.button_cart.click();
+    await expect(page.getByRole('link', { name: `${ten_san_pham}` })).toBeVisible();
+    
+
+    // thêm thao tác x để không bị lỗi ở những lần đăng nhập sau
+    const deleteButtons = locator.icon_x_clear_product
+    const count = await deleteButtons.count();
+
+    for (let i = 0; i < count; i++) {
+        if (await deleteButtons.nth(i).isVisible()) {
+            await deleteButtons.nth(i).click();
+        }
+    }
+
     await page.waitForTimeout(3000);
     await page.close();
 });

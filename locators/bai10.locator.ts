@@ -12,6 +12,9 @@ button_login:page.getByRole('button', { name: 'Login' }), // button login
 verify_login:page.locator(`a:has-text("Logged in as")`),// xac minh dang nhap
 
 text_view_cart:page.getByText('View Cart', { exact: true }),
+button_continue_shoping:page.getByRole('button', { name: 'Continue Shopping' }),
+
+
 
 
 
@@ -48,6 +51,32 @@ button_log_out:page.getByText('Logout', { exact: true }),
 
 icon_x_clear_product:page.locator(`.cart_quantity_delete`),
 verify_cart_empty:page.getByText('Cart is empty!', { exact: true }),
+
+
+
+text_category:page.getByRole('heading', { name: 'Category', level: 2 }), // text category ben trai
+
+// chon danh muc women
+option_women_of_category:page.getByRole('link', { name: 'Women' }), 
+
+// cac toption thuoc women
+option_dress_of_women:page.locator(`a[href="/category_products/1"]`),
+option_saree_of_women:page.getByRole('link', { name: 'Saree' }),
+option_top_of_women:page.getByRole('link', { name: 'Tops' }),
+
+//cac option thuoc men
+option_men_of_category:page.getByText('Men', { exact: true }),
+
+option_Tshirts_of_men:page.getByRole('link', { name: 'Tshirts' }),
+option_Jeans_of_men:page.getByRole('link', { name: 'Jeans' }),
+
+
+
+
+add_to_cart_button:page.getByRole('link', { name: 'Add to cart' }),
+
+
+
 
 
 

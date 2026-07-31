@@ -278,6 +278,7 @@ test('testcase5', async ({ page }) => {
     await Locator_page.button_proceed_to_checkout.click();
 
     //de 2 thong tin cho nhanh
+
     await expect(page.locator(`#product-${product_ID}`)).toBeVisible();
     await expect(page.locator(`text=${thong_tin[0].country}`).nth(0)).toHaveText(thong_tin[0].country);
     await expect(page.locator(`text=${thong_tin[0].country}`).nth(1)).toHaveText(thong_tin[0].country);

@@ -13,3 +13,4 @@ export const Data_account: form_data[] =  [
         
     }
 ];
+export const ten_san_pham:string = 'Blue Top';

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { Locator_page } from '../locators/bai10.locator.ts';
+import { Locator_page,productByName } from '../locators/bai10.locator.ts';
+import { Data_account,ten_san_pham } from '../type/bai10.data.ts';
 
 
 test.beforeEach(async ({ page }, testInfo) => {
@@ -8,17 +9,25 @@ test.beforeEach(async ({ page }, testInfo) => {
     const link = locator.go_to_URL;
 
 
-    await page.goto('https://automationexercise.com/');
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await page.goto(`${link}`);
+    await expect(page).toHaveURL(`${link}`);
     await expect(locator.button_home_page).toBeVisible();
+    
     
 }); 
 test('tìm sản phẩm theo tên', async ({ page }) => {
     const locator = Locator_page(page);
+    
 
-    // await page.goto(locator.go_to_URL);
-    // await expect(locator.button_home_page).toBeVisible();
-
+    
     await locator.button_product.click();
-    await page.locator("text='Blue Top'").click();
+    // const san_pham  = productByName(page, 'Blue Top');
+    // await san_pham.hover();
+    await locator.text_box_seach.pressSequentially(`${ten_san_pham}`);
+    await locator.icon_seach.click();
+
+
+
+
+
 });

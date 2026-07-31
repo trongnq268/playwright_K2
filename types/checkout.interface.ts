@@ -1,16 +1,19 @@
 
-export interface ICartItem {
-  itemName: string;
-  itemUnitPrice: string;
-  itemQuantity: string;
-  itemTotalPrice: string;
-}
-
-export interface IProductSummary {
+export interface IProduct {
   productName: string, 
   productUnitPrice: string, 
-  productQty: string | number, 
+  productQty: string, 
   productTotalPrice: string, 
+}
+
+export interface ICartSummary {
+  products: IProduct[], 
+  totalAmt: string
+}
+
+export interface IOrderAddress {
+  deliveryAddress: IDeliveryAddress, 
+  billingAddress: IBillingAddress
 }
 
 export interface IDeliveryAddress {
@@ -22,9 +25,13 @@ export interface IDeliveryAddress {
   phone: string
 }
 
-export interface IOrderSummary {
-  products: IProductSummary[], 
-  totalAmt: string
+export interface IBillingAddress {
+  fullName: string, 
+  company ?: string,
+  addressLine1: string, //street road
+  addressLine2: string, //state, city and zipcode
+  country: string,
+  phone: string
 }
 
 export interface ICreditCard {

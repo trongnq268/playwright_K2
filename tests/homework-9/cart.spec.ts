@@ -7,34 +7,16 @@ import {
 import { getUI } from "../../locators/auth.locators";
 import { getProductUI } from "../../locators/product.locators";
 import { getCheckoutUI } from "../../locators/checkout.locators";
-import {
-  addFirstNProductsToCart,
-  addProductToCartWithQuantity,
-  countCartItems,
-  deleteItemfromCart,
-  formatUserInfoToCheckoutAddress,
-  getCartItemDetails,
-  getCheckoutSummary,
-  getDeliveryAddress,
-  getProductInfo,
-  submitCreditCard,
-  submitOrderCmt,
-} from "../../helpers/cartHelper";
 import { getCartUI } from "../../locators/cart.locators";
+import * as cartHelper from "../../helpers/cartHelper";
 import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
-import {
-  ORDER_MSG,
-  VALID_CREDIT_CARD,
-  PRODUCTS_TO_ADD,
-} from "../../data/checkoutData";
+import * as checkoutData from "../../data/checkoutData";
 
 test.describe("Cart checkout flow", () => {
   let ui: ReturnType<typeof getUI>;
-  let productUI: ReturnType<typeof getProductUI>;
   let cartUI: ReturnType<typeof getCartUI>;
   let checkoutUI: ReturnType<typeof getCheckoutUI>;
 
-  const productIndices: number[] = [0, 1];
   const registerDetails = {
     userInfo: REGISTER_DATA,
     userAddress: ADDRESS_DATA,
@@ -42,7 +24,6 @@ test.describe("Cart checkout flow", () => {
 
   test.beforeEach("Open and verify homepage", async ({ page }) => {
     ui = getUI(page);
-    productUI = getProductUI(page);
     cartUI = getCartUI(page);
     checkoutUI = getCheckoutUI(page);
     await page.route(
@@ -50,81 +31,66 @@ test.describe("Cart checkout flow", () => {
       (route) => route.abort(),
     );
     await baseNavigation(page);
-    await expect(ui.auth.homeSlide).toBeVisible();
+    await expect(ui.navigation.homeSlide).toBeVisible();
   });
 
   test("TC01: Add first 2 products to cart", async ({ page }) => {
-    //click Products on menu bar
-    ui.auth.productsLink.click();
+    //Step 4: click Products on menu bar
+    await ui.navigation.productsLink.click();
 
-    const productsToAdd = await getProductInfo(page, productIndices);
+    //Step 5-8: add first 2 products to cart
+    await cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
 
-    //add first 2 products to cart
-    await addFirstNProductsToCart(page, productIndices);
-    const cartItemsCount = await countCartItems(page);
-
-    //verify correct number of products added
-    expect(cartItemsCount).toEqual(productIndices.length);
-
-    //verify info of added products in cart
-    const cartItems = await getCartItemDetails(page);
-
-    /**
-     * function addFristNProductsToCart adds only 1 product each run, therefore:
-     * quantity = 1
-     * itemUnitPrice = totalItemPrice
-     */
-    for (let index = 0; index < cartItemsCount; index++) {
-      const currentCartItemName = cartItems[index].itemName;
-      const currentCartItemUnitPrice = cartItems[index].itemUnitPrice;
-      const currentCartItemQty = cartItems[index].itemQuantity;
-      const currentCartItemTotalPrice = cartItems[index].itemTotalPrice;
-
-      expect(currentCartItemName).toBe(productsToAdd[index].productName);
-      expect(currentCartItemUnitPrice).toEqual(productsToAdd[index].unitPrice);
-      expect(currentCartItemQty).toEqual("1");
-      expect(currentCartItemTotalPrice).toEqual(productsToAdd[index].unitPrice);
-    }
+    //Step 9-10: verify correct products added
+    const cartCount = await cartUI.viewCartUI.cartItemRow.count();
+    expect(cartCount).toEqual(checkoutData.PRODUCTS_LIST.length);
+    const cartItems = await cartHelper.getCartItemDetails(page);
+    expect(cartItems).toEqual(checkoutData.PRODUCTS_LIST);
   });
 
   test("TC02: Verify product quantity in cart", async ({ page }) => {
-    const productIndex: number = 0;
-    const productQty: number = 4;
-    //add multi products to cart
-    await addProductToCartWithQuantity(page, productIndex, productQty);
-    const actualCartItemQty = await cartUI.viewCartUI
-      .itemQty(productIndex)
-      .innerText();
-    //verify product quantity
-    expect(productQty).toEqual(Number(actualCartItemQty));
+    const productName = checkoutData.PRODUCTS_LIST[0].productName;
+    const productQty = 4;
+
+    //step 4-8: view specific product, increase quantity and add to cart
+    await cartHelper.addProductToCartWithQuantity(page, productName, productQty);
+
+    //step 9: verify product quantity in cart
+    const cartItemQty = await cartUI.viewCartUI.itemQty(0).innerText();
+    expect(cartItemQty).toEqual(`${productQty}`);
   });
 
   test("TC03: Delete produtcs from cart", async ({ page }) => {
-    const productIndices: number[] = [0, 1, 2];
+    const productName = checkoutData.PRODUCTS_LIST[0].productName;
+  
+    //step 4-5: add products to cart
+    await cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
+    const cartCountBefore = checkoutData.PRODUCTS_LIST.length;
+    const expectedCount = cartCountBefore - 1;
 
-    //get product name, price before adding to cart
-    const products = await getProductInfo(page, productIndices);
-    const productName = products[0].productName;
-    const expectedCount = productIndices.length - 1;
-    //add products to cart
-    await addFirstNProductsToCart(page, productIndices);
-    await expect(page).toHaveURL("https://automationexercise.com/view_cart");
+    //step 6
+    await expect(cartUI.breadcrumb).toBeVisible();
     await expect(cartUI.viewCartUI.checkoutBtn).toBeVisible();
-    //delete products from cart then count cart items
-    await deleteItemfromCart(page, productName);
-    const cartCountAfterDeleted = await countCartItems(page);
-    expect(cartCountAfterDeleted).toBe(expectedCount);
+
+    //step 7: delete product from cart
+    await cartHelper.deleteItemfromCart(page, productName);
+    const cartCountAfter = await cartUI.viewCartUI.cartItemRow.count();
+    expect(cartCountAfter).toBe(expectedCount);
   });
 
   test("TC04: Place order and register while checkout", async ({ page }) => {
-    //add products to cart
-    addFirstNProductsToCart(page, productIndices);
-    await expect(productUI.addedModalUI.productAddedModal).toBeHidden();
-    //click proceed to checkout button
+    //step 4-5: add products to cart
+    cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
+   
+    //step 6-8
+    await expect(cartUI.breadcrumb).toBeVisible();
+    await expect(cartUI.viewCartUI.checkoutBtn).toBeVisible();
     await cartUI.viewCartUI.checkoutBtn.click();
-    await expect(cartUI.checkoutModalUI.modal).toBeVisible();
+    
+    // await cartUI.checkoutModalUI.modal.waitFor({ state: "visible" });
     await cartUI.checkoutModalUI.loginLink.click();
-    //register new user
+    
+    //step 9-12: register new user then click cart link
     await fillPreSignup(
       page,
       registerDetails.userInfo.name,
@@ -136,40 +102,52 @@ test.describe("Cart checkout flow", () => {
       registerDetails.userAddress,
     );
     await ui.afterSignupUI.continueBtn.click();
-    await expect(ui.auth.loggedInUserText(REGISTER_DATA.name)).toBeVisible();
-    await ui.auth.cartLink.click();
-    //click proceed to checkout
+    await expect(
+      ui.navigation.loggedInUserText(REGISTER_DATA.name),
+    ).toBeVisible();
+    await ui.navigation.cartLink.click();
+    
+    //step 13
     await cartUI.viewCartUI.checkoutBtn.click();
-    const orderReview = await getCheckoutSummary(page);
-    const addressReview = await getDeliveryAddress(page);
-    const expectedProducts = PRODUCTS_TO_ADD;
-    const expectedDeliveryAddress = formatUserInfoToCheckoutAddress(
+    
+    //step 14: verify order summary and delivery address
+    const orderSummary = await cartHelper.getCheckoutSummary(page);
+    const addressReview = await cartHelper.getDeliveryAddress(page);
+    const expectedProducts = checkoutData.PRODUCTS_LIST;
+    let expectedTotalAmt = checkoutData.PRODUCTS_LIST.reduce((total, product) => {
+      return total + Number(cartHelper.convertPriceText(product.productTotalPrice))
+    }, 0)
+
+    const expectedDeliveryAddress = cartHelper.formatUserInfoToCheckoutAddress(
       registerDetails.userInfo,
       registerDetails.userAddress,
     );
-    //verify products summary and delivery address
-    expect(orderReview.products).toEqual(expectedProducts);
-    expect(orderReview.totalAmt).toEqual("Rs. 900");
+   
+    expect(orderSummary.products).toEqual(expectedProducts);
+    expect(orderSummary.totalAmt).toEqual(`Rs. ${expectedTotalAmt}`);
     expect(addressReview).toEqual(expectedDeliveryAddress);
 
-    //submit comment
-    await submitOrderCmt(page, ORDER_MSG);
-    //submit credit card
-    await submitCreditCard(page, VALID_CREDIT_CARD);
-    //verify succes order message
+    //step 15: submit comment
+    await cartHelper.submitOrderCmt(page, checkoutData.ORDER_MSG);
+    
+    //step 16-18: submit credit card
+    await cartHelper.submitCreditCard(page, checkoutData.VALID_CREDIT_CARD);
+    //verify success order message
     await expect(checkoutUI.successOrderUI.successHeading).toBeVisible();
     await expect(checkoutUI.successOrderUI.successMsgText).toBeVisible();
     await checkoutUI.successOrderUI.continueBtn.click();
-    //delete account
-    await ui.auth.deleteAccLink.click();
+    
+    //step 19-20: delete account
+    await ui.navigation.deleteAccLink.click();
     await expect(ui.deleteAccUI.deleteHeading).toBeVisible();
     await ui.deleteAccUI.continueBtn.click();
   });
 
   test("TC05: Verify checkout address", async ({ page }) => {
-    //open signup link
-    await ui.auth.signupLink.click();
-    //register new user
+    //step 4: open signup link
+    await ui.navigation.signupLink.click();
+    
+    //step 5-7: register new user
     await fillPreSignup(
       page,
       registerDetails.userInfo.name,
@@ -184,10 +162,15 @@ test.describe("Cart checkout flow", () => {
     expect(ui.afterSignupUI.signupSuccessHeading).toBeVisible();
     await ui.afterSignupUI.continueBtn.click();
     expect(
-      ui.auth.loggedInUserText(registerDetails.userInfo.name),
+      ui.navigation.loggedInUserText(registerDetails.userInfo.name),
     ).toBeVisible();
-    //add products to cart
+
+    //step 8-10: add products to cart and click checkout
     const qty = 5;
-    await addProductToCartWithQuantity(page, 0, qty);
+    await cartHelper.addProductToCartWithQuantity(
+      page,
+      checkoutData.PRODUCTS_LIST[0].productName,
+      qty,
+    );
   });
 });

@@ -1,6 +1,6 @@
-import { ICreditCard, IProductSummary } from "../types/checkout.interface";
+import { ICreditCard, IProduct } from "../types/checkout.interface";
 
-export const PRODUCTS_TO_ADD: IProductSummary[] = [
+export const PRODUCTS_LIST: IProduct[] = [
   {
     productName: "Blue Top",
     productUnitPrice: "Rs. 500",
@@ -14,6 +14,14 @@ export const PRODUCTS_TO_ADD: IProductSummary[] = [
     productTotalPrice: "Rs. 400",
   },
 ];
+
+export const SINGLE_PRODUCT: IProduct = 
+  {
+    productName: "Stylish Dress",
+    productUnitPrice: "Rs. 1500",
+    productQty: "4",
+    productTotalPrice: "Rs. 500",
+  }
 
 export const ORDER_MSG: string = `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
    Lorem Ipsum has been the industry's standard dummy text ever since 1966, 

@@ -46,6 +46,14 @@ verify_order_confirm:page.getByText('Congratulations! Your order has been confir
 button_log_out:page.getByText('Logout', { exact: true }),
 
 
+icon_x_clear_product:page.locator(`.cart_quantity_delete`),
+verify_cart_empty:page.getByText('Cart is empty!', { exact: true }),
+
+
+
+
+
+
 
 
 

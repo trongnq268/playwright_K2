@@ -29,7 +29,7 @@ test('testcase-1', async ({ page }) => {
 
     
     await locator.button_product.click();
-    await expect
+    
     // const san_pham  = productByName(page, 'Blue Top');
     // await san_pham.hover();
     await locator.text_box_seach.pressSequentially(`${ten_san_pham}`);
@@ -65,4 +65,36 @@ test('testcase-1', async ({ page }) => {
     await page.waitForTimeout(3000);
     await page.close();
 
+});
+test('testcase_2', async ({ page }) => {
+    const locator = Locator_page(page);
+
+    await locator.button_product.click();
+    
+    // const san_pham  = productByName(page, 'Blue Top');
+    // await san_pham.hover();
+    await locator.text_box_seach.pressSequentially(`${ten_san_pham}`);
+    await locator.icon_seach.click();
+
+    //click chon san pham
+    await page.getByText('Add to cart', { exact: true }).nth(0).click();
+    
+
+    await locator.text_view_cart.click();
+    await expect(locator.verify_cart).toBeVisible();
+
+
+    // dem button x de clear het tat ca cac button x
+    const deleteButtons = locator.icon_x_clear_product
+    const count = await deleteButtons.count();
+
+    for (let i = 0; i < count; i++) {
+        if (await deleteButtons.nth(i).isVisible()) {
+            await deleteButtons.nth(i).click();
+        }
+    }
+
+    await expect(locator.verify_cart_empty).toBeVisible();
+    await page.waitForTimeout(3000);
+    await page.close();
 });

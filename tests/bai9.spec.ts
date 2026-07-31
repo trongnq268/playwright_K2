@@ -9,7 +9,7 @@ import { Locator_bai8 } from '../locators/bai8.locators.ts';
 //     return;
 //   }
 //   // test thử bỏ qua hàm beforeEach khi chạy testcase4
-   
+    
 //     const Locator_page = Locator(page); 
 //     const account = Data_account[0];
 
@@ -28,7 +28,7 @@ import { Locator_bai8 } from '../locators/bai8.locators.ts';
 // }); 
 
 test('testcase1', async ({ page }) => {
-
+ 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
     await page.goto('https://automationexercise.com/');
@@ -57,10 +57,11 @@ test('testcase1', async ({ page }) => {
 
     
     
+    
 });
 
 test('testcase2', async ({ page }) => {
-
+ 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
     await page.goto('https://automationexercise.com/');
@@ -86,7 +87,7 @@ test('testcase2', async ({ page }) => {
     
 });
 test('testcase3', async ({ page }) => {
-
+ 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
     
@@ -113,7 +114,7 @@ test('testcase3', async ({ page }) => {
     else{
         console.log('khong co san pham');
     }
-   
+    
 
     await page.waitForTimeout(3000);
     await page.close();
@@ -121,7 +122,7 @@ test('testcase3', async ({ page }) => {
 });
 
 test('testcase4', async ({ page }) => {
-
+ 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
     const Locator_bai8_page = Locator_bai8(page);
@@ -150,6 +151,7 @@ test('testcase4', async ({ page }) => {
     await Locator_bai8_page.text_box_name_sign_up.pressSequentially('Nguyen Duc An');
     await Locator_bai8_page.text_box_email_sign_up.pressSequentially(account.email);
     await Locator_bai8_page.button_signup.click();
+
 
 
     await expect(Locator_bai8_page.enter_information_text).toBeVisible();
@@ -214,7 +216,7 @@ test('testcase4', async ({ page }) => {
     
 });
 test('testcase5', async ({ page }) => {
-
+ 
     //dang nhap va nhan trang chu da co o ham beforEach
     const Locator_page = Locator(page);
     const Locator_bai8_page = Locator_bai8(page);
@@ -243,6 +245,7 @@ test('testcase5', async ({ page }) => {
     await Locator_bai8_page.text_box_name_sign_up.pressSequentially('Nguyen Duc An');
     await Locator_bai8_page.text_box_email_sign_up.pressSequentially(account.email);
     await Locator_bai8_page.button_signup.click();
+
 
 
     await expect(Locator_bai8_page.enter_information_text).toBeVisible();

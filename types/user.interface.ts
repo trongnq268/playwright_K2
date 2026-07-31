@@ -23,6 +23,5 @@ export interface IAddress {
   state: string;
   city: string;
   zipcode: string;
-  phone: string;
 }
     

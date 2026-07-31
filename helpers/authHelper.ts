@@ -4,7 +4,7 @@ import {
   getPreSignupLocators,
   getSignupLocators,
   getLoginLocators,
-  authLocators,
+  navigationLocators,
   getDeleteAccLocators,
 } from "../locators/auth.locators";
 
@@ -56,7 +56,7 @@ export const registerUser = async (
   await signupUI.stateInput.fill(address.state);
   await signupUI.cityInput.fill(address.city);
   await signupUI.zipcodeInput.fill(address.zipcode);
-  await signupUI.phoneInput.fill(address.phone);
+  await signupUI.phoneInput.fill(user.phone);
 
   await signupUI.createAccBtn.click();
 
@@ -64,7 +64,7 @@ export const registerUser = async (
 };
 
 export const deleteAcc = async (page: Page) => {
-  const auth = authLocators(page);
+  const auth = navigationLocators(page);
   const deleteAccUI = getDeleteAccLocators(page);
   await auth.deleteAccLink.click();
   await deleteAccUI.continueBtn.click();

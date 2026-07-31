@@ -19,9 +19,9 @@ test.describe("Login and register user tests", () => {
       await page.goto("http://automationexercise.com");
       ui = getUI(page);
       //step 3
-      await expect(ui.auth.homeSlide).toBeVisible();
+      await expect(ui.navigation.homeSlide).toBeVisible();
       //step 4
-      await ui.auth.signupLink.click();
+      await ui.navigation.signupLink.click();
     },
   );
 
@@ -44,11 +44,11 @@ test.describe("Login and register user tests", () => {
     await expect(ui.afterSignupUI.signupSuccessHeading).toBeVisible();
     await ui.afterSignupUI.continueBtn.click();
     await expect(
-      ui.auth.loggedInUserText(data.REGISTER_DATA.name),
+      ui.navigation.loggedInUserText(data.REGISTER_DATA.name),
     ).toBeVisible();
 
     //step 17, 18
-    await ui.auth.deleteAccLink.click();
+    await ui.navigation.deleteAccLink.click();
     await expect(ui.deleteAccUI.deleteHeading).toBeVisible();
     await ui.deleteAccUI.continueBtn.click();
   });
@@ -83,13 +83,13 @@ test.describe("Login and register user tests", () => {
 
     //logout and direct to login page
     await ui.afterSignupUI.continueBtn.click();
-    await ui.auth.logoutLink.click();
-    await ui.auth.signupLink.click();
+    await ui.navigation.logoutLink.click();
+    await ui.navigation.signupLink.click();
     await expect(ui.loginUI.loginHeading).toBeVisible();
 
     //login new user
     await loginUser(page, newLogin);
-    await expect(ui.auth.loggedInUserText(newUser.name)).toBeVisible();
+    await expect(ui.navigation.loggedInUserText(newUser.name)).toBeVisible();
 
     //delete account
     await deleteAcc(page);

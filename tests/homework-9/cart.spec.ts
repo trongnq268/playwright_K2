@@ -166,5 +166,28 @@ test.describe("Cart checkout flow", () => {
     await ui.deleteAccUI.continueBtn.click();
   });
 
-  test("TC05: Verify checkout address", async () => {});
+  test("TC05: Verify checkout address", async ({ page }) => {
+    //open signup link
+    await ui.auth.signupLink.click();
+    //register new user
+    await fillPreSignup(
+      page,
+      registerDetails.userInfo.name,
+      registerDetails.userInfo.email,
+    );
+    await registerUser(
+      page,
+      registerDetails.userInfo,
+      registerDetails.userAddress,
+    );
+    //verify user created and correct username on menu bar
+    expect(ui.afterSignupUI.signupSuccessHeading).toBeVisible();
+    await ui.afterSignupUI.continueBtn.click();
+    expect(
+      ui.auth.loggedInUserText(registerDetails.userInfo.name),
+    ).toBeVisible();
+    //add products to cart
+    const qty = 5;
+    await addProductToCartWithQuantity(page, 0, qty);
+  });
 });

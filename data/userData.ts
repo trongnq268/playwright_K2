@@ -29,6 +29,5 @@ export const ADDRESS_DATA: IAddress = {
   address1: "201 Sydney Road",
   state: "VIC",
   city: "Coburg",
-  zipcode: "3058",
-  phone: "04231668835",
+  zipcode: "3058"
 };

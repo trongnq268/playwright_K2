@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 
 export const getUI = (page: Page) => ({
-  auth: authLocators(page),
+  navigation: navigationLocators(page),
   loginUI: getLoginLocators(page),
   preSignupUI: getPreSignupLocators(page),
   signupUI: getSignupLocators(page),
@@ -9,7 +9,7 @@ export const getUI = (page: Page) => ({
   deleteAccUI: getDeleteAccLocators(page),
 });
 
-export const authLocators = (page: Page) => ({
+export const navigationLocators = (page: Page) => ({
   //Home page and menu bar
   homeSlide: page.locator("#slider-carousel"),
   signupLink: page.getByRole("link", { name: "Signup / Login" }),

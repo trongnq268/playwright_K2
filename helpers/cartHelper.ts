@@ -201,7 +201,7 @@ export const formatUserInfoToCheckoutAddress = (
     addressLine1: `${userAddress.address1}`,
     addressLine2: `${userAddress.city} ${userAddress.state} ${userAddress.zipcode}`,
     country: `${userAddress.country}`,
-    phone: `${userAddress.phone}`,
+    phone: `${userInfo.phone}`,
   };
 
   return formattedDeliveryAddress;

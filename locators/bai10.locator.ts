@@ -1,9 +1,9 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 
 
 
-export const Locator = (page: Page) => ({
+export const Locator_page = (page: Page) => ({
 
 
 go_to_URL: 'https://automationexercise.com',
@@ -13,11 +13,10 @@ search_input: page.locator('#search_product'),
 search_button: page.locator('#submit_search'),
 button_cart:page.getByRole('link', { name: 'Cart' }),
 
-find_product_by_name: async (name: string) => {
-    await page.locator('#search_product').fill(name);
-    await page.locator('#submit_search').click();
-    return page.locator('.productinfo', { hasText: name });
-},
+
 
 
 });  
+
+export const productByName = (page: Page, name: string): Locator =>
+  page.locator(`(//div[contains(@class,'productinfo')]//p[contains(text(),'${name}')])[1]`);

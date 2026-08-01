@@ -231,6 +231,9 @@ test('testcase_5', async ({ page }) => {
     await locator.button_pay_and_comfirm.click();
 
 
+
+    // down load (copy AI)
+
     const downloadButton = page.getByRole('link', { name: 'Download Invoice' });
     const downloadPromise = page.waitForEvent('download');
 
@@ -238,10 +241,10 @@ test('testcase_5', async ({ page }) => {
 
     const download = await downloadPromise;
 
-// Xác minh download thành công
+    // Xác minh download thành công
     expect(await download.failure()).toBeNull();
 
-// Kiểm tra tên file
+    // Kiểm tra tên file
     expect(await download.suggestedFilename()).toContain('.txt');
 
 });

@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { Locator_page,productByName } from '../locators/bai10.locator.ts';
 import { Data_account,ten_san_pham,Card } from '../type/bai10.data.ts';
+import { closeAdIfExist } from '../locators/skip_ads.ts';
 
 
 test.beforeEach(async ({ page }, testInfo) => {
@@ -11,6 +12,7 @@ test.beforeEach(async ({ page }, testInfo) => {
 
     await page.goto(`${link}`);
     await expect(page).toHaveURL(`${link}`);
+    await closeAdIfExist(page);
     await expect(locator.button_home_page).toBeVisible();
     
     
@@ -26,7 +28,7 @@ test('testcase_1', async ({ page }) => {
     await locator.button_login.click();
     await expect(locator.verify_login).toBeVisible();
 
-    
+    await closeAdIfExist(page);
     await locator.button_product.click();
     
     // const san_pham  = productByName(page, 'Blue Top');
@@ -69,6 +71,7 @@ test('testcase_2', async ({ page }) => {
     const locator = Locator_page(page);
 
     await locator.button_product.click();
+    await closeAdIfExist(page);
     
     // const san_pham  = productByName(page, 'Blue Top');
     // await san_pham.hover();
@@ -101,7 +104,8 @@ test('testcase_3', async ({ page }) => {
     const locator = Locator_page(page);
 
     await locator.button_product.click();
-    
+    await closeAdIfExist(page);
+
     await expect(locator.text_category).toBeVisible();
 
    
@@ -151,6 +155,7 @@ test('testcase_4', async ({ page }) => {
     const account = Data_account[0];
   
     await locator.button_product.click();
+    await closeAdIfExist(page);     
     
     // const san_pham  = productByName(page, 'Blue Top');
     // await san_pham.hover();
@@ -192,6 +197,7 @@ test('testcase_5', async ({ page }) => {
     const account = Data_account[0];
     const card = Card[0];
     
+    await closeAdIfExist(page);
     await locator.button_signup_login.click();
     await locator.text_box_email.pressSequentially(account.email);
     await locator.text_box_password.pressSequentially(account.password);
@@ -200,7 +206,7 @@ test('testcase_5', async ({ page }) => {
 
     
     await locator.button_product.click();
-    
+    await closeAdIfExist(page);
     // const san_pham  = productByName(page, 'Blue Top');
     // await san_pham.hover();
     await locator.text_box_seach.pressSequentially(`${ten_san_pham}`);

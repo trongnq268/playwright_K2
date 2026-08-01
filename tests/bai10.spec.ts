@@ -4,19 +4,37 @@ import { Data_account,ten_san_pham,Card } from '../type/bai10.data.ts';
 import { closeAdIfExist } from '../locators/skip_ads.ts';
 
 
-test.beforeEach(async ({ page }, testInfo) => {
-    
+test.beforeEach(async ({ page }) => {
+
+    // Đăng ký route TRƯỚC khi mở trang
+    await page.route('**/*', route => {
+        const url = route.request().url();
+
+        if (
+            url.includes('googlesyndication') ||
+            url.includes('doubleclick') ||
+            url.includes('googleads')
+        ) {
+            route.abort();
+        } else {
+            route.continue();
+        }
+    });
+
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
 
+    await page.goto(link);
 
-    await page.goto(`${link}`);
-    await expect(page).toHaveURL(`${link}`);
+    // Nếu vẫn bị chuyển sang google_vignette
     await closeAdIfExist(page);
+
+    await expect(page).toHaveURL(link);
     await expect(locator.button_home_page).toBeVisible();
+});
     
     
-}); 
+
 test('testcase_1', async ({ page }) => {
     const locator = Locator_page(page);
     const account = Data_account[0];
@@ -89,10 +107,15 @@ test('testcase_2', async ({ page }) => {
     // dem button x de clear het tat ca cac button x
     const deleteButtons = locator.icon_x_clear_product
     const count = await deleteButtons.count();
+     //await deleteButtons.nth(0).click();
 
     for (let i = 0; i < count; i++) {
         if (await deleteButtons.nth(i).isVisible()) {
             await deleteButtons.nth(i).click();
+        }
+        else {
+            await deleteButtons.nth(0).click();
+            // Handle the case where the button is not visible
         }
     }
 

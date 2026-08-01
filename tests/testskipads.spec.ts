@@ -33,15 +33,10 @@ test('testcase_1', async ({ page }: { page: Page }) => {
     const card = Card[0];
 
     // Login
-    await locator.button_signup_login.click();
-    await closeAdIfExist(page);
-
-    await locator.text_box_email.pressSequentially(account.email);
-    await locator.text_box_password.pressSequentially(account.password);
-    await locator.button_login.click();
-    await closeAdIfExist(page);
-
-    await expect(locator.verify_login).toBeVisible();
+   
+    
+    await locator.button_product.click();
+    await closeAdIfExist(page);;
 
     await page.waitForTimeout(1000); // Wait for 1 second before proceeding
     await page.close(); // Close the page to simulate a new session

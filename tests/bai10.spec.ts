@@ -186,7 +186,7 @@ test('testcase_4', async ({ page }) => {
     await locator.icon_seach.click();
 
     //click chon san pham
-    await page.getByText('Add to cart', { exact: true }).nth(0).click();
+    await locator.add_to_cart_button.nth(0).click();
     await locator.button_continue_shoping.click();
 
     // dang nhap

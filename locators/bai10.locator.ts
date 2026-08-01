@@ -73,7 +73,7 @@ option_Jeans_of_men:page.getByRole('link', { name: 'Jeans' }),
 
 
 
-add_to_cart_button:page.getByText('Add to cart', { exact: true }),
+add_to_cart_button:page.locator('.btn.btn-default.add-to-cart'),
 
 
 

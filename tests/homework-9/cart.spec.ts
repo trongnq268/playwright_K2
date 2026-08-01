@@ -115,6 +115,7 @@ test.describe("Cart checkout flow", () => {
     await ui.navigation.cartLink.click();
 
     //step 13
+    await expect(cartUI.viewCartUI.checkoutBtn).toBeEnabled(); 
     await cartUI.viewCartUI.checkoutBtn.click();
 
     //step 14: verify order summary and delivery address

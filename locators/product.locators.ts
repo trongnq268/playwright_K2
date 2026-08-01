@@ -4,6 +4,8 @@ export const getProductUI = (page: Page) => ({
   addedModalUI: getAddedProductModal(page),
   productListUI: getProductLocators(page),
   productDetailUI: getViewProductDetailLocators(page),
+  categorySearchUI: getCategorySearchLocators(page),
+  productSearchBoxUI: getProductSearchBoxLocators(page)
 });
 
 export const getAddedProductModal = (page: Page) => {
@@ -18,18 +20,22 @@ export const getAddedProductModal = (page: Page) => {
 };
 
 export const getProductLocators = (page: Page) => ({
-    featureProductCard: (productName: string) =>
-    page.locator(".features_items .single-products").filter({ hasText: productName }),
-    productName: (productName: string) =>
-      page.locator(".productinfo p").filter({ hasText: productName }),
-    addCartHoverBtn: (productName: string) =>
-      page
-        .locator(".product-overlay")
-        .filter({ hasText: productName })
-        .locator("a.add-to-cart"),
-    viewProductLink: (productName: string) => page.locator(".product-image-wrapper")
-    .filter({hasText: productName})
-    .getByRole("link", { name: "View Product" }),
+  featureProductCard: (productName: string) =>
+    page
+      .locator(".features_items .single-products")
+      .filter({ hasText: productName }),
+  productName: (productName: string) =>
+    page.locator(".productinfo p").filter({ hasText: productName }),
+  addCartHoverBtn: (productName: string) =>
+    page
+      .locator(".product-overlay")
+      .filter({ hasText: productName })
+      .locator("a.add-to-cart"),
+  viewProductLink: (productName: string) =>
+    page
+      .locator(".product-image-wrapper")
+      .filter({ hasText: productName })
+      .getByRole("link", { name: "View Product" }),
 });
 
 export const getViewProductDetailLocators = (page: Page) => ({
@@ -37,7 +43,17 @@ export const getViewProductDetailLocators = (page: Page) => ({
   productPriceText: page.locator(".product-information span"),
   quantityInput: page.locator("#quantity"),
   //addCartBtn: page.getByRole("button", { name: "Add to cart" }),
-  addCartBtn: page.locator(`//span/button/i`)
-
-,
+  addCartBtn: page.locator(`//span/button/i`),
 });
+
+export const getCategorySearchLocators = (page: Page) => ({
+  mainCategory: (mainName: string) =>
+    page.getByRole("link", { name: mainName, exact: true }),
+  subCategory: (mainName: string, subName: string) =>
+    page.locator(`#${mainName}`).getByRole("link", { name: subName }),
+});
+
+export const getProductSearchBoxLocators = (page: Page) => ({
+  searchTextInput: page.getByRole('textbox', { name: 'Search Product' }), 
+  searchBtn: page.locator('#submit_search')
+})

@@ -77,4 +77,5 @@ export const getSuccessOrderLocators = (page: Page) => ({
     "Congratulations! Your order has been confirmed!",
   ),
   continueBtn: page.getByRole("link", { name: "Continue" }),
+  downloadInvoiceBtn: page.getByRole('link', { name: 'Download Invoice' })
 });

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { getCartUI } from "../locators/cart.locators";
 import { getProductUI } from "../locators/product.locators";
 import { getCheckoutUI } from "../locators/checkout.locators";
@@ -36,6 +36,7 @@ export const addProductToCartWithQuantity = async (
   const productUI = getProductUI(page);
   await productUI.productListUI.viewProductLink(productName).click();
   await productUI.productDetailUI.quantityInput.fill(`${quantity}`);
+  await expect(productUI.productDetailUI.addCartBtn).toBeEnabled(); 
   await productUI.productDetailUI.addCartBtn.click();
   await productUI.addedModalUI.viewCartLink.click();
 };
@@ -61,9 +62,7 @@ export const getCartItemDetails = async (page: Page) => {
 export const deleteItemfromCart = async (page: Page, productName: string) => {
   const cartUI = getCartUI(page);
   await cartUI.viewCartUI.deleteBtn(productName).click();
-  await cartUI.viewCartUI
-    .rowToDelete(productName)
-    .waitFor({ state: "detached" });
+  await expect(cartUI.viewCartUI.rowToDelete(productName)).toBeHidden({timeout:100000});
 };
 
 export const getCheckoutSummary = async (

@@ -87,7 +87,7 @@ test.describe("Cart checkout flow", () => {
 
   test("TC04: Place order and register while checkout", async ({ page }) => {
     //step 4-5: add products to cart
-    cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
+    await cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
 
     //step 6-8
     await expect(cartUI.breadcrumb).toBeVisible();
@@ -110,7 +110,7 @@ test.describe("Cart checkout flow", () => {
     );
     await ui.afterSignupUI.continueBtn.click();
     await expect(
-      ui.navigation.loggedInUserText(REGISTER_DATA.name),
+      ui.navigation.loggedInUserText(registerDetails.userInfo.name),
     ).toBeVisible();
     await ui.navigation.cartLink.click();
 
@@ -121,7 +121,7 @@ test.describe("Cart checkout flow", () => {
     const actualOrder = await cartHelper.getCheckoutSummary(page);
     const actualDeliveryAddress = await cartHelper.getCheckoutAddress(page, 'deliveryAddressUI');
 
-    let expectedOrder = mapHelper.mapProductToCartSummary(
+    const expectedOrder = mapHelper.mapProductToCartSummary(
       checkoutData.PRODUCTS_LIST,
     );
     const expectedDeliveryAddress = mapHelper.formatUserInfoToCheckoutAddress(
@@ -164,9 +164,9 @@ test.describe("Cart checkout flow", () => {
       registerDetails.userAddress,
     );
     //verify user created and correct username on menu bar
-    expect(ui.afterSignupUI.signupSuccessHeading).toBeVisible();
+    await expect(ui.afterSignupUI.signupSuccessHeading).toBeVisible();
     await ui.afterSignupUI.continueBtn.click();
-    expect(
+    await expect(
       ui.navigation.loggedInUserText(registerDetails.userInfo.name),
     ).toBeVisible();
 
@@ -191,7 +191,7 @@ test.describe("Cart checkout flow", () => {
     expect(actualBillingAddress).toEqual(expectedAddress); 
 
     //step 13-14: Delete account
-    ui.navigation.deleteAccLink.click(); 
+    await ui.navigation.deleteAccLink.click(); 
     await expect(ui.deleteAccUI.deleteHeading).toBeVisible();
     await ui.deleteAccUI.continueBtn.click();
   });

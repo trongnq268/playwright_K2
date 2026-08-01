@@ -1,14 +1,19 @@
-
-export interface IProduct {
+export interface ICartItem{
   productName: string, 
   productUnitPrice: string, 
   productQty: string, 
   productTotalPrice: string, 
 }
 
+export interface IProduct {
+  productName: string, 
+  productUnitPrice: number, 
+  productQty: number, 
+}
+
 export interface ICartSummary {
-  products: IProduct[], 
-  totalAmt: string
+  products: ICartItem[], 
+  totalOrderAmt: string
 }
 
 export interface IOrderAddress {

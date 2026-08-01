@@ -1,27 +1,24 @@
+import { calculateProductTotalPrice } from "../helpers/cartHelper";
 import { ICreditCard, IProduct } from "../types/checkout.interface";
 
 export const PRODUCTS_LIST: IProduct[] = [
   {
     productName: "Blue Top",
-    productUnitPrice: "Rs. 500",
-    productQty: "1",
-    productTotalPrice: "Rs. 500",
+    productUnitPrice: 500,
+    productQty: 1,
   },
   {
     productName: "Men Tshirt",
-    productUnitPrice: "Rs. 400",
-    productQty: "1",
-    productTotalPrice: "Rs. 400",
+    productUnitPrice: 400,
+    productQty: 1,
   },
 ];
 
-export const SINGLE_PRODUCT: IProduct = 
-  {
-    productName: "Stylish Dress",
-    productUnitPrice: "Rs. 1500",
-    productQty: "4",
-    productTotalPrice: "Rs. 500",
-  }
+export const SINGLE_PRODUCT: IProduct = {
+  productName: "Sleeveless Dress",
+  productUnitPrice: 1000,
+  productQty: 4,
+};
 
 export const ORDER_MSG: string = `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
    Lorem Ipsum has been the industry's standard dummy text ever since 1966, 

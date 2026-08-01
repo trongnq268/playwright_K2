@@ -6,22 +6,24 @@ import * as CheckoutTypes from "../types/checkout.interface";
 
 import { IAddress, IUserRegister } from "../types/user.interface";
 
-export interface product {
-  productName: string;
-  unitPrice: string;
-}
-
-export const addMultiProductsToCart = async (page: Page, products: CheckoutTypes.IProduct[]) => {
+export const addMultiProductsToCart = async (
+  page: Page,
+  products: CheckoutTypes.IProduct[],
+) => {
   const producUI = getProductUI(page);
-  for(let i = 0; i < products.length; i++){
-    let lastProduct = products.length - 1; 
-    const targetProduct = producUI.productListUI.featureProductCard(products[i].productName); 
-    const targetBtn = producUI.productListUI.addCartHoverBtn(products[i].productName); 
+  for (let i = 0; i < products.length; i++) {
+    let lastProduct = products.length - 1;
+    const targetProduct = producUI.productListUI.featureProductCard(
+      products[i].productName,
+    );
+    const targetBtn = producUI.productListUI.addCartHoverBtn(
+      products[i].productName,
+    );
     await targetProduct.hover();
     await targetBtn.click();
-    if (i === lastProduct){
+    if (i === lastProduct) {
       await producUI.addedModalUI.viewCartLink.click();
-    }else{
+    } else {
       await producUI.addedModalUI.continueBtn.click();
     }
   }
@@ -29,7 +31,7 @@ export const addMultiProductsToCart = async (page: Page, products: CheckoutTypes
 
 export const addProductToCartWithQuantity = async (
   page: Page,
-  productName: string, 
+  productName: string,
   quantity: number,
 ) => {
   const productUI = getProductUI(page);
@@ -39,17 +41,10 @@ export const addProductToCartWithQuantity = async (
   await productUI.addedModalUI.viewCartLink.click();
 };
 
-export const countCartItems = async (page: Page) => {
-  const cartUI = getCartUI(page);
-  // await cartUI.viewCartUI.cartTableHeader.waitFor({ state: "visible" });
-  const cartCount = await cartUI.viewCartUI.cartItemRow.count();
-  return cartCount;
-};
-
 export const getCartItemDetails = async (page: Page) => {
   const cartUI = getCartUI(page);
   const cartCount = await cartUI.viewCartUI.cartItemRow.count();
-  let cartItemList: CheckoutTypes.IProduct[] = [];
+  let cartItemList: CheckoutTypes.ICartItem[] = [];
 
   for (let item = 0; item < cartCount; item++) {
     cartItemList[item] = {
@@ -67,12 +62,12 @@ export const getCartItemDetails = async (page: Page) => {
 export const deleteItemfromCart = async (page: Page, productName: string) => {
   const cartUI = getCartUI(page);
   await cartUI.viewCartUI.deleteBtn(productName).click();
-  await cartUI.viewCartUI.rowToDelete(productName).waitFor({ state: "detached" });
+  await cartUI.viewCartUI
+    .rowToDelete(productName)
+    .waitFor({ state: "detached" });
 };
 
-export const convertPriceText = (
-  priceText: string,
-): number => {
+export const convertPriceText = (priceText: string): number => {
   let price: number;
   let priceString = priceText.replace("Rs. ", "").trim();
   return (price = Number(priceString));
@@ -82,14 +77,9 @@ export const getCheckoutSummary = async (
   page: Page,
 ): Promise<CheckoutTypes.ICartSummary> => {
   const checkoutUI = getCheckoutUI(page);
-  await checkoutUI.reviewOrderUI.cartTblHeader.waitFor({ state: "visible" });
   const rowCount = await checkoutUI.reviewOrderUI.productRow.count();
   const totalAmount = await checkoutUI.reviewOrderUI.totalAmount.innerText();
-  let productDetails: CheckoutTypes.IProduct[] = [];
-  let orderSummary: CheckoutTypes.ICartSummary = {
-    products: productDetails,
-    totalAmt: totalAmount,
-  };
+  let productDetails: CheckoutTypes.ICartItem[] = [];
 
   for (let position = 0; position < rowCount; position++) {
     const productDetail = {
@@ -108,7 +98,10 @@ export const getCheckoutSummary = async (
     };
     productDetails.push(productDetail);
   }
-  return orderSummary;
+  return {
+    products: productDetails,
+    totalOrderAmt: totalAmount,
+  };
 };
 
 export const getDeliveryAddress = async (
@@ -125,7 +118,23 @@ export const getDeliveryAddress = async (
     country: await checkoutUI.deliveryAddressUI.country.innerText(),
     phone: await checkoutUI.deliveryAddressUI.phone.innerText(),
   };
+  return deliveryAddress;
+};
 
+export const getBillingAddress = async (
+  page: Page,
+): Promise<CheckoutTypes.IBillingAddress> => {
+  const checkoutUI = getCheckoutUI(page);
+  let deliveryAddress: CheckoutTypes.IBillingAddress;
+
+  deliveryAddress = {
+    fullName: await checkoutUI.billingAddressUI.fullName.innerText(),
+    company: await checkoutUI.billingAddressUI.company.innerText(),
+    addressLine1: await checkoutUI.billingAddressUI.addressLine1.innerText(),
+    addressLine2: await checkoutUI.billingAddressUI.addressLine2.innerText(),
+    country: await checkoutUI.billingAddressUI.country.innerText(),
+    phone: await checkoutUI.billingAddressUI.phone.innerText(),
+  };
   return deliveryAddress;
 };
 
@@ -148,13 +157,47 @@ export const submitCreditCard = async (
   await checkoutUI.paymentFormUI.confirmBtn.click();
 };
 
+export const calculateProductTotalPrice = (
+  items: CheckoutTypes.IProduct[],
+): number[] => {
+  let prices: number[] = [];
+  for (const item of items) {
+    let price = item.productQty * item.productUnitPrice;
+    prices.push(price);
+  }
+  return prices;
+};
+
+export const mapProductToCartSummary = (
+  products: CheckoutTypes.IProduct[],
+): CheckoutTypes.ICartSummary => {
+  let priceList = calculateProductTotalPrice(products);
+  let totalAmt = priceList.reduce((total, price) => {
+    return total + price;
+  }, 0);
+
+  let mappedProducts = products.map((product, index) => {
+    return {
+      productName: product.productName,
+      productUnitPrice: `Rs. ${product.productUnitPrice}`,
+      productQty: product.productQty.toString(),
+      productTotalPrice: `Rs. ${priceList[index]}`,
+    };
+  });
+
+  return {
+    products: mappedProducts,
+    totalOrderAmt: `Rs. ${totalAmt}`,
+  };
+};
+
 export const formatUserInfoToCheckoutAddress = (
   userInfo: IUserRegister,
   userAddress: IAddress,
 ): CheckoutTypes.IDeliveryAddress => {
-  let formattedDeliveryAddress: CheckoutTypes.IDeliveryAddress;
+  let formattedAddress: CheckoutTypes.IDeliveryAddress;
 
-  formattedDeliveryAddress = {
+  formattedAddress = {
     fullName: `Mr. ${userInfo.firstName} ${userInfo.lastName}`,
     company: `${userAddress.company}`,
     addressLine1: `${userAddress.address1}`,
@@ -163,5 +206,5 @@ export const formatUserInfoToCheckoutAddress = (
     phone: `${userInfo.phone}`,
   };
 
-  return formattedDeliveryAddress;
+  return formattedAddress;
 };

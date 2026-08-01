@@ -29,7 +29,7 @@ export const getCartLocators = (page: Page) => {
     rowToDelete: rowToDelete,
     deleteBtn: (productName: string) =>
       rowToDelete(productName).locator(".cart_quantity_delete"),
-    checkoutBtn: page.getByText("Proceed To Checkout", { exact: true }),
+    checkoutBtn: page.locator(`a:has-text("Proceed To Checkout")`),
   };
 };
 

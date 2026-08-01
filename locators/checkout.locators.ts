@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 
 export const getCheckoutUI = (page: Page) => ({
   deliveryAddressUI: getDeliveryAddressLocators(page),
+  billingAddressUI: getBillingAddressLocators(page),
   reviewOrderUI: getReviewOrderLocators(page),
   commentFormUI: getOrderCmtLocators(page),
   paymentFormUI: getPaymentFormLocators(page),
@@ -12,6 +13,19 @@ export const getDeliveryAddressLocators = (page: Page) => {
   const address = page.locator("#address_delivery");
   return {
     deliveryAddressHeading: page.getByText("Your delivery address"),
+    fullName: address.locator("li.address_firstname"),
+    company: address.locator("li.address_address1:not(:empty)").nth(0),
+    addressLine1: address.locator("li.address_address1:not(:empty)").nth(1),
+    addressLine2: address.locator("li.address_city"),
+    country: address.locator("li.address_country_name"),
+    phone: address.locator("li.address_phone"),
+  };
+};
+
+export const getBillingAddressLocators = (page: Page) => {
+  const address = page.locator("#address_invoice");
+  return {
+    billingAddressHeading: page.getByText("Your billing address"),
     fullName: address.locator("li.address_firstname"),
     company: address.locator("li.address_address1:not(:empty)").nth(0),
     addressLine1: address.locator("li.address_address1:not(:empty)").nth(1),

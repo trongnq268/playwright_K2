@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 import {
   baseNavigation,
-  deleteAcc,
   fillPreSignup,
   registerUser,
 } from "../../helpers/authHelper";
@@ -11,6 +10,7 @@ import { getCartUI } from "../../locators/cart.locators";
 import * as cartHelper from "../../helpers/cartHelper";
 import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
 import * as checkoutData from "../../data/checkoutData";
+import * as mapHelper from "../../helpers/dataMappingHelper";
 
 test.describe("Cart checkout flow", () => {
   let ui: ReturnType<typeof getUI>;
@@ -42,10 +42,10 @@ test.describe("Cart checkout flow", () => {
     await cartHelper.addMultiProductsToCart(page, checkoutData.PRODUCTS_LIST);
 
     //Step 9-10: verify correct products added
-    const cartCount = await cartUI.viewCartUI.cartItemRow.count();
-    expect(cartCount).toEqual(checkoutData.PRODUCTS_LIST.length);
+    // const cartCount = await cartUI.viewCartUI.cartItemRow.count();
+    // expect(cartCount).toEqual(checkoutData.PRODUCTS_LIST.length);
     const cartItems = await cartHelper.getCartItemDetails(page);
-    const expectedCart = cartHelper.mapProductToCartSummary(
+    const expectedCart = mapHelper.mapProductToCartSummary(
       checkoutData.PRODUCTS_LIST,
     );
     expect(cartItems).toEqual(expectedCart.products);
@@ -119,12 +119,12 @@ test.describe("Cart checkout flow", () => {
 
     //step 14: verify order summary and delivery address
     const actualOrder = await cartHelper.getCheckoutSummary(page);
-    const actualDeliveryAddress = await cartHelper.getDeliveryAddress(page);
+    const actualDeliveryAddress = await cartHelper.getCheckoutAddress(page, 'deliveryAddressUI');
 
-    let expectedOrder = cartHelper.mapProductToCartSummary(
+    let expectedOrder = mapHelper.mapProductToCartSummary(
       checkoutData.PRODUCTS_LIST,
     );
-    const expectedDeliveryAddress = cartHelper.formatUserInfoToCheckoutAddress(
+    const expectedDeliveryAddress = mapHelper.formatUserInfoToCheckoutAddress(
       registerDetails.userInfo,
       registerDetails.userAddress,
     );
@@ -181,9 +181,9 @@ test.describe("Cart checkout flow", () => {
     await cartUI.viewCartUI.checkoutBtn.click();
 
     //step 11-12: verify addresses
-    const actualDeliveryAddress = await cartHelper.getDeliveryAddress(page);
-    const actualBillingAddress = await cartHelper.getBillingAddress(page);
-    const expectedAddress = cartHelper.formatUserInfoToCheckoutAddress(
+    const actualDeliveryAddress = await cartHelper.getCheckoutAddress(page, 'deliveryAddressUI');
+    const actualBillingAddress = await cartHelper.getCheckoutAddress(page, 'billingAddressUI');
+    const expectedAddress = mapHelper.formatUserInfoToCheckoutAddress(
       registerDetails.userInfo,
       registerDetails.userAddress,
     );

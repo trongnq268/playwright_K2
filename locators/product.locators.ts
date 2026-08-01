@@ -36,5 +36,8 @@ export const getViewProductDetailLocators = (page: Page) => ({
   productNameText: page.locator(".product-information h2"),
   productPriceText: page.locator(".product-information span"),
   quantityInput: page.locator("#quantity"),
-  addCartBtn: page.getByRole("button", { name: "Add to cart" }),
+  //addCartBtn: page.getByRole("button", { name: "Add to cart" }),
+  addCartBtn: page.locator(`//span/button/i`)
+
+,
 });

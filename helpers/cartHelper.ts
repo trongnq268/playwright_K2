@@ -1,30 +1,29 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { getCartUI } from "../locators/cart.locators";
 import { getProductUI } from "../locators/product.locators";
 import { getCheckoutUI } from "../locators/checkout.locators";
 import * as CheckoutTypes from "../types/checkout.interface";
 
-import { IAddress, IUserRegister } from "../types/user.interface";
-
 export const addMultiProductsToCart = async (
   page: Page,
   products: CheckoutTypes.IProduct[],
 ) => {
-  const producUI = getProductUI(page);
+  const productUI = getProductUI(page);
+  const lastProduct = products.length - 1;
+
   for (let i = 0; i < products.length; i++) {
-    let lastProduct = products.length - 1;
-    const targetProduct = producUI.productListUI.featureProductCard(
+    const targetProduct = productUI.productListUI.featureProductCard(
       products[i].productName,
     );
-    const targetBtn = producUI.productListUI.addCartHoverBtn(
+    const targetBtn = productUI.productListUI.addCartHoverBtn(
       products[i].productName,
     );
     await targetProduct.hover();
     await targetBtn.click();
     if (i === lastProduct) {
-      await producUI.addedModalUI.viewCartLink.click();
+      await productUI.addedModalUI.viewCartLink.click();
     } else {
-      await producUI.addedModalUI.continueBtn.click();
+      await productUI.addedModalUI.continueBtn.click();
     }
   }
 };
@@ -67,12 +66,6 @@ export const deleteItemfromCart = async (page: Page, productName: string) => {
     .waitFor({ state: "detached" });
 };
 
-export const convertPriceText = (priceText: string): number => {
-  let price: number;
-  let priceString = priceText.replace("Rs. ", "").trim();
-  return (price = Number(priceString));
-};
-
 export const getCheckoutSummary = async (
   page: Page,
 ): Promise<CheckoutTypes.ICartSummary> => {
@@ -104,38 +97,21 @@ export const getCheckoutSummary = async (
   };
 };
 
-export const getDeliveryAddress = async (
+export const getCheckoutAddress = async (
   page: Page,
+  addressUI: CheckoutTypes.AddressUI,
 ): Promise<CheckoutTypes.IDeliveryAddress> => {
+
   const checkoutUI = getCheckoutUI(page);
-  let deliveryAddress: CheckoutTypes.IDeliveryAddress;
-
-  deliveryAddress = {
-    fullName: await checkoutUI.deliveryAddressUI.fullName.innerText(),
-    company: await checkoutUI.deliveryAddressUI.company.innerText(),
-    addressLine1: await checkoutUI.deliveryAddressUI.addressLine1.innerText(),
-    addressLine2: await checkoutUI.deliveryAddressUI.addressLine2.innerText(),
-    country: await checkoutUI.deliveryAddressUI.country.innerText(),
-    phone: await checkoutUI.deliveryAddressUI.phone.innerText(),
+  const targetUI = checkoutUI[addressUI]; 
+  return {
+    fullName: await targetUI.fullName.innerText(),
+    company: await targetUI.company.innerText(),
+    addressLine1: await targetUI.addressLine1.innerText(),
+    addressLine2: await targetUI.addressLine2.innerText(),
+    country: await targetUI.country.innerText(),
+    phone: await targetUI.phone.innerText(),
   };
-  return deliveryAddress;
-};
-
-export const getBillingAddress = async (
-  page: Page,
-): Promise<CheckoutTypes.IBillingAddress> => {
-  const checkoutUI = getCheckoutUI(page);
-  let deliveryAddress: CheckoutTypes.IBillingAddress;
-
-  deliveryAddress = {
-    fullName: await checkoutUI.billingAddressUI.fullName.innerText(),
-    company: await checkoutUI.billingAddressUI.company.innerText(),
-    addressLine1: await checkoutUI.billingAddressUI.addressLine1.innerText(),
-    addressLine2: await checkoutUI.billingAddressUI.addressLine2.innerText(),
-    country: await checkoutUI.billingAddressUI.country.innerText(),
-    phone: await checkoutUI.billingAddressUI.phone.innerText(),
-  };
-  return deliveryAddress;
 };
 
 export const submitOrderCmt = async (page: Page, msg: string) => {
@@ -155,56 +131,4 @@ export const submitCreditCard = async (
   await checkoutUI.paymentFormUI.expMonthInput.fill(card.expMonth);
   await checkoutUI.paymentFormUI.expYearInput.fill(card.expYear);
   await checkoutUI.paymentFormUI.confirmBtn.click();
-};
-
-export const calculateProductTotalPrice = (
-  items: CheckoutTypes.IProduct[],
-): number[] => {
-  let prices: number[] = [];
-  for (const item of items) {
-    let price = item.productQty * item.productUnitPrice;
-    prices.push(price);
-  }
-  return prices;
-};
-
-export const mapProductToCartSummary = (
-  products: CheckoutTypes.IProduct[],
-): CheckoutTypes.ICartSummary => {
-  let priceList = calculateProductTotalPrice(products);
-  let totalAmt = priceList.reduce((total, price) => {
-    return total + price;
-  }, 0);
-
-  let mappedProducts = products.map((product, index) => {
-    return {
-      productName: product.productName,
-      productUnitPrice: `Rs. ${product.productUnitPrice}`,
-      productQty: product.productQty.toString(),
-      productTotalPrice: `Rs. ${priceList[index]}`,
-    };
-  });
-
-  return {
-    products: mappedProducts,
-    totalOrderAmt: `Rs. ${totalAmt}`,
-  };
-};
-
-export const formatUserInfoToCheckoutAddress = (
-  userInfo: IUserRegister,
-  userAddress: IAddress,
-): CheckoutTypes.IDeliveryAddress => {
-  let formattedAddress: CheckoutTypes.IDeliveryAddress;
-
-  formattedAddress = {
-    fullName: `Mr. ${userInfo.firstName} ${userInfo.lastName}`,
-    company: `${userAddress.company}`,
-    addressLine1: `${userAddress.address1}`,
-    addressLine2: `${userAddress.city} ${userAddress.state} ${userAddress.zipcode}`,
-    country: `${userAddress.country}`,
-    phone: `${userInfo.phone}`,
-  };
-
-  return formattedAddress;
 };

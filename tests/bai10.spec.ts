@@ -114,7 +114,7 @@ test('testcase_2', async ({ page }) => {
             await deleteButtons.nth(i).click();
         }
         else {
-            await deleteButtons.nth(0).click();
+            await deleteButtons.nth(i).click();
             // Handle the case where the button is not visible
         }
     }
@@ -210,6 +210,11 @@ test('testcase_4', async ({ page }) => {
         if (await deleteButtons.nth(i).isVisible()) {
             await deleteButtons.nth(i).click();
         }
+         else {
+            await deleteButtons.nth(i).click();
+            // Handle the case where the button is not visible
+        }
+
     }
 
     await page.waitForTimeout(3000);

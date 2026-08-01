@@ -6,7 +6,6 @@ import {
   registerUser,
 } from "../../helpers/authHelper";
 import { getUI } from "../../locators/auth.locators";
-import { getProductUI } from "../../locators/product.locators";
 import { getCheckoutUI } from "../../locators/checkout.locators";
 import { getCartUI } from "../../locators/cart.locators";
 import * as cartHelper from "../../helpers/cartHelper";

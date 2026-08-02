@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { IAddress, IUserLogin, IUserRegister } from "../types/user.interface";
+import { IUserAddress, IUserLogin, IUserRegister } from "../types/user.interface";
 import {
   getPreSignupLocators,
   getSignupLocators,
@@ -8,57 +8,65 @@ import {
   getAccountDeletedLocators,
 } from "../locators/authLocators";
 
-export const loginUser = async (page: Page, loginDetails: IUserLogin) => {
-  const loginUI = getLoginLocators(page);
-  await loginUI.emailInput.fill(loginDetails.email);
-  await loginUI.passwordInput.fill(loginDetails.password);
-  await loginUI.loginBtn.click();
+export const fillPreSignupForm = async (page: Page, name: string, email: string) => {
+  const predang_ky = getPreSignupLocators(page);
+  await predang_ky.nameInput.fill(name);
+  await predang_ky.emailInput.fill(email);
+  await predang_ky.signupBtn.click();
 };
 
-export const fillPreSignupForm = async (
-  page: Page,
-  name: string,
-  email: string,
-) => {
-  const preSignupUI = getPreSignupLocators(page);
-  await preSignupUI.nameInput.fill(name);
-  await preSignupUI.emailInput.fill(email);
-  await preSignupUI.signupBtn.click();
+export const fillPreSigupFrom = fillPreSignupForm;
+
+export const loginUser = async (page: Page, loginUser: IUserLogin) => {
+  const login = getLoginLocators(page);
+  await login.emailInput.fill(loginUser.email);
+  await login.passwordInput.fill(loginUser.password);
+  await login.loginBtn.click();
 };
 
 export const registerUser = async (
   page: Page,
   user: IUserRegister,
-  address: IAddress,
+  address: IUserAddress,
+  options?: { isMr?: boolean; newsletter?: boolean; optin?: boolean }
 ): Promise<IUserRegister> => {
-  const signupUI = getSignupLocators(page);
+  const dang_ky = getSignupLocators(page);
 
-  await signupUI.titleMrRadio.click();
-  await signupUI.passwordInput.fill(user.password);
-  await signupUI.dayDropdown.selectOption(`${user.day}`);
-  await signupUI.monthDropdown.selectOption(`${user.month}`);
-  await signupUI.yearDropdown.selectOption(`${user.year}`);
-  await signupUI.newsletterCheckbox.check();
-  await signupUI.specialOfferCheckbox.check();
+  if (options?.isMr !== undefined) {
+    if (options.isMr) {
+      await dang_ky.titleMrRadio.check();
+    } else {
+      await dang_ky.titleMrsRadio.check();
+    }
+  }
 
-  await signupUI.firstNameInput.fill(address.firstName);
-  await signupUI.lastNameInput.fill(address.lastName);
-  await signupUI.companyInput.fill(address.company ?? "");
-  await signupUI.address1Input.fill(address.address1);
-  await signupUI.address2Input.fill(address.address2 ?? "");
-  await signupUI.countryDropdown.selectOption(address.country);
-  await signupUI.stateInput.fill(address.state);
-  await signupUI.cityInput.fill(address.city);
-  await signupUI.zipcodeInput.fill(address.zipcode);
-  await signupUI.phoneInput.fill(address.phone);
+  await dang_ky.passwordInput.fill(user.password);
 
-  await signupUI.createAccountBtn.click();
+  if (user.date) await dang_ky.dayDropdown.selectOption(`${user.date}`);
+  if (user.month) await dang_ky.monthDropdown.selectOption(`${user.month}`);
+  if (user.year) await dang_ky.yearDropdown.selectOption(`${user.year}`);
+
+  if (options?.newsletter) await dang_ky.newsletterCheckbox.check();
+  if (options?.optin) await dang_ky.specialOfferCheckbox.check();
+
+  await dang_ky.firstNameInput.fill(address.firstName);
+  await dang_ky.lastNameInput.fill(address.lastName);
+  if (address.company) await dang_ky.companyInput.fill(address.company);
+  await dang_ky.address1Input.fill(address.address);
+  if (address.address2) await dang_ky.address2Input.fill(address.address2);
+  if (address.country) await dang_ky.countryDropdown.selectOption(address.country);
+  await dang_ky.stateInput.fill(address.state);
+  await dang_ky.cityInput.fill(address.city);
+  await dang_ky.zipcodeInput.fill(address.zipCode);
+  await dang_ky.phoneInput.fill(address.mobilePhone);
+  await dang_ky.createAccountBtn.click();
   return user;
 };
 
 export const deleteAccount = async (page: Page) => {
-  const navUI = getHomePageLocators(page);
-  const accountDeletedUI = getAccountDeletedLocators(page);
-  await navUI.deleteAccountBtn.click();
-  await expect(accountDeletedUI.accountDeletedHeading).toBeVisible();
-};
+  const home = getHomePageLocators(page);
+  const accountDeleted = getAccountDeletedLocators(page);
+  await home.deleteAccountBtn.click();
+  await expect(accountDeleted.accountDeletedHeading).toBeVisible();
+  await accountDeleted.continueBtn.click();
+};

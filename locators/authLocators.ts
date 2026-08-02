@@ -35,7 +35,9 @@ export const getPreSignupLocators = (page: Page) => ({
 });
 
 export const getSignupLocators = (page: Page) => ({
-  accountInfoHeading: page.getByText("ENTER ACCOUNT INFORMATION", { exact: false }),
+  accountInfoHeading: page.getByText("ENTER ACCOUNT INFORMATION", {
+    exact: false,
+  }),
   titleMrRadio: page.getByLabel("Mr."),
   titleMrsRadio: page.getByLabel("Mrs."),
   nameInput: page.locator("input#name"),

@@ -1,13 +1,13 @@
 import { ICategory } from "../types/category.interface";
 
 export const WOMEN_CATEGORY: ICategory = {
-   mainCategory: 'WOMEN', 
-   subCategory: ['DRESS', 'TOPS', 'SAREE'], 
+   mainCategory: 'Women', 
+   subCategory: ['Dress', 'Tops', 'Saree'], 
    productName: 'Sleeveless Dress'
 }
 
 export const MEN_CATEGORY: ICategory = {
-   mainCategory: 'WOMEN', 
+   mainCategory: 'Men', 
    subCategory: ['Tshirts', 'Jeans'], 
    productName: 'Pure Cotton V-Neck T-Shirt'
 }

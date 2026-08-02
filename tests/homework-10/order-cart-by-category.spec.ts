@@ -4,12 +4,15 @@ import {
   baseNavigation,
   deleteAcc,
   fillPreSignup,
+  loginUser,
   registerUser,
 } from "../../helpers/authHelper";
 import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
 import {
   addMultiProductsToCart,
   addProductToCartWithQuantity,
+  deleteItemfromCart,
+  getCartItemDetails,
   getCheckoutAddress,
   submitCreditCard,
   submitOrderCmt,
@@ -23,16 +26,28 @@ import {
 import { getCartUI } from "../../locators/cart.locators";
 import { getCheckoutUI } from "../../locators/checkout.locators";
 import { formatUserInfoToCheckoutAddress } from "../../helpers/dataMappingHelper";
+import { getProductUI } from "../../locators/product.locators";
+import { MEN_CATEGORY, WOMEN_CATEGORY } from "../../data/categoryData";
+import {
+  addProductsFromSearchResults,
+  searchByCategory,
+} from "../../helpers/productSearchHelper";
+import { IUserLogin } from "../../types/user.interface";
 
 test.describe("Order cart by category and save invoice file", () => {
   let ui: ReturnType<typeof getUI>;
   let cartUI: ReturnType<typeof getCartUI>;
   let checkoutUI: ReturnType<typeof getCheckoutUI>;
+  let productUI: ReturnType<typeof getProductUI>;
+
+  let loginDetails: IUserLogin;
 
   test.beforeEach("Initialize all UIs", async ({ page }) => {
     ui = getUI(page);
     cartUI = getCartUI(page);
     checkoutUI = getCheckoutUI(page);
+    productUI = getProductUI(page);
+
     await baseNavigation(page);
     await page.route(
       "**/*{google-analytics,googlesyndication,doubleclick,googleadservices,adservice}***",
@@ -46,10 +61,15 @@ test.describe("Order cart by category and save invoice file", () => {
     await expect(
       ui.navigation.loggedInUserText(REGISTER_DATA.name),
     ).toBeVisible();
+
+    loginDetails = {
+      email: REGISTER_DATA.email,
+      password: REGISTER_DATA.password,
+    };
   });
 
   test.afterEach("Delete Account", async ({ page }) => {
-    await deleteAcc(page); 
+    await deleteAcc(page);
   });
 
   test("TC01: Place order: login before checkout", async ({ page }) => {
@@ -92,13 +112,68 @@ test.describe("Order cart by category and save invoice file", () => {
     // await deleteAcc(page);
   });
 
-  test("TC02: Remove products from cart", async ({page}) => {
-    await addProductToCartWithQuantity(page, SINGLE_PRODUCT.productName, SINGLE_PRODUCT.productQty)
+  test("TC02: Remove products from cart", async ({ page }) => {
+    //step 4-5
+    await addProductToCartWithQuantity(
+      page,
+      SINGLE_PRODUCT.productName,
+      SINGLE_PRODUCT.productQty,
+    );
+
+    //step 6
+    await expect(cartUI.breadcrumb).toBeVisible();
+    await expect(cartUI.viewCartUI.checkoutBtn).toBeEnabled();
+
+    //step 7-8
+    await deleteItemfromCart(page, SINGLE_PRODUCT.productName);
+    const cartCount = await cartUI.viewCartUI.cartItemRow.count();
+    expect(cartCount).toEqual(0);
   });
 
-  test("TC03: View category products", async () => {});
+  test("TC03: View category products", async ({ page }) => {
+    //step 3:
+    await expect(productUI.categorySearchUI.categoryHeading).toBeVisible();
 
-  test("TC04: Search product and verify cart after login ", async () => {});
+    //step 4-7
+    await searchByCategory(
+      page,
+      WOMEN_CATEGORY.mainCategory,
+      WOMEN_CATEGORY.subCategory[0],
+    );
+    await expect(
+      productUI.categorySearchUI.resultTitle(WOMEN_CATEGORY.subCategory[0]),
+    ).toBeVisible();
+
+    await searchByCategory(
+      page,
+      MEN_CATEGORY.mainCategory,
+      MEN_CATEGORY.subCategory[1],
+    );
+    await expect(
+      productUI.categorySearchUI.resultTitle(MEN_CATEGORY.subCategory[1]),
+    ).toBeVisible();
+  });
+
+  test("TC04: Search product and verify cart after login ", async ({
+    page,
+  }) => {
+    //step 3-4
+    await ui.navigation.productsLink.click();
+    await expect(productUI.productListUI.productsListHeading).toBeVisible();
+
+    //step 5-9
+    await addProductsFromSearchResults(page, "sleeves");
+    await expect(cartUI.breadcrumb).toBeVisible();
+    await expect(cartUI.viewCartUI.checkoutBtn).toBeEnabled();
+    const cartCountBefore = await cartUI.viewCartUI.cartItemRow.count();
+
+    //step 10-12
+    await ui.navigation.logoutLink.click();
+    await loginUser(page, loginDetails);
+    await ui.navigation.cartLink.click();
+    const cartCountAfter = await cartUI.viewCartUI.cartItemRow.count();
+    expect(cartCountAfter).toEqual(cartCountBefore);
+  });
 
   test("TC05: Download invoice after purchasing order", async () => {});
 });

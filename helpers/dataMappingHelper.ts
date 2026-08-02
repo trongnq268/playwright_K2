@@ -38,8 +38,3 @@ export const formatUserInfoToCheckoutAddress = (
     phone: userInfo.phone,
   };
 };
-
-export const convertPriceText = (priceText: string): number => {
-  let priceString = priceText.replace("Rs. ", "").trim();
-  return Number(priceString);
-};

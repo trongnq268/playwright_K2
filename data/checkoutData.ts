@@ -1,4 +1,3 @@
-import { calculateProductTotalPrice } from "../helpers/cartHelper";
 import { ICreditCard, IProduct } from "../types/checkout.interface";
 
 export const PRODUCTS_LIST: IProduct[] = [

@@ -140,15 +140,24 @@ test('testcase_3', async ({ page }) => {
     const tops = locator.option_top_of_women;
     const saree = locator.option_saree_of_women;
 
-    const Option_women = [dress,tops,saree];
-    const randomOptions_women = Option_women[Math.floor(Math.random() * Option_women.length)];
-    await randomOptions_women.click();
+    // const Option_women = [dress,tops,saree];
+    // const randomOptions_women = Option_women[Math.floor(Math.random() * Option_women.length)];
+    // await randomOptions_women.click();
 
+
+    await locator.option_women_of_category.click();
+
+ 
+    await locator.option_dress_of_women.click();
+
+    await locator.add_to_cart_button.nth(0).click();
     // chon ngau nhien mot san pham trong danh muc
    
-    const count = await locator.add_to_cart_button.count();
-    const randomIndex = Math.floor(Math.random() * count);
-    await locator.add_to_cart_button.nth(randomIndex).click();
+    // const count = await locator.add_to_cart_button.count();
+    // const randomIndex = Math.floor(Math.random() * count);
+
+
+    await locator.add_to_cart_button.nth(0).click();
 
     
     await locator.button_continue_shoping.click();

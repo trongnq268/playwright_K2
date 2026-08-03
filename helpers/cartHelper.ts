@@ -59,10 +59,10 @@ export const getCartItemDetails = async (page: Page) => {
   return cartItemList;
 };
 
-export const deleteItemfromCart = async (page: Page, productName: string) => {
+export const deleteItemFromCart = async (page: Page, productName: string) => {
   const cartUI = getCartUI(page);
   await cartUI.viewCartUI.deleteBtn(productName).click();
-  await expect(cartUI.viewCartUI.rowToDelete(productName)).toBeHidden({timeout:100000});
+  await expect(cartUI.viewCartUI.rowToDelete(productName)).toBeHidden({timeout:10000});
 };
 
 export const getCheckoutSummary = async (

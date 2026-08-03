@@ -19,3 +19,5 @@ node_modules/
 /locators/login.locators.ts
 /tests/locators-practices
 /playwright_K2
+/dashboard-ui
+/dashboard-server.js

@@ -7,7 +7,7 @@ export const searchByCategory = async (
   subCategory: string,
 ) => {
   const productUI = getProductUI(page);
-  await productUI.categorySearchUI.mainCategory(mainCategory).click();
+  await productUI.categorySearchUI.mainCategory(mainCategory).click({timeout: 10000});
   await productUI.categorySearchUI
     .subCategory(mainCategory, subCategory)
     .click();

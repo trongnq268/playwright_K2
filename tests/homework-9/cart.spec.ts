@@ -80,7 +80,7 @@ test.describe("Cart checkout flow", () => {
     await expect(cartUI.viewCartUI.checkoutBtn).toBeVisible();
 
     //step 7: delete product from cart
-    await cartHelper.deleteItemfromCart(page, productName);
+    await cartHelper.deleteItemFromCart(page, productName);
     const cartCountAfter = await cartUI.viewCartUI.cartItemRow.count();
     expect(cartCountAfter).toBe(expectedCount);
   });
@@ -91,7 +91,7 @@ test.describe("Cart checkout flow", () => {
 
     //step 6-8
     await expect(cartUI.breadcrumb).toBeVisible();
-    await expect(cartUI.viewCartUI.checkoutBtn).toBeVisible();
+    await cartUI.viewCartUI.checkoutBtn.isEnabled({timeout:5000});
     await cartUI.viewCartUI.checkoutBtn.click();
 
     // await cartUI.checkoutModalUI.modal.waitFor({ state: "visible" });

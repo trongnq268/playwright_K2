@@ -11,8 +11,7 @@ import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
 import {
   addMultiProductsToCart,
   addProductToCartWithQuantity,
-  deleteItemfromCart,
-  getCartItemDetails,
+  deleteItemFromCart,
   getCheckoutAddress,
   submitCreditCard,
   submitOrderCmt,
@@ -32,7 +31,8 @@ import {
   addProductsFromSearchResults,
   searchByCategory,
 } from "../../helpers/productSearchHelper";
-import { IUserLogin } from "../../types/user.interface";
+import * as fs from "fs";
+import * as path from "path";
 
 test.describe("Order cart by category and save invoice file", () => {
   let ui: ReturnType<typeof getUI>;
@@ -40,32 +40,31 @@ test.describe("Order cart by category and save invoice file", () => {
   let checkoutUI: ReturnType<typeof getCheckoutUI>;
   let productUI: ReturnType<typeof getProductUI>;
 
-  let loginDetails: IUserLogin;
-
   test.beforeEach("Initialize all UIs", async ({ page }) => {
     ui = getUI(page);
     cartUI = getCartUI(page);
     checkoutUI = getCheckoutUI(page);
     productUI = getProductUI(page);
-
+    //open web
     await baseNavigation(page);
+
+    //block ads
     await page.route(
       "**/*{google-analytics,googlesyndication,doubleclick,googleadservices,adservice}***",
       (route) => route.abort(),
     );
+
+    //verify home page
     await expect(ui.navigation.homeSlide).toBeVisible();
     await ui.navigation.signupLink.click();
+
+    //register new user and check username display after signup
     await fillPreSignup(page, REGISTER_DATA.name, REGISTER_DATA.email);
     await registerUser(page, REGISTER_DATA, ADDRESS_DATA);
     await ui.afterSignupUI.continueBtn.click();
     await expect(
       ui.navigation.loggedInUserText(REGISTER_DATA.name),
     ).toBeVisible();
-
-    loginDetails = {
-      email: REGISTER_DATA.email,
-      password: REGISTER_DATA.password,
-    };
   });
 
   test.afterEach("Delete Account", async ({ page }) => {
@@ -125,7 +124,7 @@ test.describe("Order cart by category and save invoice file", () => {
     await expect(cartUI.viewCartUI.checkoutBtn).toBeEnabled();
 
     //step 7-8
-    await deleteItemfromCart(page, SINGLE_PRODUCT.productName);
+    await deleteItemFromCart(page, SINGLE_PRODUCT.productName);
     const cartCount = await cartUI.viewCartUI.cartItemRow.count();
     expect(cartCount).toEqual(0);
   });
@@ -157,6 +156,11 @@ test.describe("Order cart by category and save invoice file", () => {
   test("TC04: Search product and verify cart after login ", async ({
     page,
   }) => {
+    const loginDetails = {
+      email: REGISTER_DATA.email,
+      password: REGISTER_DATA.password,
+    };
+
     //step 3-4
     await ui.navigation.productsLink.click();
     await expect(productUI.productListUI.productsListHeading).toBeVisible();
@@ -175,5 +179,43 @@ test.describe("Order cart by category and save invoice file", () => {
     expect(cartCountAfter).toEqual(cartCountBefore);
   });
 
-  test("TC05: Download invoice after purchasing order", async () => {});
+  test("TC05: Download invoice after purchasing order", async ({ page }) => {
+    //step 4-11
+    await addProductToCartWithQuantity(
+      page,
+      SINGLE_PRODUCT.productName,
+      SINGLE_PRODUCT.productQty,
+    );
+    await expect(cartUI.breadcrumb).toBeVisible();
+    await expect(cartUI.viewCartUI.checkoutBtn).toBeEnabled();
+
+    //step 13
+    await cartUI.viewCartUI.checkoutBtn.click();
+
+    //step 14: verify delivery and billing addresses
+    const actualDeliveryAddress = await getCheckoutAddress(
+      page,
+      "deliveryAddressUI",
+    );
+    const actualBillingAddress = await getCheckoutAddress(
+      page,
+      "billingAddressUI",
+    );
+    const expectedAddress = formatUserInfoToCheckoutAddress(
+      REGISTER_DATA,
+      ADDRESS_DATA,
+    );
+    expect(actualDeliveryAddress).toEqual(expectedAddress);
+    expect(actualBillingAddress).toEqual(expectedAddress);
+
+    //step 15-22
+    await submitOrderCmt(page, ORDER_MSG);
+    await submitCreditCard(page, VALID_CREDIT_CARD);
+    await expect(checkoutUI.successOrderUI.successHeading).toBeVisible();
+    await expect(checkoutUI.successOrderUI.successMsgText).toBeVisible();
+
+    //step 23
+    // await checkoutUI.successOrderUI.downloadInvoiceBtn.click();
+    // const downloadDir = path.join(process.cwd(), 'downloads'); 
+  });
 });

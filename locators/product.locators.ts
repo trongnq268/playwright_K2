@@ -51,7 +51,7 @@ export const getCategorySearchLocators = (page: Page) => ({
   resultTitle: (subCategory: string) =>
     page.locator(".title.text-center").filter({ hasText: subCategory }),
   mainCategory: (mainCategory: string) =>
-    page.getByRole("link", { name: mainCategory, exact: true }),
+    page.locator('#accordian').getByRole("link", { name: mainCategory, exact: true }),
   subCategory: (mainCategory: string, subCategory: string) =>
     page.locator(`#${mainCategory}`).getByRole("link", { name: subCategory }),
 });

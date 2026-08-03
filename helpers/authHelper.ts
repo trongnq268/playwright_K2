@@ -66,6 +66,6 @@ export const registerUser = async (
 export const deleteAcc = async (page: Page) => {
   const auth = navigationLocators(page);
   const deleteAccUI = getDeleteAccLocators(page);
-  await auth.deleteAccLink.click();
+  await auth.deleteAccLink.click({timeout: 5000});
   await deleteAccUI.continueBtn.click();
 };

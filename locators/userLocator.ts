@@ -12,6 +12,10 @@ export const getHomepageLocators = (page: Page) => ({
     name: "Website for automation practice",
   }),
   signupLoginBtn: page.getByRole("link", { name: "Signup / Login" }),
+  // Không dùng exact:true vì icon font (fa-shopping-cart) chèn thêm ký tự vào accessible name.
+  // Phải khoanh vùng trong .nav.navbar-nav (menu chính) vì trang luôn có sẵn 1 link "View Cart"
+  // khác nằm trong #cartModal (ẩn qua CSS) mà getByRole đôi lúc vẫn khớp, gây strict mode violation.
+  cartBtn: page.locator(".nav.navbar-nav").getByRole("link", { name: "Cart" }),
   logoutBtn: page.getByRole("link", { name: "Logout" }),
   loggedInUserText: (username: string) =>
     `a:has-text("Logged in as ${username}")`,

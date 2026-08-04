@@ -13,6 +13,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  // timeout: 60000,
+  // expect: {
+  //   timeout: 5000,
+  // },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -29,7 +33,13 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    video: 'on',
+    headless: false,
+    // actionTimeout: 10000,
+    /* Chuẩn theo claude.md/rules/playwright_rules.md — viewport rộng để tránh layout
+       xếp ít cột hơn (gây phần tử overlay chồng lên heading, click bị intercept). */
+    viewport: { width: 1920, height: 1080 },
   },
 
   /* Configure projects for major browsers */

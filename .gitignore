@@ -6,7 +6,5 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
-/tests/homework_9/
-/types/payment_type.ts
-/locators/productOrderLocator.ts
-/data/payment_data.ts
+/claude.md/
+/NOTE_CAU_TRUC_DU_AN.md/

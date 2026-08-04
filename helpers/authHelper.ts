@@ -8,8 +8,8 @@ import {
   getDeleteAccLocators,
 } from "../locators/auth.locators";
 
-export const baseNavigation = async (page: Page) => {
-  await page.goto("https://automationexercise.com/");
+export const baseNavigation = async (page: Page, url: string) => {
+  await page.goto(url);
 };
 
 export const blockGoogleAds = async (page: Page) => {

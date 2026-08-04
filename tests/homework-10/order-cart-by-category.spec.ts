@@ -11,12 +11,14 @@ import { getProductUI } from "../../locators/product.locators";
 import { CATEGORIES } from "../../data/categoryData";
 import { ADDRESS_DATA, REGISTER_DATA } from "../../data/userData";
 import * as checkoutData from "../../data/checkoutData";
+import { url } from "node:inspector";
 
 test.describe("Order cart by category and save invoice file", () => {
   let ui: ReturnType<typeof getUI>;
   let cartUI: ReturnType<typeof getCartUI>;
   let checkoutUI: ReturnType<typeof getCheckoutUI>;
   let productUI: ReturnType<typeof getProductUI>;
+  const baseUrl = "https://automationexercise.com/";
 
   test.beforeEach("Initialize all UIs", async ({ page }) => {
     ui = getUI(page);
@@ -28,7 +30,7 @@ test.describe("Order cart by category and save invoice file", () => {
     await authHelper.blockGoogleAds(page);
 
     //open web
-    await authHelper.baseNavigation(page);
+    await authHelper.baseNavigation(page, baseUrl);
 
     //verify home page
     await expect(ui.navigation.homeSlide).toBeVisible();

@@ -27,6 +27,9 @@ button_return_home:page.getByRole('link', { name: 'Return home' }),
 
 button_cancel:page.getByRole('button', { name: 'Cancel' }),
 
+page_over_load:page.getByRole('heading', { name: 'This page couldn’t load', level: 1 }),
+
+
 
 
 

@@ -193,7 +193,7 @@ test('testcase6', async ({ page }) => {
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
-
+    await locator.button_resever.click();
     await expect(verify_values.email_invalid).toBeVisible();
 });
 test('testcase7', async ({ page }) => {

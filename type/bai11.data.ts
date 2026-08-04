@@ -48,7 +48,7 @@ export const info_guest =  [
         Firt_name: 'Nguyen',
         Last_name: 'Duc An',
         Email: 'nguyenvana_test@gmail.com',
-        Phone: '0912345678a',
+        Phone: '0912a',
     },
     {// so dien thoai thieu ki tu (10 ki tu)
         Firt_name: 'Nguyen',

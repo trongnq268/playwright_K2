@@ -12,6 +12,13 @@ export const baseNavigation = async (page: Page) => {
   await page.goto("https://automationexercise.com/");
 };
 
+export const blockGoogleAds = async (page: Page) => {
+  await page.route(
+    /(googleads|googlesyndication|doubleclick|adservice)/i,
+    (route) => route.abort(),
+  );
+};
+
 export const loginUser = async (page: Page, loginDetails: IUserLogin) => {
   const loginUI = getLoginLocators(page);
   await loginUI.emailInput.fill(loginDetails.email);
@@ -66,6 +73,6 @@ export const registerUser = async (
 export const deleteAcc = async (page: Page) => {
   const auth = navigationLocators(page);
   const deleteAccUI = getDeleteAccLocators(page);
-  await auth.deleteAccLink.click({timeout: 5000});
+  await auth.deleteAccLink.click();
   await deleteAccUI.continueBtn.click();
 };

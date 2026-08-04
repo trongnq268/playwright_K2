@@ -21,3 +21,4 @@ node_modules/
 /playwright_K2
 /dashboard-ui
 /dashboard-server.js
+downloads/*

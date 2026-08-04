@@ -20,6 +20,7 @@ export const addMultiProductsToCart = async (
     );
     await targetProduct.hover();
     await targetBtn.click();
+    await productUI.addedModalUI.productAddedModal.isVisible(); 
     if (i === lastProduct) {
       await productUI.addedModalUI.viewCartLink.click();
     } else {
@@ -36,8 +37,9 @@ export const addProductToCartWithQuantity = async (
   const productUI = getProductUI(page);
   await productUI.productListUI.viewProductLink(productName).click();
   await productUI.productDetailUI.quantityInput.fill(`${quantity}`);
-  await expect(productUI.productDetailUI.addCartBtn).toBeEnabled(); 
-  await productUI.productDetailUI.addCartBtn.click();
+  await productUI.productDetailUI.addCartBtn.isEnabled({timeout: 15000}); 
+  await productUI.productDetailUI.addCartBtn.click({timeout: 10000});
+  await productUI.addedModalUI.productAddedModal.isVisible();
   await productUI.addedModalUI.viewCartLink.click();
 };
 

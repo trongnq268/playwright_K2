@@ -19,6 +19,8 @@ export const getHomepageLocators = (page: Page) => ({
   logoutBtn: page.getByRole("link", { name: "Logout" }),
   loggedInUserText: (username: string) =>
     `a:has-text("Logged in as ${username}")`,
+  // Dùng khi đăng nhập bằng tài khoản có sẵn (không biết trước username, không tạo tài khoản mới để lấy tên)
+  loggedInIndicator: page.locator(".nav.navbar-nav").getByText("Logged in as"),
 });
 
 export const getPreSignUpLocators = (page: Page) => ({

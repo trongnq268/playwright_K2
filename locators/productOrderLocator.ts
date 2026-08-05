@@ -39,6 +39,34 @@ export const getProductDetailLocators = (page: Page) => {
   };
 };
 
+// Locator cho khu vực "Category" ở sidebar bên trái (trang chủ, trang sản phẩm...)
+export const getCategoryLocators = (page: Page) => {
+  const sidebar = page.locator('.left-sidebar');
+  return {
+    categoryHeading: sidebar.getByRole('heading', { name: 'Category', exact: true }),
+    // Toggle mở danh mục cha (Women/Men/Kids). Dùng href thay vì tên vì "Men" là substring của "Women"
+    // (getByRole không exact sẽ khớp nhầm cả 2), còn exact:true lại fail vì icon font (fa-plus) chèn
+    // thêm ký tự vào accessible name — đã verify DOM thật, giống hệt trường hợp cartBtn trước đây.
+    categoryToggle: (parentCategory: string) => page.locator(`#accordian a[href="#${parentCategory}"]`),
+    // Link danh mục con — chỉ tìm trong đúng panel cha đã mở (vd #Women), tránh trùng tên giữa các
+    // panel (Women và Kids đều có danh mục con tên "Dress")
+    subCategoryLink: (parentCategory: string, subCategoryName: string) =>
+      page.locator(`#${parentCategory}`).getByRole('link', { name: subCategoryName }),
+    // Tiêu đề trang danh mục sản phẩm (vd "Women - Dress Products") — cùng class .title.text-center
+    // đã dùng ổn định cho các heading "All Products"/"Features Items" trong project
+    categoryPageTitle: page.locator('h2.title.text-center'),
+  };
+};
+
+// Locator ô tìm kiếm sản phẩm trên trang /products
+export const getSearchLocators = (page: Page) => ({
+  searchInput: page.locator('#search_product'),
+  searchButton: page.locator('#submit_search'),
+  // Tiêu đề trang: "ALL PRODUCTS" (mặc định) hoặc "SEARCHED PRODUCTS" (sau khi tìm kiếm) —
+  // cùng class .title.text-center đã dùng ổn định ở getCategoryLocators
+  pageTitle: page.locator('h2.title.text-center'),
+});
+
 export const getCart = (page: Page) => {
   // Dòng (tr) chứa đúng sản phẩm để tìm các ô còn lại
   const getRow = (productName: string) => page.locator('tbody tr').filter({ hasText: productName });

@@ -1,6 +1,6 @@
-import { Page, expect } from '@playwright/test';
+import { Page, expect, Download } from '@playwright/test';
 import { getCart } from '../locators/productOrderLocator';
-import { getCheckoutModalLocators, getCheckoutPageLocators, getPaymentPageLocators } from '../locators/checkoutLocator';
+import { getCheckoutModalLocators, getCheckoutPageLocators, getPaymentPageLocators, getOrderConfirmationLocators } from '../locators/checkoutLocator';
 import { IOrderNote, IOrderCard } from '../types/payment_type';
 
 // Click "Proceed To Checkout" trên trang giỏ hàng
@@ -27,13 +27,30 @@ export const placeOrderWithComment = async(page: Page, note: IOrderNote) => {
     await checkout.placeOrderBtn.click();
 };
 
-// Nhập thông tin thanh toán và click "Pay and Confirm Order"
-export const fillPaymentInformation = async(page: Page, payment: IOrderCard) => {
+// Chỉ điền các trường thanh toán, không click nút Pay — tách riêng để có thể kiểm tra DOM của trang
+// /payment (vd phần tử ẩn #success_message) trước khi bấm nút khiến trang điều hướng đi nơi khác
+export const fillPaymentFields = async(page: Page, payment: IOrderCard) => {
     const paymentUI = getPaymentPageLocators(page);
     await paymentUI.nameOnCardInput.fill(payment.nameOnCard);
     await paymentUI.cardNumberInput.fill(payment.cardNumber);
     await paymentUI.cvcInput.fill(String(payment.cvc));
     await paymentUI.expiryMonthInput.fill(String(payment.monthExp));
     await paymentUI.expiryYearInput.fill(String(payment.yearExp));
-    await paymentUI.payBtn.click();
+};
+
+// Nhập thông tin thanh toán và click "Pay and Confirm Order"
+export const fillPaymentInformation = async(page: Page, payment: IOrderCard) => {
+    await fillPaymentFields(page, payment);
+    await getPaymentPageLocators(page).payBtn.click();
+};
+
+// Click "Download Invoice" và trả về Download để test tự assert (giữ đúng convention: helper không
+// chứa assertion). Đây là download thật qua giao diện, không phải gọi trực tiếp URL/API.
+export const downloadInvoice = async(page: Page): Promise<Download> => {
+    const confirmation = getOrderConfirmationLocators(page);
+    const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        confirmation.downloadInvoiceBtn.click(),
+    ]);
+    return download;
 };

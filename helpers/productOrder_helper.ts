@@ -1,6 +1,36 @@
 import { Page , expect} from '@playwright/test';
-import { getProductUI, getAddToCartLocators, getCart, getProductDetailLocators} from '../locators/productOrderLocator';
+import { getProductUI, getAddToCartLocators, getCart, getProductDetailLocators, getCategoryLocators, getSearchLocators} from '../locators/productOrderLocator';
 import { getHomepageLocators} from '../locators/userLocator';
+
+// Click "Products" trên thanh menu, mở trang /products (ALL PRODUCTS)
+export const openAllProducts = async(page: Page) => {
+    const product = getAddToCartLocators(page);
+    await product.productBtn.click();
+    await page.waitForLoadState('networkidle');
+};
+
+// Nhập từ khoá và bấm nút Search trên trang /products
+export const searchProduct = async(page: Page, keyword: string) => {
+    const search = getSearchLocators(page);
+    await search.searchInput.fill(keyword);
+    await search.searchButton.click();
+    await page.waitForLoadState('networkidle');
+};
+
+// Thêm nhiều sản phẩm vào giỏ hàng — tái dùng addSingleProductToCart cho từng sản phẩm trong danh sách
+export const addMultipleProductsToCart = async(page: Page, productNames: string[]) => {
+    for (const productName of productNames) {
+        await addSingleProductToCart(page, productName);
+    }
+};
+
+// Mở 1 danh mục cha (Women/Men/Kids) ở sidebar rồi click vào đúng danh mục con bên trong
+export const goToCategoryProducts = async(page: Page, parentCategory: string, subCategoryName: string) => {
+    const category = getCategoryLocators(page);
+    await category.categoryToggle(parentCategory).click();
+    await category.subCategoryLink(parentCategory, subCategoryName).click();
+    await page.waitForLoadState('networkidle');
+};
 
 export const addToCart = async(page: Page) => {
     const product = getAddToCartLocators(page);
@@ -59,7 +89,9 @@ export const addSingleProductToCart = async(page: Page, productName: string) => 
     // nút "Add to cart" quét ngang qua đúng vùng heading phía trên (đã đo thực tế bằng boundingBox),
     // khiến click bị "<h2> intercepts pointer events" lặp lại tới khi hết timeout. Không có event
     // hook để chờ animation này kết thúc nên dùng waitForTimeout theo đúng exception của playwright_rules.md.
-    await page.waitForTimeout(800);
+    // (800ms từng đủ nhưng vẫn gặp lại intercept trên trang search results dưới điều kiện mạng thực tế
+    // chậm hơn — tăng lên 1000ms cho an toàn)
+    await page.waitForTimeout(1000);
     await expect(product.addToCartBtn(productName)).toBeVisible();
     await product.addToCartBtn(productName).click();
     // "Nếu" modal Added! xuất hiện thì đóng lại — dùng waitFor (action) thay vì isVisible() để không bị bắt hụt do modal chưa kịp render

@@ -12,8 +12,8 @@ go_to_URL: 'https://automationintesting.online',
 text_box_start_day:page.getByRole('textbox').nth(0),
 text_box_end_day:page.getByRole('textbox').nth(1),
 
-button_booknow_singleroom:page.getByRole('link', { name: 'Book now' }).nth(1),
-button : page.locator(`a[href="/reservation/1?checkin=${start_day}&checkout=${end_day}"]`),
+button_booknow_singleroom:page.locator(`a[href="/reservation/1?checkin=${start_day}&checkout=${end_day}"]`),
+
 
 
 verify_single_room:page.getByRole('heading', { name: 'Single Room' }),

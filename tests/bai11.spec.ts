@@ -338,3 +338,26 @@ test('testcase10', async ({ page }) => {
 
     
 });
+test('testcase11', async ({ page }) => {
+    const locator = Locator_page(page);
+    const link = locator.go_to_URL;
+    const data_guest = info_guest[0];
+    const dateTime = date_time(page);
+    const verify_values = Verify_values(page);
+
+
+    await locator.button_booknow_singleroom.click();
+    await expect(locator.verify_single_room).toBeVisible();
+
+    await locator.today.click();
+    
+    const date_start = page.getByRole('button', { name: '18' });
+    const date_end  = page.getByRole('button', { name: '22' });
+
+    await date_start.dragTo(date_end);
+    
+
+
+
+    
+});

@@ -1,12 +1,21 @@
 import { Page, Locator } from '@playwright/test';
+import { time } from '../type/bai11.data';
 
 
-
+const start_day = time[0].start_day;
+const end_day = time[0].end_day;
 
 export const Locator_page = (page: Page) => ({
 go_to_URL: 'https://automationintesting.online',
 
-button_booknow_singleroom:page.getByRole('link', { name: 'Book now' }).nth(1),// tim theo css
+
+text_box_start_day:page.getByRole('textbox').nth(0),
+text_box_end_day:page.getByRole('textbox').nth(1),
+
+button_booknow_singleroom:page.getByRole('link', { name: 'Book now' }).nth(1),
+button : page.locator(`a[href="/reservation/1?checkin=${start_day}&checkout=${end_day}"]`),
+
+
 verify_single_room:page.getByRole('heading', { name: 'Single Room' }),
 //chon thoi gian
 today:page.getByRole('button', { name: 'Today' }),

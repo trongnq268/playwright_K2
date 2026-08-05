@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { Locator_page, Verify_values} from '../locators/bai11.locator.ts';
-import { info_guest, date_time } from '../type/bai11.data.ts';
+import { info_guest, time } from '../type/bai11.data.ts';
 import { closeAdIfExist } from '../locators/skip_ads.ts';
 
 
@@ -39,6 +39,11 @@ async function fillGuestInfo(locator: any, data_guest: any) {
     await locator.textbox_email.pressSequentially(data_guest.Email);
     await locator.textbox_phone.pressSequentially(data_guest.Phone);
 }
+// ham dien thoi gian
+async function filltime(locator: any, data_time: any) {
+    await locator.text_box_start_day.pressSequentially(data_time.start_day);
+    await locator.text_box_end_day.pressSequentially(data_time.end_day);
+}
 
 
 
@@ -47,21 +52,17 @@ test('testcase1', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[0];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
 
     await locator.today.click();
-    //await locator.next.click();
-
-    // chọn thời gian từ ngày 01/9/2026 đến ngày 05/9/2026
-    // const date_start = dateTime.date_start;
-    // const date_end = dateTime.date_end;
-
-    // await date_start.dragTo(date_end);
+   
 
     await expect(locator.button_select_date).toBeVisible();
     await locator.button_select_date.click();
@@ -94,10 +95,10 @@ test('testcase2', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[1];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
     
-
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -133,9 +134,11 @@ test('testcase3', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[2];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -157,9 +160,10 @@ test('testcase4', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[3];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -191,9 +195,10 @@ test('testcase5', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[4];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -213,9 +218,10 @@ test('testcase6', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[5];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -235,8 +241,10 @@ test('testcase7', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[6];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
+
+    await filltime(locator, dateTime[0]);
 
 
     await locator.button_booknow_singleroom.click();
@@ -258,9 +266,10 @@ test('testcase8', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[7];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -282,9 +291,10 @@ test('testcase9', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[8];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
+    await filltime(locator, dateTime[0]);
 
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
@@ -317,10 +327,11 @@ test('testcase10', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[0];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
-
+    await filltime(locator, dateTime[0]);
+    
     await locator.button_booknow_singleroom.click();
     await expect(locator.verify_single_room).toBeVisible();
 
@@ -342,7 +353,7 @@ test('testcase11', async ({ page }) => {
     const locator = Locator_page(page);
     const link = locator.go_to_URL;
     const data_guest = info_guest[0];
-    const dateTime = date_time(page);
+    const dateTime = time;
     const verify_values = Verify_values(page);
 
 

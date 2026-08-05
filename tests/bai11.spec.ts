@@ -80,7 +80,7 @@ test('testcase1', async ({ page }) => {
     ]);
 
     if (await locator.button_return_home.isVisible()) {
-        await expect(locator.button_return_home).toBeVisible();
+        await expect(locator.verify_date).toBeVisible();
         await locator.button_return_home.click();
     } 
     if (await locator.page_over_load.isVisible()) {
@@ -120,7 +120,7 @@ test('testcase2', async ({ page }) => {
     ]);
 
     if (await locator.button_return_home.isVisible()) {
-        await expect(locator.button_return_home).toBeVisible();
+        await expect(locator.verify_date).toBeVisible();
         await locator.button_return_home.click();
     } 
     if (await locator.page_over_load.isVisible()) {
@@ -184,7 +184,7 @@ test('testcase4', async ({ page }) => {
     ]);
 
     if (await locator.button_return_home.isVisible()) {
-        await expect(locator.button_return_home).toBeVisible();
+        await expect(locator.verify_date).toBeVisible();
         await locator.button_return_home.click();
     } 
     if (await locator.page_over_load.isVisible()) {

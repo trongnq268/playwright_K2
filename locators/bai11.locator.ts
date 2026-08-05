@@ -41,7 +41,8 @@ button_cancel:page.getByRole('button', { name: 'Cancel' }),
 
 // verify khi trang overload
 page_over_load:page.getByRole('heading', { name: 'This page couldn’t load', level: 1 }),
-
+//verify khi trang load binh thuong
+verify_date:page.getByText(`${start_day} - ${start_day}`, { exact: true }),
 
 
 

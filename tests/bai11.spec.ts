@@ -73,11 +73,18 @@ test('testcase1', async ({ page }) => {
 
     await locator.button_resever.click();
 
+    await Promise.race([
+    locator.button_return_home.waitFor({ state: "visible" }),
+    locator.page_over_load.waitFor({ state: "visible" }),
+    ]);
+
     if (await locator.button_return_home.isVisible()) {
         await expect(locator.button_return_home).toBeVisible();
         await locator.button_return_home.click();
-    } else {
+    } 
+    if (await locator.page_over_load.isVisible()) {
         await expect(locator.page_over_load).toBeVisible();
+        
     }
    
     
@@ -106,11 +113,18 @@ test('testcase2', async ({ page }) => {
 
     await locator.button_resever.click();
 
-     if (await locator.button_return_home.isVisible()) {
+    await Promise.race([
+    locator.button_return_home.waitFor({ state: "visible" }),
+    locator.page_over_load.waitFor({ state: "visible" }),
+    ]);
+
+    if (await locator.button_return_home.isVisible()) {
         await expect(locator.button_return_home).toBeVisible();
         await locator.button_return_home.click();
-    } else {
+    } 
+    if (await locator.page_over_load.isVisible()) {
         await expect(locator.page_over_load).toBeVisible();
+        
     }
     
     
@@ -160,10 +174,16 @@ test('testcase4', async ({ page }) => {
     await fillGuestInfo(locator, data_guest);
     await locator.button_reserve.click();
 
+   await Promise.race([
+    locator.button_return_home.waitFor({ state: "visible" }),
+    locator.page_over_load.waitFor({ state: "visible" }),
+    ]);
+
     if (await locator.button_return_home.isVisible()) {
         await expect(locator.button_return_home).toBeVisible();
         await locator.button_return_home.click();
-    } else {
+    } 
+    if (await locator.page_over_load.isVisible()) {
         await expect(locator.page_over_load).toBeVisible();
     }
 });

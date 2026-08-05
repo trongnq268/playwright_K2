@@ -6,7 +6,7 @@ import { Page, Locator } from '@playwright/test';
 export const Locator_page = (page: Page) => ({
 go_to_URL: 'https://automationintesting.online',
 
-button_booknow_singleroom:page.locator(`a[href="/reservation/1?checkin=2026-08-04&checkout=2026-08-05"]`),// tim theo css
+button_booknow_singleroom:page.getByRole('link', { name: 'Book now' }).nth(1),// tim theo css
 verify_single_room:page.getByRole('heading', { name: 'Single Room' }),
 //chon thoi gian
 today:page.getByRole('button', { name: 'Today' }),

@@ -41,7 +41,9 @@ async function fillGuestInfo(locator: any, data_guest: any) {
 }
 // ham dien thoi gian
 async function filltime(locator: any, data_time: any) {
+    await locator.text_box_start_day.clear();
     await locator.text_box_start_day.pressSequentially(data_time.start_day);
+    await locator.text_box_end_day.clear();
     await locator.text_box_end_day.pressSequentially(data_time.end_day);
 }
 

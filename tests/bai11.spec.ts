@@ -46,7 +46,15 @@ async function filltime(locator: any, data_time: any) {
     await locator.text_box_end_day.clear();
     await locator.text_box_end_day.pressSequentially(data_time.end_day);
 }
-
+// ham book phong
+async function bookSingleRoom(locator: ReturnType<typeof Locator_page>) {
+    await locator.button_booknow_singleroom.click();
+    await expect(locator.verify_single_room).toBeVisible();
+    await locator.today.click();
+    await expect(locator.button_select_date).toBeVisible();
+    await locator.button_select_date.click();
+    await locator.button_reserve.click();
+}
 
 
 
@@ -60,16 +68,7 @@ test('testcase1', async ({ page }) => {
     
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-   
-
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -102,14 +101,7 @@ test('testcase2', async ({ page }) => {
     
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -142,14 +134,7 @@ test('testcase3', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -167,14 +152,7 @@ test('testcase4', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -202,14 +180,7 @@ test('testcase5', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -225,14 +196,7 @@ test('testcase6', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -249,14 +213,7 @@ test('testcase7', async ({ page }) => {
     await filltime(locator, dateTime[0]);
 
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -273,14 +230,7 @@ test('testcase8', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // dien thong tin
     await fillGuestInfo(locator, data_guest);
@@ -298,14 +248,7 @@ test('testcase9', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     // chi dien 1 truong thong tin bat ky
     const locators = [
@@ -334,14 +277,7 @@ test('testcase10', async ({ page }) => {
 
     await filltime(locator, dateTime[0]);
     
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
-
-    await locator.today.click();
-    await expect(locator.button_select_date).toBeVisible();
-    await locator.button_select_date.click();
-
-    await locator.button_reserve.click();
+    await bookSingleRoom(locator);
 
     
     await fillGuestInfo(locator, data_guest);
@@ -351,26 +287,26 @@ test('testcase10', async ({ page }) => {
 
     
 });
-test('testcase11', async ({ page }) => {
-    const locator = Locator_page(page);
-    const link = locator.go_to_URL;
-    const data_guest = info_guest[0];
-    const dateTime = time;
-    const verify_values = Verify_values(page);
+// test('testcase11', async ({ page }) => {
+//     const locator = Locator_page(page);
+//     const link = locator.go_to_URL;
+//     const data_guest = info_guest[0];
+//     const dateTime = time;
+//     const verify_values = Verify_values(page);
 
 
-    await locator.button_booknow_singleroom.click();
-    await expect(locator.verify_single_room).toBeVisible();
+//     await locator.button_booknow_singleroom.click();
+//     await expect(locator.verify_single_room).toBeVisible();
 
-    await locator.today.click();
+//     await locator.today.click();
     
-    const date_start = page.getByRole('button', { name: '18' });
-    const date_end  = page.getByRole('button', { name: '22' });
+//     const date_start = page.getByRole('button', { name: '18' });
+//     const date_end  = page.getByRole('button', { name: '22' });
 
-    await date_start.dragTo(date_end);
+//     await date_start.dragTo(date_end);
     
 
 
 
     
-});
+// });

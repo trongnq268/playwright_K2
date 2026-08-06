@@ -65,7 +65,7 @@ export const info_guest =  [
   ]
 
 export const time =  [
-  // dien thoi gian
+  // dien thoi gian, phai diền đúng định dạng
     {  
         start_day: '2026-08-05',
         end_day: '2026-08-06',

@@ -33,14 +33,14 @@ test.beforeEach(async ({ page }) => {
    
 });
 // ham nhap thong tin
-async function fillGuestInfo(locator: any, data_guest: any) {
+async function fillGuestInfo(locator: ReturnType<typeof Locator_page>, data_guest: any) {
     await locator.textbox_firstname.pressSequentially(data_guest.Firt_name);
     await locator.textbox_lastname.pressSequentially(data_guest.Last_name);
     await locator.textbox_email.pressSequentially(data_guest.Email);
     await locator.textbox_phone.pressSequentially(data_guest.Phone);
 }
 // ham dien thoi gian
-async function filltime(locator: any, data_time: any) {
+async function filltime(locator: ReturnType<typeof Locator_page>, data_time: any) {
     await locator.text_box_start_day.clear();
     await locator.text_box_start_day.pressSequentially(data_time.start_day);
     await locator.text_box_end_day.clear();
@@ -66,7 +66,7 @@ test('testcase1', async ({ page }) => {
     const verify_values = Verify_values(page);
 
     
-    await filltime(locator, dateTime[0]);
+    await filltime(locator, dateTime[0]); 
 
     await bookSingleRoom(locator);
 
@@ -74,6 +74,7 @@ test('testcase1', async ({ page }) => {
     await fillGuestInfo(locator, data_guest);
 
     await locator.button_resever.click();
+    
 
     await Promise.race([
     locator.button_return_home.waitFor({ state: "visible" }),

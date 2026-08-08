@@ -1,6 +1,5 @@
 import { Page } from '@playwright/test';
 import {Data, Product} from '../type/asssignment_data';
-import { verify } from 'node:crypto';
 
 export const Locator_assigment= (page: Page) => ({
     Go_to_url:'https://www.saucedemo.com',

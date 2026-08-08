@@ -21,7 +21,5 @@ export const Product =  [
     {
       product_02 : 'sauce-labs-bike-light',
       name_product_02:'Sauce Labs Bike Light'
-
-
     },
 ];

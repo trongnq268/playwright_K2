@@ -9,6 +9,20 @@ async function login(locator_page: ReturnType<typeof Locator_assigment>, account
     await locator_page.text_box_password.pressSequentially(account.password);
     await locator_page.button_login.click();
 }
+async function add_to_cart(locator_page: ReturnType<typeof Locator_assigment>) {
+    await locator_page.sauce_labs_backpack_product.click();
+    await expect(locator_page.button_remove_sauce_labs_backpack_product).toBeVisible();
+
+    await locator_page.sauce_labs_bike_bikelight.click();
+    await expect(locator_page.button_remove_sauce_labs_bike_light).toBeVisible();
+
+    await locator_page.icon_cart.click();
+}
+async function verify_cart(locator_page: ReturnType<typeof Locator_assigment>) {
+    await expect(locator_page.verify_product_sauce_labs_backpack_product).toBeVisible();
+    await expect(locator_page.verify_product_sauce_labs_bike_light).toBeVisible()
+}
+
 
 
 
@@ -46,17 +60,12 @@ test.describe('Assignment 2', () => {
         const account = Data[0];
 
         await login(locator_page, account);
+        //them san pham vao gio hang
+        await add_to_cart(locator_page);
 
-        await locator_page.sauce_labs_backpack_product.click();
-        await expect(locator_page.button_remove_sauce_labs_backpack_product).toBeVisible();
-
-        await locator_page.sauce_labs_bike_bikelight.click();
-        await expect(locator_page.button_remove_sauce_labs_bike_light).toBeVisible();
-
-        await locator_page.icon_cart.click();
-
-        await expect(locator_page.verify_product_sauce_labs_backpack_product).toBeVisible();
-        await expect(locator_page.verify_product_sauce_labs_bike_light).toBeVisible();
+    
+        // kiem tra san pham da them
+        await verify_cart(locator_page);
 
         await locator_page.button_checkout.click();
 

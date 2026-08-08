@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { Locator_bai8 } from '../locators/bai8.locators.ts';
-import { Data_account } from '../type/bai8.data.ts';
+import { Locator_bai8 } from '../locators/bai8.locators';
+import { Data_account } from '../type/bai8.data';
 //import { wait } from '../locators/wait';
 
 

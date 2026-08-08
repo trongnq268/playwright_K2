@@ -1,6 +1,6 @@
 import { expect, test, Page } from '@playwright/test';
-import { Locator_page, productByName } from '../locators/bai10.locator.ts';
-import { Data_account, ten_san_pham, Card } from '../type/bai10.data.ts';
+import { Locator_page, productByName } from '../locators/bai10.locator';
+import { Data_account, ten_san_pham, Card } from '../type/bai10.data';
 
 // ===== HÀM XỬ LÝ BANNER =====
 async function closeAdIfExist(page: Page): Promise<void> {

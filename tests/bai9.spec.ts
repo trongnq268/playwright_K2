@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Locator } from '../locators/bai9.locator.ts';
-import { Data_account,quanlity, product_ID,number,Card,thong_tin } from '../type/bai9.data.ts';
-import { Locator_bai8 } from '../locators/bai8.locators.ts';
+import { Locator } from '../locators/bai9.locator';
+import { Data_account,quanlity, product_ID,number,Card,thong_tin } from '../type/bai9.data';
+import { Locator_bai8 } from '../locators/bai8.locators';
 
 // test.beforeEach(async ({ page }, testInfo) => {
 // //ham chạy trước tất cả các test case

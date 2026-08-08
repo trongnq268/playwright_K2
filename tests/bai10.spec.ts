@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Locator_page,productByName } from '../locators/bai10.locator.ts';
-import { Data_account,ten_san_pham,Card } from '../type/bai10.data.ts';
-import { closeAdIfExist } from '../locators/skip_ads.ts';
+import { Locator_page,productByName } from '../locators/bai10.locator';
+import { Data_account,ten_san_pham,Card } from '../type/bai10.data';
+import { closeAdIfExist } from '../locators/skip_ads';
 
 
 test.beforeEach(async ({ page }) => {

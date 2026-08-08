@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { Data_account,quanlity } from '../type/bai9.data.ts';
+import { Data_account,quanlity } from '../type/bai9.data';
 const number = quanlity;
 
 

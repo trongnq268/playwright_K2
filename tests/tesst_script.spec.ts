@@ -1,4 +1,8 @@
+/// <reference types="node" />
+
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 
 test('test', async ({ page }) => {
   
@@ -73,5 +77,17 @@ await expect(newPage.getByRole('heading', { name: 'New Window', level: 3 })).toB
 await newPage.waitForTimeout(2000);
 await newPage.close();
 await page.close();
+
+});
+test('test5', async ({ page }) => {
+  
+await page.goto('https://the-internet.herokuapp.com/download');
+
+const downloadPromise = page.waitForEvent('download');
+
+await page.getByRole('link', { name: 'Download' }).click();
+
+const download = await downloadPromise;
+
 
 });

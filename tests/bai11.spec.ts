@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Locator_page, Verify_values} from '../locators/bai11.locator.ts';
-import { info_guest, time } from '../type/bai11.data.ts';
-import { closeAdIfExist } from '../locators/skip_ads.ts';
+import { Locator_page, Verify_values} from '../locators/bai11.locator';
+import { info_guest, time } from '../type/bai11.data';
+import { closeAdIfExist } from '../locators/skip_ads';
 
 
 
@@ -159,7 +159,7 @@ test('testcase4', async ({ page }) => {
     await fillGuestInfo(locator, data_guest);
     await locator.button_reserve.click();
 
-   await Promise.race([
+    await Promise.race([
     locator.button_return_home.waitFor({ state: "visible" }),
     locator.page_over_load.waitFor({ state: "visible" }),
     ]);

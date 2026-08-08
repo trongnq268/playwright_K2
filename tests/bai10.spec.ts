@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
 import { Locator_page,productByName } from '../locators/bai10.locator';
 import { Data_account,ten_san_pham,Card } from '../type/bai10.data';
 import { closeAdIfExist } from '../locators/skip_ads';
-
+import fs from 'fs';
+import path from 'path';
 
 test.beforeEach(async ({ page }) => {
 
@@ -283,11 +284,33 @@ test('testcase_5', async ({ page }) => {
     await downloadButton.click();
 
     const download = await downloadPromise;
+    const suggestedFilename = download.suggestedFilename();
+    
+    
+    // bẫy sự kiện, xử lỹ khi download, settup vị trí thư mục luôn
+      const downloadsDir = path.join(process.cwd(), 'download_file');
+      await fs.promises.mkdir(downloadsDir, { recursive: true });
+    
+    
+      // lưu đúng vị trí
+      const savePath = path.join(downloadsDir, suggestedFilename);
+      await download.saveAs(savePath);
+    
+      // kiểm tra file
+      const stats = await fs.promises.stat(savePath);
+      expect(stats.isFile()).toBeTruthy();
+      expect(stats.size).toBeGreaterThan(0);
+    
+     // Nếu muốn xóa file ngay sau khi kiểm tra:
+      await fs.promises.unlink(savePath);
+    
+      let exists = true;
+      try {
+        await fs.promises.access(savePath);
+      } catch {
+        exists = false;
+      }
+      expect(exists).toBe(false);
 
-    // Xác minh download thành công
-    expect(await download.failure()).toBeNull();
-
-    // Kiểm tra tên file
-    expect(await download.suggestedFilename()).toContain('.txt');
 
 });

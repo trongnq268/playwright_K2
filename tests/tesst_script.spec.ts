@@ -21,7 +21,7 @@ test('test', async ({ page }) => {
 
 
 });
-test('test1', async ({ page }) => {
+test('arlet', async ({ page }) => {
   
 
   await page.goto('https://the-internet.herokuapp.com/javascript_alerts');
@@ -31,13 +31,14 @@ test('test1', async ({ page }) => {
         expect(dialog.message());
 
         await dialog.dismiss();
+        // await dialog.accept();
     });
 
   await page.getByRole('button', { name: 'Click for JS Confirm' }).click();
 
 
 });
-test('test2', async ({ page }) => {
+test('arlet_sendkkey', async ({ page }) => {
   
 await page.goto('https://the-internet.herokuapp.com/javascript_alerts');
 
@@ -50,7 +51,7 @@ await page.once('dialog', async dialog => {
 await page.getByRole('button', { name: 'Click for JS Prompt' }).click();
 
 });
-test('test3', async ({ page }) => {
+test('keo_chuot', async ({ page }) => {
   
 await page.goto('https://the-internet.herokuapp.com/drag_and_drop');
 
@@ -64,7 +65,7 @@ await a.dragTo(b);
 
 
 });
-test('test4', async ({ page }) => {
+test('page_in_page', async ({ page }) => {
   
 await page.goto('https://the-internet.herokuapp.com/windows');
 
@@ -87,21 +88,30 @@ test('test5', async ({ page }) => {
 
 
 });
-test('test6', async ({ page }) => {
+test('download_kiemtra_xoá', async ({ page }) => {
   await page.goto('https://the-internet.herokuapp.com/download');
 
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('link', { name: 'sample_media_file.png' }).click();
 
+  // thuc hien download
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('link', { name: 'image.png' }).click();
+
+
+// lay thong tin file da tai
   const download = await downloadPromise;
   const suggestedFilename = download.suggestedFilename();
 
+
+// bẫy sự kiện, xử lỹ khi download, settup vị trí thư mục luôn
   const downloadsDir = path.join(process.cwd(), 'download_file');
   await fs.promises.mkdir(downloadsDir, { recursive: true });
 
+
+  // lưu đúng vị trí
   const savePath = path.join(downloadsDir, suggestedFilename);
   await download.saveAs(savePath);
 
+  // kiểm tra file
   const stats = await fs.promises.stat(savePath);
   expect(stats.isFile()).toBeTruthy();
   expect(stats.size).toBeGreaterThan(0);
@@ -117,3 +127,24 @@ test('test6', async ({ page }) => {
   }
   expect(exists).toBe(false);
 });
+
+test('upload', async ({ page }) => {
+  const fileName = 'sample-upload.txt';  // file upload
+
+  //kiem tra file co ton tai khong
+  const filePath = path.join(process.cwd(), 'upload_file', fileName);
+
+  const exists = await fs.promises.access(filePath).then(() => true).catch(() => false);
+  expect(exists).toBe(true);
+
+
+  // thuc hien upload
+  await page.goto('https://the-internet.herokuapp.com/upload');
+
+  await page.locator('#file-upload').setInputFiles(filePath);
+  await page.getByRole('button', { name: 'Upload' }).click();
+
+  await expect(page.locator('h3')).toHaveText('File Uploaded!');
+  await expect(page.locator('#uploaded-files')).toContainText(fileName);
+});
+

@@ -29,4 +29,8 @@ export const Locator_assigment= (page: Page) => ({
     // page.locator(`//div[normalize-space()='Sauce Labs Backpack']`)
     verify_product_sauce_labs_bike_light: page.locator(`//div[normalize-space()= '${Product[1].name_product_02}']`),
 
+    verify_checkout:page.locator(`span:has-text("Checkout: Your Information")`),
+
+
+
 });  

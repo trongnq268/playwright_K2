@@ -68,6 +68,7 @@ test.describe('Assignment 2', () => {
         await verify_cart(locator_page);
 
         await locator_page.button_checkout.click();
+        await expect(locator_page.verify_checkout).toBeVisible();
 
     });
 });

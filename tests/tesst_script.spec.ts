@@ -129,7 +129,7 @@ test('download_kiemtra_xoá', async ({ page }) => {
 });
 
 test('upload', async ({ page }) => {
-  const fileName = 'sample-upload.txt';  // file upload
+  const fileName = 'sample-upload.txt';  // file upload, setup file ở đay
 
   //kiem tra file co ton tai khong
   const filePath = path.join(process.cwd(), 'upload_file', fileName);
@@ -146,5 +146,8 @@ test('upload', async ({ page }) => {
 
   await expect(page.locator('h3')).toHaveText('File Uploaded!');
   await expect(page.locator('#uploaded-files')).toContainText(fileName);
+
+  await page.waitForTimeout(2000);
+  await page.close();
 });
 

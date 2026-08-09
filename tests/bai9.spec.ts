@@ -3,29 +3,22 @@ import { Locator } from '../locators/bai9.locator';
 import { Data_account,quanlity, product_ID,number,Card,thong_tin } from '../type/bai9.data';
 import { Locator_bai8 } from '../locators/bai8.locators';
 
-// test.beforeEach(async ({ page }, testInfo) => {
-// //ham chạy trước tất cả các test case
-// if (testInfo.title === 'testcase4') {
-//     return;
-//   }
-//   // test thử bỏ qua hàm beforeEach khi chạy testcase4
-    
-//     const Locator_page = Locator(page); 
-//     const account = Data_account[0];
+test.beforeEach(async ({ page }, testInfo) => {
+//ham chạy trước tất cả các test case
+await page.route('**/*', route => {
+            const url = route.request().url();
 
-//     await page.goto('https://automationexercise.com/');
-//     await expect(page).toHaveURL('https://automationexercise.com/');
-//     // truy cap va xac minh duong dan
-//     // dang nhap thanh cong 
-//     await expect(Locator_page.verify_home_page).toBeVisible();
-//     await Locator_page.button_signup_login.click();
-//     await Locator_page.text_box_email.pressSequentially(account.email);
-//     await Locator_page.text_box_password.pressSequentially(account.password);
-//     await Locator_page.button_login.click();
-
-
-//     //await page.close();
-// }); 
+            if (
+                url.includes('googlesyndication') ||
+                url.includes('doubleclick') ||
+                url.includes('googleads')
+            ) {
+                route.abort();
+            } else {
+                route.continue();
+            }
+        });
+}); 
 
 test('testcase1', async ({ page }) => {
  

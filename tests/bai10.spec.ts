@@ -312,5 +312,6 @@ test('testcase_5', async ({ page }) => {
       }
       expect(exists).toBe(false);
 
-
+    await page.waitForTimeout(3000);
+    await page.close();
 });

@@ -70,6 +70,9 @@ test.describe('Assignment 2', () => {
         await locator_page.button_checkout.click();
         await expect(locator_page.verify_checkout).toBeVisible();
 
+        await page.waitForTimeout(5000);
+        await page.close();
+
     });
 });
 // test('testcase2', async ({ page }) => {

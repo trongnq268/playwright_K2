@@ -26,11 +26,12 @@ test.describe("Cart checkout flow", () => {
     ui = getUI(page);
     cartUI = getCartUI(page);
     checkoutUI = getCheckoutUI(page);
+    const url = 'https://automationexercise.com/'
     await page.route(
       "**/*{google-analytics,googlesyndication,doubleclick,googleadservices,adservice}***",
       (route) => route.abort(),
     );
-    await baseNavigation(page);
+    await baseNavigation(page, url);
     await expect(ui.navigation.homeSlide).toBeVisible();
   });
 

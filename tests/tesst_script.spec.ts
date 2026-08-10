@@ -25,6 +25,7 @@ test('login - alert có thể có hoặc không', async ({ page }) => {
 
   if (alertAppeared) {
     console.log('Alert xuất hiện với nội dung:', alertMessage);
+    await dialog.accept();
     // xử lý logic khi có alert (VD: login thất bại)
   } else {
     console.log('Không có alert, login thành công bình thường');

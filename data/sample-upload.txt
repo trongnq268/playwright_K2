@@ -1,0 +1,3 @@
+Đây là file dùng để test upload trong Playwright Automation.
+Tạo ngày: 2026-08-06
+Tác giả: Playwright Test Agent

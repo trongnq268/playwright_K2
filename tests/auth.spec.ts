@@ -53,6 +53,12 @@ test.describe("Quản lý Đăng ký Tài khoản (New User Signup Tests)", () =
       ui.navigation.loggedInUserText(dynamicData.user.name)
     ).toBeVisible();
 
+    page.on('dialog', async dialog => {
+      console.log(dialog.message());
+      await dialog.accept();
+    })
+    await page.getByRole('button').click();
+    
     await deleteAccount(page);
   });
 

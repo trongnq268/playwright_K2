@@ -45,4 +45,6 @@ test("Class test", () => {
   const totalPrice = booking.calculateTotalPrice();
 
   console.log(`Total price: ${totalPrice}`);
+  console.log(guestA.getFullName());
+
 });

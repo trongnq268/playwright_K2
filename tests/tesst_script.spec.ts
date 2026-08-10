@@ -4,22 +4,33 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-test('test', async ({ page }) => {
-  
+test('login - alert có thể có hoặc không', async ({ page }) => {
+  let alertAppeared = false;
+  let alertMessage = '';
 
-  await page.goto('https://the-internet.herokuapp.com/javascript_alerts');
+  // Đăng ký lắng nghe TRƯỚC, không quan tâm alert có xảy ra hay không
+  page.on('dialog', async (dialog) => {
+    alertAppeared = true;
+    alertMessage = dialog.message();
+    await dialog.accept();
+  });
 
-  page.once('dialog', async dialog => {
-    // expect(dialog.type());
-    // expect(dialog.message())
+  await page.goto('https://example.com/login');
+  await page.fill('#username', 'user');
+  await page.fill('#password', 'pass');
+  await page.getByRole('button', { name: 'Login' }).click();
 
-    await dialog.dismiss();
-});
+  // Chờ 1 chút để đảm bảo alert (nếu có) đã kịp trigger
+  await page.waitForTimeout(500);
 
-  await page.getByRole('button', { name: 'Click for JS Alert' }).click();
-  await page.close();
-
-
+  if (alertAppeared) {
+    console.log('Alert xuất hiện với nội dung:', alertMessage);
+    // xử lý logic khi có alert (VD: login thất bại)
+  } else {
+    console.log('Không có alert, login thành công bình thường');
+    // xử lý logic khi không có alert (VD: kiểm tra đã vào trang chủ)
+    await expect(page).toHaveURL(/dashboard/);
+  }
 });
 test('arlet', async ({ page }) => {
   

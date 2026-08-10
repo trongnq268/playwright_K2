@@ -80,14 +80,7 @@ await newPage.close();
 await page.close();
 
 });
-test('test5', async ({ page }) => {
-  await page.goto('https://the-internet.herokuapp.com/download');
 
- await page.getByRole('link', { name: 'sample_media_file.png' }).click();
-
-
-
-});
 test('download_kiemtra_xoá', async ({ page }) => {
   await page.goto('https://the-internet.herokuapp.com/download');
 

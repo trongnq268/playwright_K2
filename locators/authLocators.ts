@@ -1,79 +1,43 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
-export const getUI = (page: Page) => ({
-  navigation: getHomePageLocators(page),
-  loginUI: getLoginLocators(page),
-  preSignupUI: getPreSignupLocators(page),
-  signupUI: getSignupLocators(page),
-  accountCreatedUI: getAccountCreatedLocators(page),
-  accountDeletedUI: getAccountDeletedLocators(page),
-});
+export const getAuthLocators = (page: Page) => ({
+  // Header auth elements
+  signupLoginBtn: page.locator('.shop-menu a[href="/login"]'),
+  logoutBtn: page.locator('.shop-menu a[href="/logout"]'),
+  deleteAccountBtn: page.locator('.shop-menu a[href="/delete_account"]'),
+  loggedInAsText: page.locator('.shop-menu').getByText(/Logged in as/),
 
-export const getHomePageLocators = (page: Page) => ({
-  homeSlide: page.locator("#slider-carousel"),
-  signupLoginBtn: page.getByRole("link", { name: "Signup / Login" }),
-  deleteAccountBtn: page.getByRole("link", { name: "Delete Account" }),
-  logoutBtn: page.getByRole("link", { name: "Logout" }),
-  loggedInUserText: (username: string) =>
-    page.getByText(`Logged in as ${username}`),
-});
+  // Initial Signup form (/login)
+  signupNameInput: page.locator('input[data-qa="signup-name"]'),
+  signupEmailInput: page.locator('input[data-qa="signup-email"]'),
+  signupBtn: page.locator('button[data-qa="signup-button"]'),
 
-export const getLoginLocators = (page: Page) => ({
-  loginHeading: page.getByRole("heading", { name: "Login to your account" }),
-  emailInput: page.locator('[data-qa="login-email"]'),
-  passwordInput: page.locator('[data-qa="login-password"]'),
-  loginBtn: page.getByRole("button", { name: "Login" }),
-  invalidLoginMessage: page.getByText("Your email or password is incorrect!"),
-});
+  // Enter Account Information form (/signup)
+  titleMrRadio: page.locator('#id_gender1'),
+  titleMrsRadio: page.locator('#id_gender2'),
+  passwordInput: page.locator('input[data-qa="password"]'),
+  daysSelect: page.locator('select[data-qa="days"]'),
+  monthsSelect: page.locator('select[data-qa="months"]'),
+  yearsSelect: page.locator('select[data-qa="years"]'),
+  newsletterCheckbox: page.locator('#newsletter'),
+  specialOffersCheckbox: page.locator('#optin'),
+  firstNameInput: page.locator('input[data-qa="first_name"]'),
+  lastNameInput: page.locator('input[data-qa="last_name"]'),
+  companyInput: page.locator('input[data-qa="company"]'),
+  address1Input: page.locator('input[data-qa="address"]'),
+  address2Input: page.locator('input[data-qa="address2"]'),
+  countrySelect: page.locator('select[data-qa="country"]'),
+  stateInput: page.locator('input[data-qa="state"]'),
+  cityInput: page.locator('input[data-qa="city"]'),
+  zipcodeInput: page.locator('input[data-qa="zipcode"]'),
+  mobileNumberInput: page.locator('input[data-qa="mobile_number"]'),
+  createAccountBtn: page.locator('button[data-qa="create-account"]'),
 
-export const getPreSignupLocators = (page: Page) => ({
-  signupHeading: page.getByRole("heading", { name: "New User Signup!" }),
-  nameInput: page.locator('[data-qa="signup-name"]'),
-  emailInput: page.locator('[data-qa="signup-email"]'),
-  signupBtn: page.getByRole("button", { name: "Signup" }),
-  existingEmailMessage: page.getByText("Email Address already exist!"),
-});
+  // Account Created page (/account_created)
+  accountCreatedHeading: page.locator('h2[data-qa="account-created"]'),
+  accountCreatedContinueBtn: page.locator('a[data-qa="continue-button"]'),
 
-export const getSignupLocators = (page: Page) => ({
-  accountInfoHeading: page.getByText("ENTER ACCOUNT INFORMATION", {
-    exact: false,
-  }),
-  titleMrRadio: page.getByLabel("Mr."),
-  titleMrsRadio: page.getByLabel("Mrs."),
-  nameInput: page.locator("input#name"),
-  emailInput: page.locator("input#email"),
-  passwordInput: page.getByLabel("Password"),
-  dayDropdown: page.locator("select#days"),
-  monthDropdown: page.locator("select#months"),
-  yearDropdown: page.locator("select#years"),
-  newsletterCheckbox: page.getByRole("checkbox", {
-    name: "Sign up for our newsletter!",
-  }),
-  specialOfferCheckbox: page.getByRole("checkbox", {
-    name: "Receive special offers from our partners!",
-  }),
-
-  firstNameInput: page.getByLabel("First Name"),
-  lastNameInput: page.getByLabel("Last Name"),
-  companyInput: page.getByLabel("Company", { exact: true }),
-  address1Input: page.getByRole("textbox", {
-    name: "Address * (Street address, P.O. Box, Company name, etc.)",
-  }),
-  address2Input: page.getByLabel("Address 2"),
-  countryDropdown: page.getByLabel("Country"),
-  stateInput: page.getByLabel("State"),
-  cityInput: page.getByLabel("City"),
-  zipcodeInput: page.locator("input#zipcode"),
-  phoneInput: page.getByLabel("Mobile Number"),
-  createAccountBtn: page.getByRole("button", { name: "Create Account" }),
-});
-
-export const getAccountCreatedLocators = (page: Page) => ({
-  accountCreatedHeading: page.getByText("ACCOUNT CREATED!"),
-  continueBtn: page.getByRole("link", { name: "Continue" }),
-});
-
-export const getAccountDeletedLocators = (page: Page) => ({
-  accountDeletedHeading: page.getByText("ACCOUNT DELETED!"),
-  continueBtn: page.getByRole("link", { name: "Continue" }),
+  // Account Deleted page (/delete_account)
+  accountDeletedHeading: page.locator('h2[data-qa="account-deleted"]'),
+  accountDeletedContinueBtn: page.locator('a[data-qa="continue-button"]'),
 });

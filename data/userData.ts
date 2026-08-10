@@ -1,71 +1,58 @@
-import { IUserRegister, IUserLogin, IAddress } from "../types/user.interface";
+import { UserSignupInfo } from '../types/user.interface';
+import { PaymentInfo } from '../types/payment.interface';
 
-export const INVALID_LOGIN_DATA: IUserLogin = {
-  email: "invalid_email_test@mailsac.com",
-  password: "WrongPassword123!",
-};
+/**
+ * Gom nhóm các hàm và dữ liệu trong userData.ts
+ * @deprecated Import getTestUser, defaultPaymentData, defaultOrderComment trực tiếp từ userData.ts
+ */
+export const getUserDataInfor = () => ({
+  getTestUser,
+  defaultPaymentData,
+  defaultOrderComment,
+});
 
-export const EXISTING_EMAIL_DATA = {
-  name: "Hoang Ha",
-  email: "test.hellomonday@mailsac.com",
-};
-
-export const createDynamicUserData = (): { user: IUserRegister; address: IAddress } => {
+/**
+ * Hàm khởi tạo dữ liệu người dùng mới với email và username duy nhất.
+ */
+export const getTestUser = (prefix: string = 'User'): UserSignupInfo => {
   const timestamp = Date.now();
-  const firstName = "Học Viên";
-  const lastName = `Auto_${timestamp}`;
-  const name = `${firstName} ${lastName}`;
-  const email = `user_${timestamp}@mailsac.com`;
-
-  const user: IUserRegister = {
-    name,
-    email,
-    password: "Password123!",
-    firstName,
-    lastName,
-    phone: "0987654321",
-    day: "15",
-    month: "August",
-    year: "1998",
+  return {
+    name: `${prefix}_${timestamp}`,
+    email: `${prefix.toLowerCase()}_${timestamp}@example.com`,
+    title: 'Mr',
+    password: 'Password123!',
+    day: '15',
+    month: '5',
+    year: '1995',
+    newsletter: true,
+    specialOffers: true,
+    firstName: 'John',
+    lastName: 'Doe',
+    company: 'TestCorp',
+    address1: '123 Test Street',
+    address2: 'Apt 4B',
+    country: 'United States',
+    state: 'California',
+    city: 'Los Angeles',
+    zipcode: '90001',
+    mobileNumber: '1234567890',
   };
-
-  const address: IAddress = {
-    firstName,
-    lastName,
-    company: "CARPENTER Limited",
-    country: "Australia",
-    address1: "201 Sydney Road",
-    address2: "Suite 100",
-    state: "VIC",
-    city: "Coburg",
-    zipcode: "3058",
-    phone: "0987654321",
-  };
-
-  return { user, address };
 };
 
-export const VALID_REGISTER_DATA: IUserRegister = {
-  name: "Học Viên Auto",
-  email: `user_${Date.now()}@mailsac.com`,
-  password: "Password@1",
-  firstName: "Học Viên",
-  lastName: "Auto",
-  phone: "04324567885",
-  day: "12",
-  month: "October",
-  year: "1999",
+/**
+ * Dữ liệu thanh toán thẻ ngân hàng mặc định.
+ */
+export const defaultPaymentData: PaymentInfo = {
+  nameOnCard: 'John Doe',
+  cardNumber: '4111111111111111',
+  cvc: '123',
+  expiryMonth: '12',
+  expiryYear: '2028',
 };
 
-export const VALID_ADDRESS_DATA: IAddress = {
-  firstName: "Học Viên",
-  lastName: "Auto",
-  company: "CARPENTER Limited",
-  country: "Australia",
-  address1: "201 Sydney Road",
-  address2: "Apt 4B",
-  state: "VIC",
-  city: "Coburg",
-  zipcode: "3058",
-  phone: "04231668835",
-};
+/**
+ * Ghi chú đơn hàng mặc định khi checkout.
+ */
+export const defaultOrderComment = 'Vui lòng giao hàng vào giờ hành chính.';
+
+

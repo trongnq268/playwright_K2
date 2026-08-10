@@ -1,21 +1,23 @@
-export interface UserSignupInfo {
+export interface UserAccount {
   name: string;
   email: string;
-  title?: 'Mr' | 'Mrs';
   password: string;
-  day?: string;
-  month?: string;
-  year?: string;
-  newsletter?: boolean;
-  specialOffers?: boolean;
   firstName: string;
   lastName: string;
   company?: string;
-  address1: string;
+  address: string;
   address2?: string;
   country: string;
   state: string;
   city: string;
   zipcode: string;
   mobileNumber: string;
+}
+
+export interface PaymentDetails {
+  nameOnCard: string;
+  cardNumber: string;
+  cvc: string;
+  expiryMonth: string;
+  expiryYear: string;
 }

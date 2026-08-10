@@ -65,7 +65,7 @@ await a.dragTo(b);
 
 
 });
-test('page_in_page', async ({ page }) => {
+test('new_tab', async ({ page }) => {
   
 await page.goto('https://the-internet.herokuapp.com/windows');
 

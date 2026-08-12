@@ -34,7 +34,7 @@ test.describe('Bài 4 - Contact Form', () => {
     await contactSection.submit();
 
     const errors = await contactSection.getErrorMessages();
-    expect(errors.length).toHaveLength;
+    expect(errors.length).toBeGreaterThan(0);
   });
 });
 

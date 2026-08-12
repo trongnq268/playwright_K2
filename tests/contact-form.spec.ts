@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ContactSection } from '../pages/contact.section';
+import { ContactSection, formData } from '../pages/contact.section';
 import { ContactFormModel } from '../models/contact-form.model';
 
 test.describe('Bài 4 - Contact Form', () => {
@@ -11,14 +11,14 @@ test.describe('Bài 4 - Contact Form', () => {
   });
 
   test('TC1: Submit thành công với dữ liệu hợp lệ', async () => {
-    const formData = new ContactFormModel({
-      name: 'Nguyen Van A',
-      email: 'nguyenvana@example.com',
-      phone: '0987654321012',
-      subject: 'Hoi ve tinh trang phong trong',
-      description:
-        'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
-    });
+    // const formData = new ContactFormModel({
+    //   name: 'Nguyen Van A',
+    //   email: 'nguyenvana@example.com',
+    //   phone: '0987654321012',
+    //   subject: 'Hoi ve tinh trang phong trong',
+    //   description:
+    //     'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
+    // });
 
     // dữ liệu hợp lệ trước khi thao tác UI
     expect(formData.validate().isValid).toBeTruthy();

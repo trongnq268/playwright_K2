@@ -19,7 +19,7 @@ test.describe('Bài 4 - Contact Form', () => {
     //   description:
     //     'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
     // });
-
+    const formData = formData;
     // dữ liệu hợp lệ trước khi thao tác UI
     expect(formData.validate().isValid).toBeTruthy();
 

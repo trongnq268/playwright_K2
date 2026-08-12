@@ -8,7 +8,7 @@ import { ContactFormModel } from '../models/contact-form.model';
  * các getter bên dưới — phần fillForm/submit/assert ở test không cần đổi.
  */
 
-  const formData = new ContactFormModel({
+  export const formData = new ContactFormModel({
       name: 'Nguyen Van A',
       email: 'nguyenvana@example.com',
       phone: '0987654321012',

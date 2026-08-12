@@ -50,6 +50,8 @@ export class ContactSection {
 
   get errorAlerts(): Locator {
     return this.page.locator('.alert.alert-danger');
+
+
   }
 
   async goto(): Promise<void> {
@@ -73,7 +75,6 @@ export class ContactSection {
   }
 
   async getErrorMessages(): Promise<string[]> {
-    const texts = await this.errorAlerts.allTextContents();
-    return texts.map((t) => t.trim()).filter((t) => t.length > 0);
+    return await this.errorAlerts.allTextContents();
   }
 }

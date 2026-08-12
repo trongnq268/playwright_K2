@@ -14,11 +14,15 @@ export class RoomBookingSection {
 
   /** Dynamic Locator: tìm nút "Book now" của đúng loại phòng (roomType). */
   // sửa lại locator của các button
-  getRoomBookButton(roomType: string): Locator {
-    return this.page
-      .locator('.room-info, .card')
-      .filter({ hasText: roomType })
-      .getByRole('button', { name: /book now/i });
+  getSingleRoom(options: IBookingOptions): Locator {
+  //return this.page.getByRole('link', { name: 'Book now' }).nth(1);
+  return this.page.locator(`a[href="/reservation/1?checkin=${options.startDate}&checkout=${options.endDate}"]`)
+}
+  get starDay_text_box():Locator{
+    return this.page.getByRole('textbox').nth(0);
+  }
+  get endDay_text_box():Locator{
+    return this.page.getByRole('textbox').nth(1);
   }
 
   get firstNameInput(): Locator {
@@ -38,26 +42,30 @@ export class RoomBookingSection {
   }
 
   get confirmBookingBtn(): Locator {
-    return this.page.getByRole('button', { name: 'Book', exact: true });
+    return this.page.getByText('Reserve Now', { exact: true })
+
+
   }
 
   get bookingSuccessMessage(): Locator {
     return this.page.getByText(/booking successful/i);
   }
+  get Reseverbutton(): Locator{
+    return this.page.locator('.btn.btn-primary.mb-3')
+  }
 
   /** Click mở popup/khu vực đặt phòng của loại phòng tương ứng. */
-  async openBookingModal(roomType: string): Promise<void> {
-    await this.getRoomBookButton(roomType).click();
+  async openBookingModal(options: IBookingOptions): Promise<void> {
+    await this.getSingleRoom(options).click();
   }
 
   /** Chọn khoảng ngày lưu trú trên lịch (calendar) theo options. */
   // chọn ngày = cách điền data vào 2 text box
   async selectDates(options: IBookingOptions): Promise<void> {
-    const startDay = new Date(options.startDate).getDate().toString();
-    const endDay = new Date(options.endDate).getDate().toString();
-
-    await this.page.locator('.rbc-date-cell', { hasText: startDay }).first().click();
-    await this.page.locator('.rbc-date-cell', { hasText: endDay }).nth(1).click();
+     await this.starDay_text_box.clear();
+     await this.starDay_text_box.pressSequentially(options.startDate);
+     await this.endDay_text_box.clear();
+     await this.endDay_text_box.pressSequentially(options.endDate);
   }
 
   /** Điền thông tin khách hàng từ đối tượng GuestInfo vào form đặt phòng. */
@@ -71,7 +79,9 @@ export class RoomBookingSection {
   async confirmBooking(): Promise<void> {
     await this.confirmBookingBtn.click();
   }
-
+  async resever_now(): Promise<void> {
+    await this.Reseverbutton.click();
+  }
   async getBookingConfirmation(): Promise<boolean> {
     return await this.bookingSuccessMessage.isVisible();
   }

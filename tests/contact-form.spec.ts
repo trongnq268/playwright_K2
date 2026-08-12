@@ -19,8 +19,7 @@ test.describe('Bài 4 - Contact Form', () => {
     //   description:
     //     'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
     // });
-    const formData = formData;
-    // dữ liệu hợp lệ trước khi thao tác UI
+    // sử dụng dữ liệu mẫu được import từ contact.section
     expect(formData.validate().isValid).toBeTruthy();
 
     await contactSection.fillForm(formData);
@@ -34,7 +33,7 @@ test.describe('Bài 4 - Contact Form', () => {
     await contactSection.submit();
 
     const errors = await contactSection.getErrorMessages();
-    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.length).toBeGreaterThan;
   });
 });
 

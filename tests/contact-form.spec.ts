@@ -11,14 +11,14 @@ test.describe('Bài 4 - Contact Form', () => {
   });
 
   test('TC1: Submit thành công với dữ liệu hợp lệ', async () => {
-    // const formData = new ContactFormModel({
-    //   name: 'Nguyen Van A',
-    //   email: 'nguyenvana@example.com',
-    //   phone: '0987654321012',
-    //   subject: 'Hoi ve tinh trang phong trong',
-    //   description:
-    //     'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
-    // });
+    const formData = new ContactFormModel({
+      name: 'Nguyen Van A',
+      email: 'nguyenvana@example.com',
+      phone: '0987654321012',
+      subject: 'Hoi ve tinh trang phong trong',
+      description:
+        'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
+    });
     // sử dụng dữ liệu mẫu được import từ contact.section
     expect(formData.validate().isValid).toBeTruthy();
 

@@ -13,6 +13,7 @@ export class RoomBookingSection {
   constructor(private page: Page) {}
 
   /** Dynamic Locator: tìm nút "Book now" của đúng loại phòng (roomType). */
+  // sửa lại locator của các button
   getRoomBookButton(roomType: string): Locator {
     return this.page
       .locator('.room-info, .card')
@@ -50,6 +51,7 @@ export class RoomBookingSection {
   }
 
   /** Chọn khoảng ngày lưu trú trên lịch (calendar) theo options. */
+  // chọn ngày = cách điền data vào 2 text box
   async selectDates(options: IBookingOptions): Promise<void> {
     const startDay = new Date(options.startDate).getDate().toString();
     const endDay = new Date(options.endDate).getDate().toString();

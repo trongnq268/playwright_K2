@@ -8,14 +8,14 @@ import { ContactFormModel } from '../models/contact-form.model';
  * các getter bên dưới — phần fillForm/submit/assert ở test không cần đổi.
  */
 
-  export const formData = new ContactFormModel({
-      name: 'Nguyen Van A',
-      email: 'nguyenvana@example.com',
-      phone: '0987654321012',
-      subject: 'Hoi ve tinh trang phong trong',
-      description:
-        'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
-    });
+  // export const formData = new ContactFormModel({
+  //     name: 'Nguyen Van A',
+  //     email: 'nguyenvana@example.com',
+  //     phone: '0987654321012',
+  //     subject: 'Hoi ve tinh trang phong trong',
+  //     description:
+  //       'Toi muon hoi ve tinh trang phong trong trong thang toi, xin cam on nhieu.',
+  //   });
 export class ContactSection {
   constructor(private page: Page) {}
 
@@ -44,8 +44,8 @@ export class ContactSection {
 
   }
 
-  get successHeader(): Locator {
-    return this.page.locator(`p:has-text("${formData.getSubject()}")`);
+  getsuccessHeader(options: ContactFormModel): Locator {
+    return this.page.locator(`p:has-text("${options.getSubject()}")`);
   }
 
   get errorAlerts(): Locator {
@@ -70,11 +70,11 @@ export class ContactSection {
     await this.submitBtn.click();
   }
 
-  async getSuccessMessage(): Promise<string> {
-    return (await this.successHeader.textContent()) ?? '';
+  async getSuccessMessage(data: ContactFormModel): Promise<string> {
+    return (await this.getsuccessHeader(data).textContent()) ?? '';
   }
 
   async getErrorMessages(): Promise<string[]> {
-    return await this.errorAlerts.allTextContents();
+    return await this.errorAlerts.allInnerTexts();
   }
 }

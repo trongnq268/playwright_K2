@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ContactSection, formData } from '../pages/contact.section';
+import { ContactSection } from '../pages/contact.section';
 import { ContactFormModel } from '../models/contact-form.model';
 
 test.describe('Bài 4 - Contact Form', () => {
@@ -8,6 +8,7 @@ test.describe('Bài 4 - Contact Form', () => {
   test.beforeEach(async ({ page }) => {
     contactSection = new ContactSection(page);
     await contactSection.goto();
+    
   });
 
   test('TC1: Submit thành công với dữ liệu hợp lệ', async () => {
@@ -25,15 +26,14 @@ test.describe('Bài 4 - Contact Form', () => {
     await contactSection.fillForm(formData);
     await contactSection.submit();
 
-    const message = await contactSection.getSuccessMessage();
+    const message = await contactSection.getSuccessMessage(formData);
     expect(message).toContain(formData.getSubject());
   });
 
   test('TC2: Hiện lỗi validation khi submit form trống', async () => {
     await contactSection.submit();
 
-    const errors = await contactSection.getErrorMessages();
-    expect(errors.length).toBeGreaterThan;
+    await contactSection.getErrorMessages();
   });
 });
 

@@ -33,7 +33,7 @@ test.describe('Bài 4 - Contact Form', () => {
   test('TC2: Hiện lỗi validation khi submit form trống', async () => {
     await contactSection.submit();
 
-    await contactSection.getErrorMessages();
+    await expect(contactSection.errorAlerts).toBeVisible();
   });
 });
 

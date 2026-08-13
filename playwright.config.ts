@@ -13,6 +13,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60000,
+  expect:{
+    timeout: 10000,
+  },
   /* Run tests in files in parallel */
   /*Nơi để file test*/
   fullyParallel: true,
@@ -36,7 +40,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     video: "on",
     viewport: {width: 1920, height: 720},
-    headless: true, // cau hinh khi chay mo trinh duyet hay k
+    headless: false, // cau hinh khi chay mo trinh duyet hay k
+    actionTimeout: 10000, // Sau10s, locator khoong cuaats hieejn thif sex baso loxi
   },
 
   /* Configure projects for major browsers 

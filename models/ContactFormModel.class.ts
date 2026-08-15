@@ -20,7 +20,7 @@ export class ContactFormModel {
   }
 
   get getName(): string {
-    return (this.name = this.name);
+    return this.name;
   }
 
   get getEmail(): string {

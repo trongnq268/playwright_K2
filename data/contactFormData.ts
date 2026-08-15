@@ -22,5 +22,5 @@ export const NEW_GUEST: IGuestInfo = {
 export const BOOKING_OPTION: IBookingOptions = {
   startDate: generateBookingDates().checkinDate,
   endDate: generateBookingDates().checkoutDate,
-  roomType: "Double",
+  roomType: "Suite",
 };

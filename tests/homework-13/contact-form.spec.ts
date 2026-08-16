@@ -34,13 +34,7 @@ test.describe("Contact Form tests", () => {
     });
 
     await test.step("Verify correct error is showed after submitting empty contact form", async () => {
-      const contactModel = new ContactFormModel(
-        EMPTY_CONTACT_DATA.getName,
-        EMPTY_CONTACT_DATA.getEmail,
-        EMPTY_CONTACT_DATA.getPhone,
-        EMPTY_CONTACT_DATA.getSubject, 
-        EMPTY_CONTACT_DATA.getDescription, 
-      );
+      const contactModel = EMPTY_CONTACT_DATA;
 
       const expectedErrors = contactModel.validate().errors; 
       const actualErrors = await contact.getErrorMessages();

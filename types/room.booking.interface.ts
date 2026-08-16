@@ -14,7 +14,7 @@ export interface IContactForm {
 }
 
 export interface IBookingOptions {
-    roomType: string, 
-    startDate: string, 
-    endDate: string, 
+  roomType: string;
+  startDate: string;
+  endDate: string;
 }

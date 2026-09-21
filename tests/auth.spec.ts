@@ -16,11 +16,12 @@ test.describe("Quản lý Đăng ký và Đăng nhập (Auth Management Tests)",
     // Step 1: Mở trình duyệt & Step 2: Truy cập http://automationexercise.com
     await page.goto("http://automationexercise.com");
     ui = getUI(page);
+    //update file auth
 
     // Step 3: Xác minh trang chủ hiển thị thành công
     await expect(ui.navigation.homeSlide).toBeVisible();
-
-    // Step 4: Nhấp vào nút 'Signup / Login'
+    //update file auth2
+    // Step 4: authe Nhấp vào nút 'Signup / Login'
     await ui.navigation.signupLoginBtn.click();
   });
 

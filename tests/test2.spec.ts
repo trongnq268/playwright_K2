@@ -23,7 +23,7 @@ test('Demo 5: Async/Await giúp code chờ đúng thứ tự', async () => {
   const steps: string[] = [];
   console.log('1. Bắt đầu mở giỏ hàng...');
   steps.push('start');
-
+  //test
   await wait(3000); // Chờ 3 giây
 
   console.log('2. Đã tải xong danh sách!');

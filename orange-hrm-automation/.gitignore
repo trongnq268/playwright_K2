@@ -8,4 +8,4 @@ node_modules/
 /playwright/.auth/
 .env
 docs
-/debug.spec.ts/
+debug.spec.ts

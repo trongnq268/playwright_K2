@@ -1,0 +1,50 @@
+[
+  {
+    "testCaseId": "LOGIN_TC01",
+    "description": "Login hợp lệ thành công với thông tin đăng nhập chính xác",
+    "email": "autouser_demo@example.com",
+    "password": "Password123!",
+    "expectedResult": "success",
+    "expectedMessage": ""
+  },
+  {
+    "testCaseId": "LOGIN_TC02",
+    "description": "Login thất bại với mật khẩu không chính xác",
+    "email": "autouser_demo@example.com",
+    "password": "WrongPassword123!",
+    "expectedResult": "failure",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "testCaseId": "LOGIN_TC03",
+    "description": "Login thất bại với email chưa đăng ký trên hệ thống",
+    "email": "unregistered_user_demo_9999@example.com",
+    "password": "Password123!",
+    "expectedResult": "failure",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "testCaseId": "LOGIN_TC04",
+    "description": "Login thất bại khi để trống trường email",
+    "email": "",
+    "password": "Password123!",
+    "expectedResult": "failure",
+    "expectedMessage": "Please fill out this field"
+  },
+  {
+    "testCaseId": "LOGIN_TC05",
+    "description": "Login thất bại khi để trống trường mật khẩu",
+    "email": "autouser_demo@example.com",
+    "password": "",
+    "expectedResult": "failure",
+    "expectedMessage": "Please fill out this field"
+  },
+  {
+    "testCaseId": "LOGIN_TC06",
+    "description": "Login thất bại khi nhập email sai định dạng",
+    "email": "invalid_email_format.com",
+    "password": "Password123!",
+    "expectedResult": "failure",
+    "expectedMessage": "Please include an '@' in the email address"
+  }
+]
